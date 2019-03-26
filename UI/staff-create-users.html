@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8">
+	<meta name="description" content="E-Banka A Light Weight Banking Application">
+	<meta name="keywords" content="banking,african bank">
+	<meta name="author" content="banka">
+	<link rel="stylesheet" href="./css/style.css">
+	<link rel="stylesheet" href="./css/responsive.css">
+	<link rel="icon" type="image/x-icon" href="/assets/images/site/favicon.ico">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<title>Admin Create Users | eBanka - An online banking application</title>
+</head>
+<body>
+	<!-- header -->
+	<header>
+		<a href="./index.html" alt="logo" class="logo float-left">eBanka</a>
+		<nav>
+			<ul class="">
+				<li><a href="./index.html" title="Home" active><i class="fa fa-home"></i> Home</a></li>
+				<li><a href="./service.html" title="Services"><i class="fa fa-briefcase"></i> Services</a></li>
+				<li><a href="./staff-login.html" title="Logout" class="a-logout"><i class="fa fa-sign-in"></i> Logout</a></li>
+				<!-- <li><a href="./register.html" title="Register" class="a-register"><i class="fa fa-user-plus"></i> Register</a></li> -->
+				<li><a href="tel:2348180000000" title="Call Us"><i class="fa fa-phone-square"></i> Call +2348180000000</a></li>
+			</ul>
+			<a href="#" class="float-right burger" id="burger" onclick="menuToggle();">&#9776; Menu</a>
+		</nav>
+	</header>
+	<div id="mobile-m">
+		<ul class="mobile" id="mobilemenu">
+				<li><a href="./index.html" title="Home" active><i class="fa fa-home"></i> Home</a></li>
+				<li><a href="./service.html" title="Services"><i class="fa fa-briefcase"></i> Services</a></li>
+				<li><a href="./staff-login.html" title="Logout" class="a-logout"><i class="fa fa-sign-in"></i> Logout</a></li>
+				<!-- <li><a href="./register.html" title="Register" class="a-register"><i class="fa fa-user-plus"></i> Register</a></li> -->
+				<li><a href="tel:2348180000000" title="Call Us"><i class="fa fa-phone-square"></i> Call +2348180000000</a></li>
+		</ul>
+	</div>
+	<!-- end header -->
+	<!-- content-area -->
+	<div class="contains">
+		<div class="sub-container row">
+			<div class="text-left">
+				<div class="cl-3">
+					<select id="bank-staff" onchange="bankStaffView();" name="bank-staff" class="mobile-navigation">
+						<option>-- Staff Dashboard Navigation --</option>
+						<option value="main">Main Board</option>
+						<option value="staff-profile">Manage Profile</option>
+						<option value="staff-users">Users</option>
+						<option value="create-user-staff">Create Users</option>
+						<option value="logout">Logout</option>
+					</select>
+					<div class="navigation">
+						<h4 class="text-center">Staff Dashboard Navigation</h4>
+						<ul class="no-style">
+							<li><i class="fa fa-location-arrow"></i><a class="dlink" href="./staff-dashboard.html"> Main Board</a></li>
+							<li><i class="fa fa-location-arrow"></i><a class="dlink" href="./staff-profile.html"> Manage Profile</a></li>
+							<li><i class="fa fa-location-arrow"></i><a class="dlink" href="./staff-dashboard-users.html"> Users List</a></li>
+							<li><i class="fa fa-location-arrow"></i><a class="dlink" href="./staff-create-users.html"> Create Users</a></li>
+							<li><i class="fa fa-location-arrow"></i><a class="dlink" href="./staff-login.html"> Logout</a></li>							
+						</ul>
+					</div>
+				</div>
+				<div class="cl-9">
+					<h4 class="text-center tshadow">eBanka Create Users Account</h4>
+						<div class="cl-12">
+							<div>
+								<button class="btn btn-stretch profile-dema" id="generate" onclick="Generate();">Generate Account Number</button>
+								<div id="account-number-show"></div>
+							</div>
+							<div class="profile-dema text-center">
+								<div>								
+									<form action="" method="POST" enctype="multipart/form-data" id="create-user-profile" onsubmit="createUserStaff();">
+										<div>
+											<input type="number" max="9999999999" name="account-number" id="account-number" placeholder="Account Number" class="" value="" required="">
+										</div>
+										<div>
+											<input type="text" name="firstname" placeholder="First Name" class="" value="Demo" required="">
+										</div>
+										<div>
+											<input type="text" name="lastname" placeholder="Last Name" class="" value="Surdemo" required="">
+										</div>
+										<div>
+											<input type="email" name="email" placeholder="Email ..." class="" value="demo@gmail.com" required="">
+										</div>
+										<div>
+											<input type="text" name="tel" placeholder="+234818010000" class="" value="+234818010000" required="">
+										</div>
+										<div>
+											<input type="date" name="date" placeholder="" class="" required="">
+										</div>
+										<div>
+											<input type="file" name="profile-img" id="uplaod-img" class="admin-photo">
+											<label for="uplaod-img" class="text-left"><i class="fa fa-camera-retro"></i> Click me to upload pics</label>
+										</div>
+										<div class="space">
+											<button class="btn btn-basic btn-register" type="submit" id="register">Create <i class="fa fa-user-plus"></i></button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+			</div>
+		</div>
+	</div>
+	<!-- content-area -->
+	<!--footer-->
+	<div class="footer">
+		<div class="contains">
+			<div class="cl-3">
+				<h3 class="text-color text-left">Quick Links</h3>
+				<ul class="text-left no-style ">
+					<li><a href="./index.html" title="Home" active>Home</a></li>
+					<li><a href="./service.html" title="Services">Services</a></li>
+					<li><a href="./login.html" title="Login">Login</a></li>
+					<li><a href="./register.html" title="Register">Register</a></li>
+				</ul>
+			</div>
+			<div class="cl-3">
+				<h3 class="text-color text-left">Connect With Us</h3>
+				<p class="text-left nodeco">
+					<span><a href="tel:2348181384092"><i class="fa fa-phone-square fa-2x"> +2348181384092</i></a></span>
+ 					<span><a href="fb/ebanka"><i class="fa fa-facebook-square fa-2x">@eBanka</i></a></span>
+	 				<span><a href="mailto:support@ebanka.com"><i class="fa fa-envelop fa-2x">@eBanka</i></a></span>
+					<span><a href="twitter/ebanka"><i class="fa fa-twitter-square fa-2x">@eBanka</i></a></span>
+					<span><a href="you.be/ebanka"><i class="fa fa-youtube-square fa-2x">@eBanka</i></a></span>
+					<span><a href="pin/ebanka"><i class="fa fa-pinterest-square fa-2x">@eBanka</i></a></span><br><br/>
+					<span class="text-color"><b><u>Location:</u></b><br/>
+					<span class="sp">
+						AH10001 Suite, NewYork, USA.
+					</span>
+				</p>
+			</div> 
+			<div class="cl-6">
+				<div class="">
+					<h3 class="text-color">Contact Us</h3>
+					<form class="formshape cl-12">
+						<div class>
+							<input type="text" name="email" placeholder="Email ..." class="">
+						</div>
+						<div>
+							<input type="tel" name="tel" placeholder="Phone">
+						</div>
+						<div>
+							<textarea name="message" placeholder="Message" ></textarea>
+						</div>
+						<div class="space">
+							<button class="btn btn-basic btn-stretch" id="send_message"><i class="fa fa-paper-plane"></i> Send Message</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<hr class="hr">
+		<div class="center cl-12 footer-logo"> &copy; copyright 2019. eBanka</div>
+	</div>
+	<!-- footer -->
+	<script type="text/javascript" src="./js/main.js"></script>
+</body>
+</html>

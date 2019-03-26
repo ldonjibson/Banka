@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8">
+	<meta name="description" content="E-Banka A Light Weight Banking Application">
+	<meta name="keywords" content="banking,african bank">
+	<meta name="author" content="banka">
+	<link rel="stylesheet" href="./css/style.css">
+	<link rel="stylesheet" href="./css/responsive.css">
+	<link rel="icon" type="image/x-icon" href="/assets/images/site/favicon.ico">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<title>Admin User Details | eBanka - An online banking application</title>
+</head>
+<body>
+	<!-- header -->
+	<header>
+		<a href="./index.html" alt="logo" class="logo float-left">eBanka</a>
+		<nav>
+			<ul class="">
+				<li><a href="./index.html" title="Home" active><i class="fa fa-home"></i> Home</a></li>
+				<li><a href="./service.html" title="Services"><i class="fa fa-briefcase"></i> Services</a></li>
+				<li><a href="./admin-login.html" title="Logout" class="a-logout"><i class="fa fa-sign-in"></i> Logout</a></li>
+				<!-- <li><a href="./register.html" title="Register" class="a-register"><i class="fa fa-user-plus"></i> Register</a></li> -->
+				<li><a href="tel:2348180000000" title="Call Us"><i class="fa fa-phone-square"></i> Call +2348180000000</a></li>
+			</ul>
+			<a href="#" class="float-right burger" id="burger" onclick="menuToggle();">&#9776; Menu</a>
+		</nav>
+	</header>
+	<div id="mobile-m">
+		<ul class="mobile" id="mobilemenu">
+				<li><a href="./index.html" title="Home" active><i class="fa fa-home"></i> Home</a></li>
+				<li><a href="./service.html" title="Services"><i class="fa fa-briefcase"></i> Services</a></li>
+				<li><a href="./admin-login.html" title="Logout" class="a-logout"><i class="fa fa-sign-in"></i> Logout</a></li>
+				<!-- <li><a href="./register.html" title="Register" class="a-register"><i class="fa fa-user-plus"></i> Register</a></li> -->
+				<li><a href="tel:2348180000000" title="Call Us"><i class="fa fa-phone-square"></i> Call +2348180000000</a></li>
+		</ul>
+	</div>
+	<!-- end header -->
+	<!-- content-area -->
+	<div class="contains">
+		<div class="sub-container row">
+			<div class="text-left">
+				<div class="cl-3 flex-container">
+					<select id="bank-admin" onchange="bankAdminView();" name="bank-admin" class="mobile-navigation">
+						<option>-- Admin Dashboard Navigations --</option>
+						<option value="main">Main Board</option>
+						<option value="users">Users</option>
+						<option value="staff">Staff</option>
+						<option value="create-user-staff">Create Users/Staff</option>
+						<option value="logout">Logout</option>
+					</select>
+					<div class="navigation">
+						<h4 class="text-center">Admin Dashboard Navigation</h4>
+						<ul class="no-style">
+							<li><i class="fa fa-location-arrow"></i><a class="dlink" href="./admin-dashboard.html"> Main Board</a></li>
+							<li><i class="fa fa-location-arrow"></i><a class="dlink" href="./admin-profile.html"> Manage Profile</a></li>
+							<li><i class="fa fa-location-arrow"></i><a class="dlink" href="./admin-dashboard-users.html"> Users List</a></li>
+							<li><i class="fa fa-location-arrow"></i><a class="dlink" href="./admin-create-users.html"> Create Users/Staff</a></li>
+							<li><i class="fa fa-location-arrow"></i><a class="dlink" href="./admin-login.html"> Logout</a></li>							
+						</ul>
+					</div>
+				</div>
+				<div class="cl-9">
+					<h4 class="text-center tshadow">John Doe eBanka Account Detail</h4>
+					<h4 class="text-center">Account Number: 010100110</h4>
+						<div class="cl-6">
+							<div class="table-scroll">
+								<table class="" width="100%">
+									<tbody>
+										<tr>
+											<th>Image</th>
+											<td><img src="./images/man-placeholder.jpg" class="profile-img-admin"></td>
+										</tr>
+										<tr>
+											<th>Account Type</th>
+											<td>User</td>
+										</tr>
+										<tr>
+											<th>Full Name/Account Name</th>
+											<td> John Doe</td>
+										</tr>
+										<tr>
+											<th>Account Number</th>
+											<td>010100110</td>
+										</tr>
+										<tr>
+											<th>Phone</th>
+											<td>+1 478 7547 885</td>
+										</tr>
+										<tr>
+											<th>Email</th>
+											<td>johndoe@gmail.com</td>
+										</tr>
+										<tr>
+											<th>Creation Date</th>
+											<td>03 October 1990 00:00</td>
+										</tr>
+										<tr>
+											<th>Last Transaction Date:</th>
+											<td>10, March 2019</td>
+										</tr>
+										<tr>
+											<th>Account Balance ($)</th>
+											<td id="balance">50000</td>
+										</tr>
+										<tr>
+											<th>Ledger Balance ($)</th>
+											<td id="ledger">50,000</td>
+										</tr>
+										<tr>
+											<th>Currency</th>
+											<td>$</td>
+										</tr>
+									</tbody>
+								</table>
+								<div class="text-center">
+									<button class="suspend cl-6" onclick="alert('User Has Been Suspended');"> <i class="fa fa-ban"></i> Suspend</button>
+									<button class="delete cl-6" onclick="alert('User Has Been Deleted');"><i class="fa fa-trash"></i> Delete</button>
+								</div>
+							</div>
+						</div>
+						<div class="cl-6">
+							<div class="profile-dema text-center">
+							<div id="amountupsdate" class="text-center"></div>
+								<div class="space">
+									<button class="btn btn-basic btn-register" id="user-update-toggle" onclick="adminDrCrUpdate();">Credit / Debit User Account</button>
+								</div>
+								<div>
+									<form id="credit-debit" class="hide" action="" enctype="multipart/form-data" onsubmit="creditDebit();">
+										<input type="number" name="credit-debit">
+										<button id="crdr" class="btn-stretch" placeholder="Debit/Credit">Credit/Debit</button>
+									</form>
+								</div>							
+								<div class="space">
+									<button class="btn btn-basic btn-register" id="user-update-toggle" onclick="adminUpdate();">Toggle Edit User</button>
+								</div>
+								<div id="admin-toggle-user-edit" class="hide">
+									<form action="" method="POST" enctype="multipart/form-data" id="admin-create-user-profile" onsubmit="updateUserStaff();">
+										<div id="passwordtop" class="text-center"></div>
+										<div>
+											<input type="number" max="9999999999" name="account-number" id="account-number" placeholder="Account Number" class="" value="0101001100" required="">
+										</div>
+										<div>
+											<input type="text" name="firstname" placeholder="First Name" class="" value="John" required="">
+										</div>
+										<div>
+											<input type="text" name="lastname" placeholder="Last Name" class="" value="Doe" required="">
+										</div>
+										<div>
+											<input type="email" name="email" placeholder="Email ..." class="" value="johndoe@gmail.com" required="">
+										</div>
+										<div>
+											<input type="text" name="tel" placeholder="+234818010000" class="" value="+1 478 7547 885" required="">
+										</div>
+										<div>
+											<input type="date" name="date" placeholder="" class="" required="">
+										</div>
+										<div>
+											<input type="file" name="profile-img" id="uplaod-img" class="admin-photo">
+											<label for="uplaod-img" class="text-left"><i class="fa fa-camera-retro"></i> Click me to upload pics</label>
+										</div>
+										<div>
+											<select name="role" id="role">
+												<option>Select User Account Type</option>
+												<option>User Account</option>
+												<option>Staff</option>
+												<option>Admin</option>
+											</select>
+										</div>
+										<div class="space">
+											<button class="btn-stretch" type="submit" id="register">Update <i class="fa fa-floppy-o"></i></button>
+										</div>
+									</form>
+									<h4>Change User Password</h4>
+									<form action="" id="adminedit-changepassword" onsubmit="adminchangePassword();">
+										<div>
+											<input type="password" name="newpassword" placeholder="New Password">
+										</div>
+										<div>
+											<input type="password" name="newpassword1" placeholder="Confirm New Password">
+										</div>
+										<div class="space">
+											<button class="btn btn-basic btn-register" type="submit" id="register">Change Password <i class="fa fa-floppy-o"></i></button>
+										</div>
+									</form>
+								</div>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- content-area -->
+	<!--footer-->
+	<div class="footer">
+		<div class="contains">
+			<div class="cl-3">
+				<h3 class="text-color text-left">Quick Links</h3>
+				<ul class="text-left no-style ">
+					<li><a href="./index.html" title="Home" active>Home</a></li>
+					<li><a href="./service.html" title="Services">Services</a></li>
+					<li><a href="./login.html" title="Login">Login</a></li>
+					<li><a href="./register.html" title="Register">Register</a></li>
+				</ul>
+			</div>
+			<div class="cl-3">
+				<h3 class="text-color text-left">Connect With Us</h3>
+				<p class="text-left nodeco">
+					<span><a href="tel:2348181384092"><i class="fa fa-phone-square fa-2x"> +2348181384092</i></a></span>
+ 					<span><a href="fb/ebanka"><i class="fa fa-facebook-square fa-2x">@eBanka</i></a></span>
+	 				<span><a href="mailto:support@ebanka.com"><i class="fa fa-envelop fa-2x">@eBanka</i></a></span>
+					<span><a href="twitter/ebanka"><i class="fa fa-twitter-square fa-2x">@eBanka</i></a></span>
+					<span><a href="you.be/ebanka"><i class="fa fa-youtube-square fa-2x">@eBanka</i></a></span>
+					<span><a href="pin/ebanka"><i class="fa fa-pinterest-square fa-2x">@eBanka</i></a></span><br><br/>
+					<span class="text-color"><b><u>Location:</u></b><br/>
+					<span class="sp">
+						AH10001 Suite, NewYork, USA.
+					</span>
+				</p>
+			</div> 
+			<div class="cl-6">
+				<div class="">
+					<h3 class="text-color">Contact Us</h3>
+					<form class="formshape cl-12">
+						<div class>
+							<input type="text" name="email" placeholder="Email ..." class="">
+						</div>
+						<div>
+							<input type="tel" name="tel" placeholder="Phone">
+						</div>
+						<div>
+							<textarea name="message" placeholder="Message" ></textarea>
+						</div>
+						<div class="space">
+							<button class="btn btn-basic btn-stretch" id="send_message"><i class="fa fa-paper-plane"></i> Send Message</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<hr class="hr">
+		<div class="center cl-12 footer-logo"> &copy; copyright 2019. eBanka</div>
+	</div>
+	<!-- footer -->
+	<script type="text/javascript" src="./js/main.js"></script>
+</body>
+</html>

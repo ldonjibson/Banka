@@ -10,7 +10,7 @@
 	<link rel="stylesheet" href="./css/responsive.css">
 	<link rel="icon" type="image/x-icon" href="/assets/images/site/favicon.ico">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<title>Home | eBanka - An online banking application</title>
+	<title>Dashboard | eBanka - An online banking application</title>
 </head>
 <body>
 	<!-- header -->
@@ -20,9 +20,10 @@
 			<ul class="">
 				<li><a href="./index.html" title="Home" active><i class="fa fa-home"></i> Home</a></li>
 				<li><a href="./service.html" title="Services"><i class="fa fa-briefcase"></i> Services</a></li>
-				<li><a href="./login.html" title="Login" class="a-login"><i class="fa fa-sign-in"></i> Login</a></li>
-				<li><a href="./register.html" title="Register" class="a-register"><i class="fa fa-user-plus"></i> Register</a></li>
-				<li><a href="tel:2348180000000" title="Call Us"><i class="fa fa-phone-square"></i> Call +2348180000000</a></li>			</ul>
+				<li><a href="./login.html" title="Logout" class="a-logout"><i class="fa fa-sign-in"></i> Logout</a></li>
+				<!-- <li><a href="./register.html" title="Register" class="a-register"><i class="fa fa-user-plus"></i> Register</a></li> -->
+				<li><a href="tel:2348180000000" title="Call Us"><i class="fa fa-phone-square"></i> Call +2348180000000</a></li>
+			</ul>
 			<a href="#" class="float-right burger" id="burger" onclick="menuToggle();">&#9776; Menu</a>
 		</nav>
 	</header>
@@ -30,84 +31,76 @@
 		<ul class="mobile" id="mobilemenu">
 				<li><a href="./index.html" title="Home" active><i class="fa fa-home"></i> Home</a></li>
 				<li><a href="./service.html" title="Services"><i class="fa fa-briefcase"></i> Services</a></li>
-				<li><a href="./login.html" title="Login" class="a-login"><i class="fa fa-sign-in"></i> Login</a></li>
-				<li><a href="./register.html" title="Register" class="a-register"><i class="fa fa-user-plus"></i> Register</a></li>
+				<li><a href="./login.html" title="Logout" class="a-logout"><i class="fa fa-sign-in"></i> Logout</a></li>
+				<!-- <li><a href="./register.html" title="Register" class="a-register"><i class="fa fa-user-plus"></i> Register</a></li> -->
 				<li><a href="tel:2348180000000" title="Call Us"><i class="fa fa-phone-square"></i> Call +2348180000000</a></li>
 		</ul>
 	</div>
 	<!-- end header -->
-	<!-- banner area -->
-	<div class="contains closeupspace">
-		<div class="banner-centered">
-		  	<div class="text-block">
-		  		<p class="">
-		  			Now is the right Time to Save for the Future Get Started <i class="fa fa-hand-o-down fa-2x"></i>!!!
-		  		</p>
-			  	<a href="./login.html" class="btn btn-basic a-login" title="login"><i class="fa fa-sign-in"></i> Login</a>
-			  	<a href="./register.html" title="register" class="btn btn-basic nodeco tn-register a-register"><i class="fa fa-user-plus"></i> Register</a>
-			</div>
-		</div>
-	</div>
-	<!-- end banner -->
-	<!-- boxed area-->
+	<!-- content-area -->
 	<div class="contains">
-		<div class="row">
-			<div class="cl-4">
-				<div class="boxed">
-					<i class="fa fa-money fa-4x" aria-hidden="true"></i>
-					<h3>Savings</h3>
-					<p>
-						<b>Grow your money with us for future investments and opportunities with attractive interest rates</b>
-					</p>
+		<div class="sub-container row">
+			<div class="text-left">
+				<div class="cl-3">
+					<select id="bank-op" onchange="bankView();" name="bank-op" class="mobile-navigation">
+						<option>-- Dashboard Navigations --</option>
+						<option value="profile">Manage Profile</option>
+						<option value="transaction">Transaction Details</option>
+						<option value="logout">Logout</option>
+					</select>
+					<h3>Account Number <br /><i class="fa fa-university"></i> 010100110</h3>
+					<h3>Account Balance <br /><i class="fa fa-money"></i> $50,000</h3>
+					<div class="navigation">
+						<h4 class="text-center">Dashboard Navigation</h4>
+						<ul class="no-style">
+							<li><i class="fa fa-location-arrow"></i><a class="dlink" href="./profile.html"> Manage Profile</a></li>
+							<li><i class="fa fa-location-arrow"></i><a class="dlink" href="./transaction.html"> Transactions</a></li>
+							<li><i class="fa fa-location-arrow"></i><a class="dlink" href="./login.html"> Logout</a></li>
+						</ul>
+					</div>
 				</div>
-			</div>
-			<div class="cl-4">
-				<div class="boxed">
-					<i class="fa fa-home fa-4x" aria-hidden="true"></i>
-					<h3>Mortgage</h3>
-					<p>
-						<b>Whether you are buying or improving your home, we are at your Beak and Call</b>
-					</p>
-				</div>
-			</div>
-			<div class="cl-4">
-				<div class="boxed">
-					<i class="fa fa-handshake-o fa-4x" aria-hidden="true"></i>
-					<h3>Trust</h3>
-					<p>
-						<b>Customized solutions created to protect your assets and provide peace of mind.</b>
-					</p>
+				<div class="cl-9">
+					<h4 class="text-center tshadow">Your eBanka Dashboard</h4>
+					<div id="" class="cl-12">
+						<div class="cl-4">
+							<a href="./profile.html">
+								<div class="boxed-dashboard text-center">
+									<i class="fa fa-user fa-4x" aria-hidden="true"></i>
+									<h3>Profile</h3>
+									<p>
+										<b>Manage Profile, edit, and delete account</b>
+									</p>
+								</div>
+							</a>
+						</div>
+						<div class="cl-4">
+							<a href="./transaction.html">
+								<div class="boxed-dashboard text-center">
+									<i class="fa fa-history fa-4x" aria-hidden="true"></i>
+									<h3>Transactions</h3>
+									<p>
+										<b>View All Transaction History (Debit and Credit)</b>
+									</p>
+								</div>
+							</a>
+						</div>
+						<div class="cl-4">
+							<a href="">
+								<div class="boxed-dashboard text-center">
+									<i class="fa fa-user fa-4x" aria-hidden="true"></i>
+									<h3>Transactions</h3>
+									<p>
+										<b>View All Transaction History (Debit and Credit)</b>
+									</p>
+								</div>
+							</a>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- end boxed -->
-	<!-- testimonial -->
-	<div class="testimonials">
-		<div class="testimonials-bg">
-			<h2>Our Happy Customers</h2>
-			<div class="flex-container testi">
-				<p class="anim1"> Best Bank Ever to work with, i am will recommend the bank to all of my friends </p>
-			</div>
-			<div class="flex-container testi slider">
-				<p class="anim2"> The world Leading Bank Ever to work with, i am will recommend the bank to all of my friends </p>
-			</div>
-			<div class="flex-container testi">
-				<p class="anim3"> My generation will continue to use this bank as long asthey exist </p>
-			</div>
-		</div>
-	</div>
-	<!-- end testimonial -->
-	<!-- partners-->
-	<div class="partners">
-		<h2>Our Partners</h2>
-		<div class="cl-12">
-			<img src="./images/andela.jpg" class="partners-img">
-			<img src="./images/andela.jpg" class="partners-img">
-			<img src="./images/andela.jpg" class="partners-img">
-		</div>
-	</div>
-	<!-- end partners -->
+	<!-- content-area -->
 	<!--footer-->
 	<div class="footer">
 		<div class="contains">
