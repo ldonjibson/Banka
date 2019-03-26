@@ -251,3 +251,16 @@ const creditDebit = () => {
 	event.preventDefault();
 }
 /////Admin creatteuser and staff ends
+
+
+//Contact form action
+
+const contactSubmit = () => {
+	document.getElementById('contmssg').innerHTML = "<h5> Message Sent !!!</h5>"
+	setTimeout( () => {
+		document.getElementById('contmssg').innerHTML = ""
+	}, 3000);
+	event.preventDefault();
+}
+
+//Contact form action 
