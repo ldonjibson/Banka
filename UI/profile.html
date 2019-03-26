@@ -78,7 +78,7 @@
 								<button class="btn btn-stretch profile-dema cl-6" id="edit-image" onclick="revealProfileForm();">Edit Profile</button>
 								<button class="btn btn-stretch profile-dema cl-6" id="edit-image" onclick="revealPassword();">Change Password</button>
 								<div>								
-									<form action="" id="edit-profile">
+									<form action="" id="edit-profile" onsubmit="editProfile();">
 										<div>
 											<input type="text" name="firstname" placeholder="First Name" class="" value="Demo">
 										</div>
@@ -98,7 +98,7 @@
 											<button class="btn btn-basic btn-register" type="submit" id="register">Save <i class="fa fa-floppy-o"></i></button>
 										</div>
 									</form>
-									<form action="" id="edit-changepassword">
+									<form action="" id="edit-changepassword" onsubmit="changePassword();">
 										<div>
 											<input type="password" name="oldpassword" placeholder="Old Password">
 										</div>
