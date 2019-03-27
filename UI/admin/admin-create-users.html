@@ -6,8 +6,8 @@
 	<meta name="description" content="E-Banka A Light Weight Banking Application">
 	<meta name="keywords" content="banking,african bank">
 	<meta name="author" content="banka">
-	<link rel="stylesheet" href="./css/style.css">
-	<link rel="stylesheet" href="./css/responsive.css">
+	<link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="../css/responsive.css">
 	<link rel="icon" type="image/x-icon" href="/assets/images/site/favicon.ico">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<title>Admin Create Users | eBanka - An online banking application</title>
@@ -18,9 +18,9 @@
 		<a href="./index.html" alt="logo" class="logo float-left">eBanka</a>
 		<nav>
 			<ul class="">
-				<li><a href="./index.html" title="Home" active><i class="fa fa-home"></i> Home</a></li>
-				<li><a href="./service.html" title="Services"><i class="fa fa-briefcase"></i> Services</a></li>
-				<li><a href="./staff-login.html" title="Logout" class="a-logout"><i class="fa fa-sign-in"></i> Logout</a></li>
+				<li><a href="../index.html" title="Home" active><i class="fa fa-home"></i> Home</a></li>
+				<li><a href="../service.html" title="Services"><i class="fa fa-briefcase"></i> Services</a></li>
+				<li><a href="../admin-login.html" title="Logout" class="a-logout"><i class="fa fa-sign-in"></i> Logout</a></li>
 				<!-- <li><a href="./register.html" title="Register" class="a-register"><i class="fa fa-user-plus"></i> Register</a></li> -->
 				<li><a href="tel:2348180000000" title="Call Us"><i class="fa fa-phone-square"></i> Call +2348180000000</a></li>
 			</ul>
@@ -29,9 +29,9 @@
 	</header>
 	<div id="mobile-m">
 		<ul class="mobile" id="mobilemenu">
-				<li><a href="./index.html" title="Home" active><i class="fa fa-home"></i> Home</a></li>
-				<li><a href="./service.html" title="Services"><i class="fa fa-briefcase"></i> Services</a></li>
-				<li><a href="./staff-login.html" title="Logout" class="a-logout"><i class="fa fa-sign-in"></i> Logout</a></li>
+				<li><a href="../index.html" title="Home" active><i class="fa fa-home"></i> Home</a></li>
+				<li><a href="../service.html" title="Services"><i class="fa fa-briefcase"></i> Services</a></li>
+				<li><a href="../admin-login.html" title="Logout" class="a-logout"><i class="fa fa-sign-in"></i> Logout</a></li>
 				<!-- <li><a href="./register.html" title="Register" class="a-register"><i class="fa fa-user-plus"></i> Register</a></li> -->
 				<li><a href="tel:2348180000000" title="Call Us"><i class="fa fa-phone-square"></i> Call +2348180000000</a></li>
 		</ul>
@@ -42,43 +42,35 @@
 		<div class="sub-container row">
 			<div class="text-left">
 				<div class="cl-3">
-					<select id="bank-staff" onchange="bankStaffView();" name="bank-staff" class="mobile-navigation">
-						<option>-- Staff Dashboard Navigation --</option>
+					<select id="bank-admin" onchange="bankAdminView();" name="bank-admin" class="mobile-navigation">
+						<option>-- Admin Dashboard Navigations --</option>
 						<option value="main">Main Board</option>
-						<option value="staff-profile">Manage Profile</option>
-						<option value="staff-users">Users</option>
-						<option value="create-user-staff">Create Users</option>
+						<option value="users">Users</option>
+						<option value="staff">Staff</option>
+						<option value="create-user-staff">Create Users/Staff</option>
 						<option value="logout">Logout</option>
 					</select>
 					<div class="navigation">
-						<h4 class="text-center tshadow">Staff Dashboard Navigation</h4>
-						<div class="text-center">
-							<div>
-								<a class="dlink" href="./staff-dashboard.html"> Main Board</a>
-							</div>
-							<div>
-								<a class="dlink" href="./staff-profile.html"> Manage Profile</a>
-							</div>
-							<div>
-								<a class="dlink" href="./staff-dashboard-users.html"> Users List</a>
-							</div>
-							<div>
-								<a class="dlink" href="./staff-create-users.html"> Create Users</a>
-							</div>
-							<div>
-								<a class="dlink" href="./staff-login.html"> Logout</a>
-							</div>							
+						<h4 class="text-center tshadow">Admin Dashboard Navigation</h4>
+						<div class="no-style text-center">
+							<div><a class="dlink" href="./admin-dashboard.html"> Main Board</a></div>
+							<div><a class="dlink" href="./admin-profile.html"> Manage Profile</a></div>
+							<div><a class="dlink" href="./admin-dashboard-users.html"> Users List</a></div>
+							<div><a class="dlink" href="./admin-create-users.html"> Create Users/Staff</a></div>
+							<div><a class="dlink" href="./admin-login.html"> Logout</a></div>							
 						</div>
 					</div>
 				</div>
 				<div class="cl-9">
-					<h4 class="text-center tshadow">eBanka Create Users Account</h4>
+					<h4 class="text-center tshadow">eBanka Create Users/Staff Account</h4>
+					<div id="" class="cl-12">
 						<div class="cl-12">
 							<div>
 								<button class="btn btn-stretch profile-dema" id="generate" onclick="Generate();">Generate Account Number</button>
 								<div id="account-number-show"></div>
 							</div>
 							<div class="profile-dema text-center">
+								<div class="createuresponse"></div>
 								<div>								
 									<form action="" method="POST" enctype="multipart/form-data" id="create-user-profile" onsubmit="createUserStaff();">
 										<div>
@@ -103,6 +95,14 @@
 											<input type="file" name="profile-img" id="uplaod-img" class="admin-photo">
 											<label for="uplaod-img" class="text-left"><i class="fa fa-camera-retro"></i> Click me to upload pics</label>
 										</div>
+										<div>
+											<select name="role" id="role">
+												<option>Select User Account Type</option>
+												<option>User Account</option>
+												<option>Staff</option>
+												<option>Admin</option>
+											</select>
+										</div>
 										<div class="space">
 											<button class="btn btn-basic btn-register" type="submit" id="register">Create <i class="fa fa-user-plus"></i></button>
 										</div>
@@ -110,6 +110,7 @@
 								</div>
 							</div>
 						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -124,10 +125,10 @@
 			<div class="cl-3">
 				<h3 class="text-color text-left">Quick Links</h3>
 				<ul class="text-left no-style ">
-					<li><a href="./index.html" title="Home" active>Home</a></li>
-					<li><a href="./service.html" title="Services">Services</a></li>
-					<li><a href="./login.html" title="Login">Login</a></li>
-					<li><a href="./register.html" title="Register">Register</a></li>
+					<li><a href="../index.html" title="Home" active>Home</a></li>
+					<li><a href="../service.html" title="Services">Services</a></li>
+					<li><a href="../login.html" title="Login">Login</a></li>
+					<li><a href="../register.html" title="Register">Register</a></li>
 				</ul>
 			</div>
 			<div class="cl-3">
@@ -169,6 +170,6 @@
 		<div class="center cl-12 footer-logo"> &copy; copyright 2019. eBanka</div>
 	</div>
 	<!-- footer -->
-	<script type="text/javascript" src="./js/main.js"></script>
+	<script type="text/javascript" src="../js/main.js"></script>
 </body>
 </html>
