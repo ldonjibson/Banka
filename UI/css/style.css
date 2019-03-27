@@ -783,7 +783,10 @@ label:hover{
 /* -- Admin Page -- */
 
 /* -- Animation -- */
-
+.anim{
+	font-size: 25px!important;
+	font-style: italic;
+}
 
 /* -- Animation end -- */
 
