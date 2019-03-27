@@ -6,22 +6,21 @@
 	<meta name="description" content="E-Banka A Light Weight Banking Application">
 	<meta name="keywords" content="banking,african bank">
 	<meta name="author" content="banka">
-	<link rel="stylesheet" href="./css/style.css">
-	<link rel="stylesheet" href="./css/responsive.css">
+	<link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="../css/responsive.css">
 	<link rel="icon" type="image/x-icon" href="/assets/images/site/favicon.ico">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<title>Admin Dashboard | eBanka - An online banking application</title>
+	<title>Staff Dashboard | eBanka - An online banking application</title>
 </head>
 <body>
 	<!-- header -->
 	<header>
-		<a href="./index.html" alt="logo" class="logo float-left">eBanka</a>
+		<a href="../index.html" alt="logo" class="logo float-left">eBanka</a>
 		<nav>
 			<ul class="">
 				<li><a href="./index.html" title="Home" active><i class="fa fa-home"></i> Home</a></li>
 				<li><a href="./service.html" title="Services"><i class="fa fa-briefcase"></i> Services</a></li>
 				<li><a href="./admin-login.html" title="Logout" class="a-logout"><i class="fa fa-sign-in"></i> Logout</a></li>
-				<!-- <li><a href="./register.html" title="Register" class="a-register"><i class="fa fa-user-plus"></i> Register</a></li> -->
 				<li><a href="tel:2348180000000" title="Call Us"><i class="fa fa-phone-square"></i> Call +2348180000000</a></li>
 			</ul>
 			<a href="#" class="float-right burger" id="burger" onclick="menuToggle();">&#9776; Menu</a>
@@ -32,7 +31,6 @@
 				<li><a href="./index.html" title="Home" active><i class="fa fa-home"></i> Home</a></li>
 				<li><a href="./service.html" title="Services"><i class="fa fa-briefcase"></i> Services</a></li>
 				<li><a href="./admin-login.html" title="Logout" class="a-logout"><i class="fa fa-sign-in"></i> Logout</a></li>
-				<!-- <li><a href="./register.html" title="Register" class="a-register"><i class="fa fa-user-plus"></i> Register</a></li> -->
 				<li><a href="tel:2348180000000" title="Call Us"><i class="fa fa-phone-square"></i> Call +2348180000000</a></li>
 		</ul>
 	</div>
@@ -42,70 +40,60 @@
 		<div class="sub-container row">
 			<div class="text-left">
 				<div class="cl-3">
-					<select id="bank-admin" onchange="bankAdminView();" name="bank-admin" class="mobile-navigation">
-						<option>-- Admin Dashboard Navigations --</option>
+					<select id="bank-staff" onchange="bankStaffView();" name="bank-staff" class="mobile-navigation">
+						<option>-- Staff Dashboard Navigation --</option>
 						<option value="main">Main Board</option>
-						<option value="users">Users</option>
-						<option value="staff">Staff</option>
-						<option value="create-user-staff">Create Users/Staff</option>
+						<option value="staff-profile">Manage Profile</option>
+						<option value="staff-users">Users</option>
+						<option value="create-user-staff">Create Users</option>
 						<option value="logout">Logout</option>
 					</select>
 					<div class="navigation">
-						<h4 class="text-center tshadow">Admin Dashboard Navigation</h4>
-						<div class="no-style text-center">
-							<div><a class="dlink" href="./admin-dashboard.html"> Main Board</a></div>
-							<div><a class="dlink" href="./admin-profile.html"> Manage Profile</a></div>
-							<div><a class="dlink" href="./admin-dashboard-users.html"> Users List</a></div>
-							<div><a class="dlink" href="./admin-create-users.html"> Create Users/Staff</a></div>
-							<div><a class="dlink" href="./admin-login.html"> Logout</a></div>							
+						<h4 class="text-center tshadow">Staff Dashboard Navigation</h4>
+						<div class="text-center">
+							<div>
+								<a class="dlink" href="./staff-dashboard.html"> Main Board</a>
+							</div>
+							<div>
+								<a class="dlink" href="./staff-profile.html"> Manage Profile</a>
+							</div>
+							<div>
+								<a class="dlink" href="./staff-dashboard-users.html"> Users List</a>
+							</div>
+							<div>
+								<a class="dlink" href="./staff-create-users.html"> Create Users</a>
+							</div>
+							<div>
+								<a class="dlink" href="./staff-login.html"> Logout</a>
+							</div>							
 						</div>
 					</div>
 				</div>
 				<div class="cl-9">
-					<h4 class="text-center tshadow">eBanka Staff List</h4>
-					<div class="table-scroll">
-						<table width="100%" id="ebanka-table">
-							<thead class="">
-								<tr>
-									<th>#</th>
-									<th>Staff ID</th>
-									<th>Full Name</th>
-									<th>Date Created</th>
-									<th>Account Status</th>
-									<th>Role</th>
-									<th>Operation(s)</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>1</td>
-									<td>eBanka-001</td>
-									<td>Erinca Maculay</td>
-									<td>03/10/1991</td>
-									<td>Active</td>
-									<td>Staff</td>
-									<td><a href="./transaction-detail.html" class="table-btn-stretch">ViewDetail</a><a href="./transaction-detail.html" class="suspend">Suspend</a><a href="./transaction-detail.html" class="delete">Delete</a></td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td>eBanka-002</td>
-									<td>Elizabeth Brown</td>
-									<td>03/10/1998</td>
-									<td>Active</td>
-									<td>Staff</td>
-									<td><a href="./transaction-detail.html" class="table-btn-stretch">ViewDetail</a><a href="./transaction-detail.html" class="suspend">Suspend</a><a href="./transaction-detail.html" class="delete">Delete</a></td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td>eBanka-003</td>
-									<td>Chritian Anthony</td>
-									<td>03/10/2000</td>
-									<td>Active</td>
-									<td>Admin</td>
-									<td><a href="./transaction-detail.html" class="table-btn-stretch">ViewDetail</a><a href="./transaction-detail.html" class="suspend">Suspend</a><a href="./transaction-detail.html" class="delete">Delete</a></td>
-								</tr>
-							</tbody>
-						</table>
+					<h4 class="text-center tshadow">Staff eBanka Dashboard</h4>
+					<div id="" class="cl-12">
+						<div class="cl-6">
+							<a href="./staff-dashboard-users.html">
+								<div class="boxed-dashboard text-center">
+									<i class="fa fa-users fa-4x" aria-hidden="true"></i>
+									<h3>View Users</h3>
+									<p>
+										<b>Manage User<br/> (edit, and delete user account)</b>
+									</p>
+								</div>
+							</a>
+						</div>
+						<div class="cl-6">
+							<a href="./staff-create-users.html">
+								<div class="boxed-dashboard text-center">
+									<i class="fa fa-user-plus fa-4x" aria-hidden="true"></i>
+									<h3>Create User</h3>
+									<p>
+										<b>Create/Edit users <br/> Details and assign role</b>
+									</p>
+								</div>
+							</a>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -163,6 +151,6 @@
 		<div class="center cl-12 footer-logo"> &copy; copyright 2019. eBanka</div>
 	</div>
 	<!-- footer -->
-	<script type="text/javascript" src="./js/main.js"></script>
+	<script type="text/javascript" src="../js/main.js"></script>
 </body>
 </html>
