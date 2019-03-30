@@ -2,25 +2,39 @@ let expect = require('chai').expect;
 let request = require('request');
 let url = "http://localhost:3000/api/v1/"
 
-describe('Checking if the page is testable', function(){
+describe('Checking if the page is testable', () => {
+
+	it('should just say ok',(done) =>{
+		request.get(url, (error,response,body) => {
+			// expect(response.headers).to.be.equal('');
+			expect(response.statusCode).to.equal(200);
+			// expect(body['message']).to.equal("Connected");
+			done();
+		});
+		// if (error) throw error;
+	});
 	
-	it ('Should contain status code 200', function(done){
-		request(url, function(error,response,body) {
-			// console.log(response);
+	it ('Should contain status code 200', (done) => {
+		request(url + "users", (error,response,body) => {
+			let json = JSON.parse(body);
 			// expect(response).to.contain('200');
 			expect(response.statusCode).to.equal(200);
-			expect(body).to.contain('data');
+			expect(json).to.be.an('object');
 			done();	
 			});
 	}); 
 });
 
-describe('User signup,login, transaction_details, profile_edit', function(){
+describe('User signup,login, transaction_details, profile_edit', () =>{
 	
-	it('should outputjson also', function(done){
-		request(url + "1", function(error,response,body){
-			console.log(url+"1");
-			expect(response.statusCode).to.equal(404);
+	it('should get the single userwith the id paased', (done) => {
+		request(url + "user/1", (error,response,body) => {
+			// console.log(url+"users/1");
+			let json = JSON.parse(body);
+			console.log(json.user.id);
+			// console.log(json);
+			expect(response.statusCode).to.equal(200);
+			expect(json).to.be.an('object');
 			done();
 		});
 
@@ -35,7 +49,7 @@ describe('User signup,login, transaction_details, profile_edit', function(){
 	it('should allow user to user to view transaction details and history');
 });
 
-describe('For Staff and Admin',function(){
+describe('For Staff and Admin',() =>{
 
 	it('should allow user to Staff and Admin to create account for new user');
 
