@@ -6,9 +6,13 @@ describe('Checking if the page is testable', () => {
 
 	it('should just say ok',(done) =>{
 		request.get(url, (error,response,body) => {
-			// expect(response.headers).to.be.equal('');
+			let json = JSON.parse(body);
+			console.log(json)
 			expect(response.statusCode).to.equal(200);
-			// expect(body['message']).to.equal("Connected");
+			expect(response.headers['content-type']).to.contain('application/json');
+			expect(json).to.be.an('object');
+			expect(json.status).to.equal(200);
+			expect(json.message).to.equal("Connected");
 			done();
 		});
 		// if (error) throw error;
@@ -16,12 +20,17 @@ describe('Checking if the page is testable', () => {
 	
 	it ('Should contain status code 200', (done) => {
 		request(url + "users", (error,response,body) => {
+			if(error){
+				console.log(error);
+			}
+
 			let json = JSON.parse(body);
-			// expect(response).to.contain('200');
 			expect(response.statusCode).to.equal(200);
+			expect(response.headers['content-type']).to.contain('application/json');
+			expect(json.status).to.equal(200);
 			expect(json).to.be.an('object');
 			done();	
-			});
+		});
 	}); 
 });
 
@@ -29,6 +38,9 @@ describe('User signup,login, transaction_details, profile_edit', () =>{
 	
 	it('should get the single userwith the id paased', (done) => {
 		request(url + "user/1", (error,response,body) => {
+			if(error){
+				console.log(error);
+			}
 			// console.log(url+"users/1");
 			let json = JSON.parse(body);
 			console.log(json.user.id);
