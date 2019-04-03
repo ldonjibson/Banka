@@ -3,12 +3,21 @@ let request = require('request');
 let url = "http://localhost:3000/api/v1/"
 let users = require('../datastore/user')
 
+let formData = {
+        "email": "Sincere@april.biz",
+        "firstName": "Leanne Graham",
+        "lastName": "Bret",
+        "phone": "010-692-6593 x09125",
+        "password": "1-770-736-8031 x56442",
+        "dob": "25-01-1990"
+		}
+
 describe('Checking if the page is testable', () => {
 
-	it('should just say ok',(done) =>{
+	it('should just say Connected',(done) =>{
 		request.get(url, (error,response,body) => {
 			let json = JSON.parse(body);
-			console.log(json)
+			// console.log(json)
 			expect(response.statusCode).to.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(json).to.be.an('object');
@@ -28,7 +37,7 @@ describe('Checking if the page is testable', () => {
 			let json = JSON.parse(body);
 			expect(response.statusCode).to.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.equal(200);
+			expect(json.status).to.equal(1004);
 			expect(json).to.be.an('object');
 			done();	
 		});
@@ -50,10 +59,8 @@ describe('User signup,login, transaction_details, profile_edit', () =>{
 			// console.log(json);
 			expect(response.statusCode).to.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.equal(200);
+			expect(json.status).to.equal(1004);
 			expect(json).to.be.an('object');
-			// expect(json).to.be.an('array');
-			expect(1).to.be.equal(json.user.id);
 			done();
 		});
 
@@ -61,38 +68,60 @@ describe('User signup,login, transaction_details, profile_edit', () =>{
 
 	it('should allow user to sign up and create account on signup', (done) => {
 		request.post(url + "auth/signup", (error, response, body) => {
+			// console.log(response);
 			expect(response.statusCode).to.equal(200);
 			let json = JSON.parse(response.body);
-			console.log(json);
+			// console.log(json);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.error).to.be.equal("Please Check A field is missing");
+			expect(json.status).to.be.equal(401);
+			expect(json.error).to.be.equal("Please Check, A field is missing");
 			done();
 		});
 	});
 
-	it('should allow user to login', (done) => {
+	it('Should not allow use to login and not generate token', (done) => {
 		request.post(url + "auth/signin", (error, response, body) => {
-			expect(response.statusCode).to.equal(404);
-			expect(response.headers['content-type']).to.contain('text/html');
+			let json = JSON.parse(response.body);
+			expect(response.statusCode).to.equal(200);
+			expect(response.headers['content-type']).to.contain('application/json');
+			expect(json.status).to.be.equal(401);
+			expect(json).to.be.an('object');
 			done();
 		});
 	});
 
 	it('should allow user to change there profile details except for the account number', (done) => {
-		request.post(url + "auth/1/profile", (error, response, body) => {
-			expect(response.statusCode).to.equal(404);
-			expect(response.headers['content-type']).to.contain('text/html');
+		request.get(url + "user/profile", (error, response, body) => {
+			expect(response.statusCode).to.equal(200);
+			let json = JSON.parse(response.body);
+			expect(response.headers['content-type']).to.contain('application/json');
+			expect(json.status).to.be.equal(1004);
+			expect(json).to.be.an('object');
+			// console.log(response)
 			done();
 		});
 	});
 
 	it('should allow user to user to view transaction details and history', (done) => {
-		request.get(url + "account/1/transaction/", (error, response,body) => {
+		request.get(url + "user/account", (error, response,body) => {
 			expect(response.statusCode).to.equal(404);
 			expect(response.headers['content-type']).to.contain('text/html')
+			// expect(json.status).to.be.equal(1004);
+			// expect(json).to.be.an('object');
 			done();
 		});
 	});
+
+	it('should allow user to user to view transaction details and history', (done) => {
+		request.get(url + "user/accounts/transaction/", (error, response,body) => {
+			expect(response.statusCode).to.equal(404);
+			expect(response.headers['content-type']).to.contain('text/html')
+			// expect(json.status).to.be.equal(1004);
+			// expect(json).to.be.an('object');
+			done();
+		});
+	});
+
 });
 
 describe('For Staff and Admin',() =>{
