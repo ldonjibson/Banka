@@ -83,8 +83,19 @@ describe('User signup,login, transaction_details, profile_edit', () =>{
 	});
 
 
-	it('should a specific transaction detail', (done) => {
+	it('should return "1004" instead of specific transaction detail', (done) => {
 		request.get(url + "me/account/transaction/1/detail", (error, response,body) => {
+			expect(response.statusCode).to.equal(200);
+			let json = JSON.parse(response.body);
+			expect(response.headers['content-type']).to.contain('application/json')
+			expect(json.status).to.be.equal(1004);
+			expect(json).to.be.an('object');
+			done();
+		});
+	});
+
+	it('should return "1004" instead of creating an account', (done) => {
+		request.post(url + "accounts", (error, response, body) => {
 			expect(response.statusCode).to.equal(200);
 			let json = JSON.parse(response.body);
 			expect(response.headers['content-type']).to.contain('application/json')

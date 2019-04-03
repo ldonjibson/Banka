@@ -3,7 +3,7 @@ let request = require('request');
 let url = "http://localhost:3000/api/v1/"
 let users = require('../datastore/user')
 
-describe('For Staff Alone', ()=> {
+describe('For Staff  and Admin Alone', ()=> {
 
 	it ('Should contain status code 200', (done) => {
 		request.get(url + "users", (error,response,body) => {
@@ -50,9 +50,19 @@ describe('For Staff Alone', ()=> {
 		});
 	});
 
-	//TODO show transaction a staff performed
 	it('should return 1004 instead of all record performed by a specific', (done) => {
 		request.get(url + "mydone/usertransaction/", (error,response, body) => {
+			let json = JSON.parse(body);
+			expect(response.statusCode).to.be.equal(200);
+			expect(response.headers['content-type']).to.contain('application/json');
+			expect(json.status).to.equal(1004);
+			expect(json).to.be.an('object');
+			done();
+		});
+	});
+
+	it('should return 1004 instead of deleting the account', (done) => {
+		request.delete(url + "accounts/1920000034/", (error,response, body) => {
 			let json = JSON.parse(body);
 			expect(response.statusCode).to.be.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
@@ -66,16 +76,12 @@ describe('For Staff Alone', ()=> {
 
 
 
-describe('For Staff and Admin',() =>{
-
-	it('should allow user to Staff and Admin to create account for new user');
-
-	it('should allow user to Staff and Admin to delete user account');
-
-	it('should allow user to Admin to create staff account');
+describe('For Admin Alone',() =>{
 
 	it('should allow user to Staff and Admin to create credit and debit');
 
 	it('should allow user to Staff and Admin to edit and user profile and theirs');
+	
+	// it('should allow user to Staff and Admin to edit and user profile and theirs');
 
 });
