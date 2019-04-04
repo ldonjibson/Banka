@@ -88,8 +88,6 @@ describe('Patch method For Admin and Staff to be able to edit user profile and c
 		});
 	});
 
-
-	it('should return 1004 instead of allowing user to be edited e.g profile image/firstname, lastname, dob & password');
 });
 
 
@@ -118,7 +116,29 @@ describe('Post method For Admin and Staff to be credit and debit a bank account 
 		});
 	});
 
-	it('should allow user to Staff and Admin to create credit and debit');
+	it('should allow Staff to edit user profile', (done) => {
+		request.patch(url + "user/profile/1/edit", (error, response, body) => {
+			expect(response.statusCode).to.equal(200);
+			let json = JSON.parse(response.body);
+			expect(response.headers['content-type']).to.contain('application/json');
+			expect(json.status).to.be.equal(1004);
+			expect(json).to.be.an('object');
+			// console.log(response)
+			done();
+		});
+	});
 
-	it('should allow user to Staff and Admin to edit and user profile and theirs');
+	it('should allow Staff  to change user password', (done) => {
+		request.patch(url + "user/profile/1/changepassword", (error, response, body) => {
+			expect(response.statusCode).to.equal(200);
+			let json = JSON.parse(response.body);
+			expect(response.headers['content-type']).to.contain('application/json');
+			expect(json.status).to.be.equal(1004);
+			expect(json).to.be.an('object');
+			// console.log(response)
+			done();
+		});
+	});
+
+
 });
