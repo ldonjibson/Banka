@@ -75,13 +75,50 @@ describe('For Staff  and Admin Alone', ()=> {
 });
 
 
+describe('Patch method For Admin and Staff to be able to edit user profile and change accout status',() =>{
 
-describe('For Admin Alone',() =>{
+	it('should should return 1004 instead of changing account status', (done) => {
+		request.patch(url + "account/1920000034",  (error, response,body)=> {
+			let json = JSON.parse(body);
+			expect(response.statusCode).to.be.equal(200);
+			expect(response.headers['content-type']).to.contain('application/json');
+			expect(json.status).to.equal(1004);
+			expect(json).to.be.an('object');
+			done();
+		});
+	});
+
+
+	it('should return 1004 instead of allowing user to be edited e.g profile image/firstname, lastname, dob & password');
+});
+
+
+describe('Post method For Admin and Staff to be credit and debit a bank account and then send notification for it', () => {
+
+	it('should should return 1004 instead of updating the crediting account balance', (done) => {
+		request.post(url + "transactions/1920000034/credit",  (error, response,body)=> {
+			let json = JSON.parse(body);
+			expect(response.statusCode).to.be.equal(200);
+			expect(response.headers['content-type']).to.contain('application/json');
+			expect(json.status).to.equal(1004);
+			expect(json).to.be.an('object');
+			done();
+		});
+	});
+
+
+	it('should should return 1004 instead of updating the debiting account balance', (done) => {
+		request.post(url + "transactions/1920000034/debit",  (error, response,body)=> {
+			let json = JSON.parse(body);
+			expect(response.statusCode).to.be.equal(200);
+			expect(response.headers['content-type']).to.contain('application/json');
+			expect(json.status).to.equal(1004);
+			expect(json).to.be.an('object');
+			done();
+		});
+	});
 
 	it('should allow user to Staff and Admin to create credit and debit');
 
 	it('should allow user to Staff and Admin to edit and user profile and theirs');
-	
-	// it('should allow user to Staff and Admin to edit and user profile and theirs');
-
 });
