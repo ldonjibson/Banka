@@ -1,15 +1,18 @@
 let expect = require('chai').expect;
 let request = require('request');
 let url = "http://localhost:3000/api/v1/"
-let users = require('../datastore/user')
-
+let users = require('../datastore/user');
+let express = require('express');
+let server = express();
+// server.use('')
+// request = request(url)
 
 describe('Checking if the page is accessible', () => {
 
 	it('should just say Connected',(done) =>{
-		request.get(url, (error,response,body) => {
-			let json = JSON.parse(body);
-			// console.log(json)
+		request.get('/', (error,response,body) => {
+			// let json = JSON.parse(body);
+			console.log(response)
 			expect(response.statusCode).to.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(json).to.be.an('object');
@@ -105,5 +108,28 @@ describe('User signup,login, transaction_details, profile_edit', () =>{
 		});
 	});
 
+	it('should allow user to change there profile', (done) => {
+		request.patch(url + "me/profile/edit", (error, response, body) => {
+			expect(response.statusCode).to.equal(200);
+			let json = JSON.parse(response.body);
+			expect(response.headers['content-type']).to.contain('application/json');
+			expect(json.status).to.be.equal(1004);
+			expect(json).to.be.an('object');
+			// console.log(response)
+			done();
+		});
+	});
+
+	it('should allow user to change their password', (done) => {
+		request.patch(url + "me/profile/changepassword", (error, response, body) => {
+			expect(response.statusCode).to.equal(200);
+			let json = JSON.parse(response.body);
+			expect(response.headers['content-type']).to.contain('application/json');
+			expect(json.status).to.be.equal(1004);
+			expect(json).to.be.an('object');
+			// console.log(response)
+			done();
+		});
+	});
 });
 
