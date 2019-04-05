@@ -13,7 +13,7 @@ describe('Checking if the page is accessible', () => {
 
 	it('should just say Connected',(done) =>{
 		request.get(`${url}`, (error, response, body) => {
-			console.log(response);
+			// console.log(response);
 			let json = JSON.parse(response.body);
 			expect(response.statusCode).to.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
@@ -29,7 +29,7 @@ describe('User signup,login, transaction_details, profile_edit', () =>{
 
 	it('should allow user to sign up and create account on signup', (done) => {
 		request.post(`${url}auth/signup`,(error, response, body) => {
-			console.log(response);
+			// console.log(response);
 			expect(response.statusCode).to.equal(200);
 			let json = JSON.parse(response.body);
 			// console.log(json);
