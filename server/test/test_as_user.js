@@ -100,7 +100,7 @@ describe('POST / With Token signup,login, transaction_details, profile_edit', ()
 			// expect(json.status).to.be.equal(1000);
 			// expect(json.data.token).to.be.a('string');
 			// expect(json).to.be.an('object');
-			console.log(response);
+			// console.log(response);
 			done();
 		});
 	});

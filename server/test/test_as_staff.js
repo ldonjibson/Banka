@@ -145,15 +145,18 @@ describe('POST / method With token For Admin and Staff to be credit and debit a 
 
 
 describe('DELETE / Delete selected user Account ', () => {
-	it('should deleting the bank account', (done) => {
-		request.delete(`${url}accounts/1920000034/?token=${token}`, (error,response, body) => {
-			let json = JSON.parse(body);
-			expect(response.statusCode).to.be.equal(200);
-			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.equal(1000);
-			expect(json).to.be.an('object');
-			done();
+	after('run after all code', () => {
+		it('should deleting the bank account', (done) => {
+			request.delete(`${url}accounts/1920000034/?token=${token}`, (error,response, body) => {
+				let json = JSON.parse(body);
+				expect(response.statusCode).to.be.equal(200);
+				expect(response.headers['content-type']).to.contain('application/json');
+				expect(json.status).to.equal(1000);
+				expect(json).to.be.an('object');
+				done();
+			});
 		});
+
 	});
 
 });
