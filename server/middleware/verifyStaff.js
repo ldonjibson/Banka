@@ -21,7 +21,6 @@ server.set('superSecret', config.secret);
 
 const jwtStaffVerify= ((req, res, next) => {
 	// check header or url parameters or post parameteers for token
-	try {
 	let token = req.body.token || req.query.token || req.headers['x-access-token'];
 	//decode token
 	if(token) {
@@ -32,7 +31,6 @@ const jwtStaffVerify= ((req, res, next) => {
 			} else {
 				//if authenticatable save to request for other route to use
 				req.decoded = decoded;
-				// console.log(decoded);
 				//check if user email has staff property
 				const getUser = users.find(usr => usr.email === decoded.email);
 				if (getUser.type === "staff"){
@@ -43,7 +41,6 @@ const jwtStaffVerify= ((req, res, next) => {
 						error: "You are not a staff"
 					});
 				}
-				// res.status(200).send();
 			}
 		})
 	} else {
@@ -53,10 +50,6 @@ const jwtStaffVerify= ((req, res, next) => {
 			error: "No token provided."
 		});
 	}
-	}
-	catch (err){
-		return console.log(err);
-		}
 });
 
 module.exports = jwtStaffVerify;

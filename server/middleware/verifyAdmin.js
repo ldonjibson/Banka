@@ -21,7 +21,6 @@ server.set('superSecret', config.secret);
 
 const jwtAdminVerify= ((req, res, next) => {
 	// check header or url parameters or post parameteers for token
-	try {
 	let token = req.body.token || req.query.token || req.headers['x-access-token'];
 	//decode token
 	if(token) {
@@ -53,10 +52,6 @@ const jwtAdminVerify= ((req, res, next) => {
 			error: "No token provided."
 		});
 	}
-	}
-	catch (err){
-		return console.log(err);
-		}
 });
 
 module.exports = jwtAdminVerify;
