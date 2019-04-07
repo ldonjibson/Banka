@@ -22,7 +22,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "mocha"
+    "test": "server/node_modules/mocha/bin test"
   },
   "author": "ldonjibson",
   "license": "ISC",
