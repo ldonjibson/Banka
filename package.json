@@ -22,11 +22,19 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "server/node_modules/mocha/bin test"
+    "start": "babel-node server/app.js",
+    "dev": "nodemon server/app.js --exec babel-node",
+    "lint": "eslint ./ --fix",
+    "test": "cross-env NODE_ENV=test nyc mocha --timeout 10000 --require babel-register server/test --exit",
   },
   "author": "ldonjibson",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ldonjibson/Banka/issues"
+  },
+
   "engines": {
     "node": "10.x"
   }  
+
 }
