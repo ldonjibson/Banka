@@ -25,5 +25,8 @@
     "test": "mocha"
   },
   "author": "ldonjibson",
-  "license": "ISC"
+  "license": "ISC",
+  "engines": {
+    "node": "10.x"
+  }  
 }
