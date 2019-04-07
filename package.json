@@ -22,8 +22,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "babel-node server/app.js",
-    "dev": "nodemon server/app.js --exec babel-node",
+    "start": "babel-node server/index.js",
+    "dev": "nodemon server/index.js --exec babel-node",
     "lint": "eslint ./ --fix",
     "test": "cross-env NODE_ENV=test nyc mocha --timeout 10000 --require babel-register server/test --exit",
   },
