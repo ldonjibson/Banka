@@ -14,4 +14,4 @@ deploy:
   on: develop
 
 script:
-  - npm test
+  - npm server/test
