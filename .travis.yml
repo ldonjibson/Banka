@@ -13,3 +13,5 @@ deploy:
   app: ebanka-api
   on: develop
 
+script:
+  - npm test
