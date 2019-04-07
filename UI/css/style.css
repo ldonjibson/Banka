@@ -1,0 +1,777 @@
+/*
+CSS TO BE USED ACROSS ALL THE PAGES
+*/
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+	font-family: sans-serif;
+	background: #f5f5f5;
+	margin:0px!important;
+}
+
+body > div{
+  margin:5px;
+  text-align:center;
+}
+
+div{
+	/*margin:10px;*/
+}
+
+h3 {
+  text-align:center;
+}
+.text-left{
+	text-align: left!important;
+}
+
+.text-center{
+	text-align: center!important;
+}
+/*********************************************** Text and links CSS * START */
+a {
+	color:#33658a;
+	cursor:pointer;
+	text-decoration: none;
+}
+
+
+
+div a:hover {
+	color:#2f4858!important;
+}
+
+.tshadow{
+	color:#fff;
+	text-shadow: 1px 1px 2px black, 0 0 5px blue, 0 0 5px darkblue;
+}
+
+.tshadow2{
+	color:#fff;
+	text-shadow: 1px 1px 2px, 0 0 5px #f6ae2d, 0 0 5px darkblue;
+	text-decoration: none;
+}
+a.tshadow2:hover{
+	color:#ffffff!important;
+	text-decoration: underline;
+}
+
+.text-color{
+	color:#2f4858;
+}
+
+.no-style{
+	list-style-type: none;
+}
+.no-style > li > a{
+	text-decoration: none;
+	font-weight: 600;
+}
+
+.nodeco a{
+	text-decoration: none;
+}
+
+.fa-2x{
+	font-size: 1.3rem!important;
+	color:white!important;
+}
+
+.sp{
+	color:white;
+}
+
+.tb-margin{
+	margin:2px 0px;
+}
+
+.dlink{
+	color:#000!important;
+	font-weight: 600;
+}
+/********************************** Text CSS Ends */
+
+
+/********************************** Button CSS Start */
+.btn{
+  padding:5px 50px;
+  background-color:#7B7B7B;
+  color:#fff;
+/*  border-radius:5px;
+  cursor:pointer;
+  font-size:16px;*/
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.btn-basic{
+  padding:5px 50px;
+  background-color:#86bbd8;
+  color:#fff;
+  border-radius:5px;
+  cursor:pointer;
+  font-size:16px;
+}
+
+.btn-stretch{
+  max-width: 100%;
+  width:100%;
+  padding:10px 50px;
+  /*background-color:#dedede;*/
+  border-radius:0px;
+  cursor:pointer;
+  font-size:16px;
+  
+}
+
+.btn-second{
+
+}
+
+.btn-basic:hover{
+	background-color:#2f4858;
+	color:#ffffff;
+}
+
+
+/*************************************** Button CSS Ends */
+
+
+/*************************************** form CSS start */
+
+.form-shape:hover{
+  	background-color:#021c2d2e; 
+	box-shadow: 2px 2px 3px rgba(0,0,0,0.12), 2px 2px 2px rgba(0,0,0,0.24);
+}
+
+.form-shape{
+	max-width: 100%;
+	padding:2%;
+	margin:2% 0%;
+	/*width:100%;*/
+	text-align:center;
+	border:1px solid #021c2d2e;
+	box-sizing: border-box;
+	cursor: default;
+}
+
+
+input{
+	height:45px;
+	line-height: 2rem;
+	display: inline-block;
+	font-size: 16px;
+	padding:10px 20px;
+	margin-bottom:5px;
+	width: 100%;
+	background-color:#fffddd; 
+	border:1px solid #ccc;
+	box-shadow: 2px 2px 3px rgba(0,0,0,0.12), 2px 2px 2px rgba(0,0,0,0.24);
+
+}
+
+input:hover{
+	background-color:#ffffff;
+}
+
+textarea{
+	width:100%;
+	padding:10px 20px;
+	font-size: 16px;
+}
+
+select{
+	height:45px;
+	line-height: 2rem;
+	display: inline-block;
+	font-size: 16px;
+	padding:10px 20px;
+	margin-bottom:5px;
+	width: 100%;
+	background-color:#fffddd; 
+	border:1px solid #ccc;
+	box-shadow: 2px 2px 3px rgba(0,0,0,0.12), 2px 2px 2px rgba(0,0,0,0.24);
+
+}
+
+/********************************************** form CSS Ends */
+
+
+/********************************************** COLUMNS FOR SECTIONING THE SPAN */
+.cl-1 {width: 8.33%;}
+.cl-2 {width: 16.66%;}
+.cl-3 {width: 25%;}
+.cl-4 {width: 33.33%;}
+.cl-5 {width: 41.66%;}
+.cl-6 {width: 50%;}
+.cl-7 {width: 58.33%;}
+.cl-8 {width: 66.66%;}
+.cl-9 {width: 75%;}
+.cl-10 {width: 83.33%;}
+.cl-11 {width: 91.66%;}
+.cl-12 {width: 100%;}
+
+
+  [class*="cl-"] {
+    width: 100%;
+  }
+
+[class*="cl-"] {
+  float: left;
+  padding: 15px;
+  /*border: 1px solid #33658a;*/
+}
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.row{
+	padding:50px;
+}
+/*************************************************** ENd of column  */
+
+.flex-container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.spacer{
+	margin:10px 3px;
+}
+/******************************* Alignments */
+.contains{
+	width:auto;
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.float-left{
+	float: left;
+	left: 10px;
+}
+
+.float-center{
+	float: right;
+	right: 10px;
+}
+
+/************ Menu **/
+
+header{
+	background-color: #33658a;
+	color:#ffffff;
+	height:80px;
+	padding-top:0px 10px;
+}
+
+header a {
+	color:#ffffff;
+	font-size: 14px;
+	font-weight:400;
+	text-decoration: none;
+}
+
+header a .fa {
+	font-size: 14px!important;
+	font-weight:400!important;
+	text-decoration: none;
+}
+
+.logo{
+	padding-top: 30px;
+	margin-left: 25px;
+    text-shadow: 1px 1px 2px black, 0 0 5px blue, 0 0 5px white;
+    width: 100px;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+a.logo{
+	color:#ffffff!important;
+}
+
+.burger{
+	padding: 30px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff!important;
+}
+
+nav .burger{
+    float: right;
+    padding-top: 30px;
+}
+nav > ul {
+  	display: none;
+	list-style-type: none;
+}
+
+.mobile{
+	margin: 0px;
+    padding: 0px;
+    height: auto;
+    list-style-type: none;
+    z-index: 100;
+    text-align: center;
+
+}
+
+.mobile>li {
+	margin:0;
+	padding:20px;
+}
+
+.mobile>li>a{
+	margin:5px;
+	padding:20px;
+	font-size:1rem;
+	font-weight: 600;
+	text-decoration: none;
+	color:#ffffff;
+
+}
+#mobile-m > .mobile > li > a:hover,:visited{
+	margin:5px;
+	padding:20px 100px;
+	background-color:#86bbd8;
+	color:#e4e2c8;
+
+} 
+
+#mobile-m{
+	margin:0px!important;
+	background-color:#33658ac4;
+}
+
+.a-logout {
+	background-color: #f6ae2d!important;
+	color: #fff!important;
+}
+
+.a-logout:hover {
+	background-color: #7B7B7B!important;
+	color: #fff!important;
+}
+
+.a-register {
+	background-color: #f26419!important;
+	color: #fff!important;
+}
+
+.a-register:hover {
+	background-color: #f6ae2d!important;
+	color: #fff!important;
+}
+
+.a-login {
+	background-color: #86bbd8!important;
+	color: #fff!important;
+}
+
+.a-login:hover {
+	background-color: #2f4858 !important;
+	color: #fff!important;
+}
+/************ Menu Ends Here **/ 
+
+
+/************ Footer Starts Here **/ 
+.footer{
+	background-color: #f6ae2d;
+	background-repeat: no-repeat;
+	background-size: cover;
+	/*height:-webkit-fill-available;*/
+	bottom:0px;
+	top:100%;
+	margin:0px!important;
+}
+
+
+.footer-logo{
+	bottom:0px;
+	/*padding-top: 30px;*/
+    text-shadow: 1px 1px 2px black, 0 0 5px blue, 0 0 5px white;
+    font-size: 16px;
+    font-weight: 700;
+	text-align:center;
+	background-color: #33658a;
+	margin-top:-10px;
+
+}
+
+.footer .hr{
+	margin:0px;
+}
+
+/************ Footer Ends Here **/ 
+
+/*********Front page hero image */
+.closeupspace {
+	margin:0px!important;
+	height:auto;
+}
+
+.closeupspace >img{
+	width:100%;
+	height:auto;
+}
+
+.banner-centered{
+ 	background-image: url(../images/banking.jpg);
+ 	background-size: cover;
+ 	background-repeat: no-repeat;
+ 	padding:100px 50px;
+}
+
+.text-block{
+	background-color: #000004ba;
+	color:white;
+	padding: 5%;
+	font-weight: 600;
+	text-align: center;
+	font-size:1.5rem;
+}
+
+.text-block a{
+	text-decoration: none;
+	margin:5px;
+	border-radius:0px!important;
+}
+
+.text-block a:hover{
+	text-decoration: none;
+	margin:5px;
+	border-radius:0px!important;
+	color: #fff!important;
+}
+.banner-imgg{
+	height: auto;
+}
+
+/********** end here */
+
+/***** Boxed Starts Here */
+.boxed{
+	border: 1px solid #f5f5f5;
+	transition-property: padding;
+	transition-duration: 2s;
+	-webkit-transition-property: padding;
+	-webkit-transition-duration: 2s;
+	background-color: #f5f5f5;
+	box-shadow: 2px 2px 3px rgba(0,0,0,0.12), 2px 2px 2px rgba(0,0,0,0.24);
+}
+
+.boxed:hover{
+	padding:20px; 
+	background-color: #33658ac4;
+	color:#ffffff;
+}
+/***** Boxed Ends Here */
+
+
+/******Partners */
+.partners{
+	height: auto;
+	padding: 50px 0px 200px 0px;
+}
+
+.partners-img{
+	width:100px;
+	max-width: 100%;
+}
+
+/*****end partners */
+
+/*********** Testimonials*/
+
+.testimonials{
+	background-image: url(../images/bank_vault.jpg);
+	background-repeat: no-repeat;
+	background-size: cover;
+	margin: 0px!important;
+
+}
+
+.testimonials-bg{
+	background-color: #f6ae2da8;
+    text-align: center;
+    color:#fff;
+    padding: 50px;
+}
+/*Testimonial ends Here*/
+
+.btn-register{
+	background-color: #f26419;
+    max-width: 100%;
+    width: 100%;
+    padding: 10px 50px;
+    border-radius: 0px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/**register page */
+
+.btn-register :hover{
+	background-color: #f6ae2d!important;
+}
+
+.tn-register{
+	background-color: #f26419!important;
+}
+
+.tn-register :hover{
+	background-color: #f6ae2d!important;
+}
+/**register page */
+
+/*----------Sub container ------*/
+
+.sub-container{
+	padding:5px 
+}
+
+/*----------Sub container ------*/
+
+/*  ---- Dashboard ---- */
+.boxed-dashboard{
+	border: 2px solid #fdfdfd;
+	transition-property: ;
+	transition-duration: 1s;
+	-webkit-transition-property: padding;
+	-webkit-transition-duration: 1s;
+	background-color: #ffffff;
+	box-shadow: 2px 2px 3px rgba(0,0,0,0.12), 2px 2px 2px rgba(0,0,0,0.24);
+	text-decoration: none;
+	color:black;
+}
+
+.boxed-dashboard:hover{
+	padding:5px; 
+	background-color: #33658ac4;
+	color:#ffffff;
+}
+
+a.boxed-dashboard{
+	text-decoration: none;
+}
+
+/*  ---- Dashboard ---- */
+
+/*  ---- Profile ---- */
+.profile-img{
+	border-radius:50%;
+	border:2px solid #ffffff;
+	width:100%;
+}
+
+#profile-upload{
+	display:none;
+}
+
+#edit-image{
+	display: block;
+}
+
+.profile-dema{
+	border: 2px solid #ffffff;
+}
+
+.profile-dema:hover{
+	background-color: #021c2d2e;
+}
+
+#edit-changepassword{
+	display: none;
+}
+
+#edit-profile{
+	display: none;
+}
+
+.text-bold{
+	font-weight: bold;
+}
+
+.mt-7{
+    margin-top: 70px;
+}
+/*  ---- Profile ---- */
+
+/* -- tables -- */
+.table-scroll{
+	overflow-x:auto;
+}
+
+table, th, td{
+	border: 2px solid #fff;
+	text-align: center;
+	border-collapse: collapse;
+}
+
+tr{
+	border: 1px solid #fff;
+}
+
+th, td{
+	border: 1px solid #fff;
+	padding: 10px;
+}
+
+table#ebanka-table tr:nth-child(odd){
+	background-color: #eee;
+}
+
+table#ebanka-table tr:nth-child(even){
+}
+
+table#ebanka-table th{
+	padding:5px;
+	background-color: #f6ae2d;
+	border: 2px solid #fff;
+}
+
+tr:hover{
+	border: 1px solid #fff;
+	background-color: #fff!important;
+}
+
+.table-btn-stretch{
+	  max-width: 100%;
+	  width:100%;
+	  padding:10px 50px;
+	  /*background-color:#dedede;*/
+	  border-radius:0px;
+	  cursor:pointer;
+	  font-size:16px;
+  }
+
+.table-btn-stretch:hover{
+  padding:5px 50px;
+  background-color:#7B7B7B;
+  color:#fff!important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.table-btn-stretch:visited{
+	color:#33658a!important;
+}
+/* -- tables -- */
+
+/* -- Admin Page -- */
+
+.delete{
+	  max-width: 100%;
+	  width:100%;
+	  padding:10px 10px;
+	  /*background-color:#dedede;*/
+	  border-radius:0px;
+	  cursor:pointer;
+	  font-size:16px;
+	  background-color: red!important;
+}
+
+.suspend{
+	max-width: 100%;
+	width:100%;
+	padding:10px 10px;
+	color:;
+	border-radius:0px;
+	cursor:pointer;
+	font-size:16px;
+	background-color: yellow!important;
+
+}
+
+.delete:hover {
+ padding:5px 10px;
+  color:#ffffff!important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.suspend:hover {
+ 	padding:5px 10px;
+  	color:#ffffff!important;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+.suspend:visited, .delete:visited{
+	color:#33658a!important;
+}
+
+.admin-photo{
+	display: none;
+}
+
+label{
+	height:45px;
+	line-height: 2rem;
+	display: inline-block;
+	font-size: 16px;
+	padding:10px 20px;
+	margin-bottom:5px;
+	background-color: #fffddd;
+	width: 100%;
+	max-width:100%;
+	border:1px solid #ccc;
+	box-shadow: 2px 2px 3px rgba(0,0,0,0.12), 2px 2px 2px rgba(0,0,0,0.24);
+}
+
+label:hover{
+	background-color: #fff;
+}
+
+#admin-toggle-user-edit{
+	display: none;
+}
+
+#credit-debit{
+	display: none;
+}
+.profile-img-admin{
+	width:10%;
+	border-radius: 50%;
+}
+.account-number-show{
+	color:red;
+}
+
+.navigation{
+	display: none;
+}
+
+.mobile-navigation{
+	display: block;
+}
+
+.hide {
+	display: none;
+}
+
+.unhide{
+	display: block;
+}
+
+/* -- Admin Page -- */
+
+/* -- Animation -- */
+.anim{
+	font-size: 25px!important;
+	font-style: italic;
+}
+
+/* -- Animation end -- */
+
+
+/*
+used for complementing colors
+#33658a menu + white text
+#86bbd8 button success/enter
+#2f4858 hover button/link
+#f6ae2d button cancel/failed
+#f26419 hover cancel */
+
