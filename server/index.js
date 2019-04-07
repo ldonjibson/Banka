@@ -16,6 +16,7 @@ const userRouter = require('./routes/userRoutes.js');
 const AuthController = require('./controllers/authentication.js');
 const staffRouter = require('./routes/staffRoute.js');
 const adminRouter = require('./routes/adminRoute.js');
+const bothAdminStaff = require('./routes/bothAdminStaff.js');
 
 // server.use();
 // All user ROUTES
@@ -29,6 +30,10 @@ server.use('/api/v1/', staffRouter);
 
 //All admin only route
 server.use('/api/v1/', adminRouter);
+
+//Both admin and staff
+server.use('/api/v1/', bothAdminStaff);
+
 
 // Define request response in root URL(/)
 server.use(bodyParser.urlencoded({ extended: false }));
