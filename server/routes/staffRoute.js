@@ -26,20 +26,13 @@ router.use(bodyParser.json({ type: 'application/json'}));
 router.get('/users', jwtStaffVerify, (req, res) =>{
 	// Allow only client to be shown to staff
 	const allusers = users.filter(usr => usr.isAdmin === false && usr.type === "client" );
-<<<<<<< HEAD
 	delete allusers['password'];
-=======
 	rmpassallusers = []
 	for (var i = allusers.length - 1; i >= 0; i--) {
 		let key = allusers[i]
 		delete key['password'];
 		rmpassallusers.push(key);
 	}
-<<<<<<< HEAD
->>>>>>> api-one
-=======
-	
->>>>>>> api-one
 	res.json({
 		"status": 1000,
 		"data": rmpassallusers
