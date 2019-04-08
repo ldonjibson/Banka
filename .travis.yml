@@ -25,7 +25,7 @@ script:
   - nyc report --reporter=lcov
 
 after_script:
-  - NODE_ENV=test istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
+  - NODE_ENV=test istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js #&& rm -rf ./coverage
   - ./cc-test-reporter format-coverage coverage/coverage.json -t lcov -o coverage/lcov.info  # Format coverage
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
