@@ -1,10 +1,12 @@
 let expect = require('chai').expect;
 let request = require('request');
-let users = require('../datastore/user')
+let users = require('../server/datastore/user')
 
 
-let url = "http://localhost:3000/api/v1/"
+const PORT = process.env.PORT || 4000;
 
+
+let url = `http://localhost:${PORT}/api/v1/`
 
 describe('GET / For Admin Alone', ()=> {
 

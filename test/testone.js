@@ -4,10 +4,13 @@ Change Port and base url as needed before runing tests
 
 let expect = require('chai').expect;
 let request = require('request');
-let users = require('../datastore/user');
+let users = require('../server/datastore/user')
 let express = require('express');
 
-let url = `http://localhost:3000/api/v1/`
+const PORT = process.env.PORT || 4000;
+
+
+let url = `http://localhost:${PORT}/api/v1/`
 
 describe('Checking if the page is accessible', () => {
 
