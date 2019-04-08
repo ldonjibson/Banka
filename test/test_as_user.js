@@ -7,7 +7,10 @@ let request = require('request');
 let users = require('../server/datastore/user')
 let express = require('express');
 
-let url = `http://localhost:3000/api/v1/`
+const PORT = process.env.PORT || 4000;
+
+
+let url = `http://localhost:${PORT}/api/v1/`
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNpbmNlcmVAYXByaWwuYml6IiwiaWQiOjEsImlzQWRtaW4iOnRydWUsImlhdCI6MTU1NDQ0NTMzNCwiZXhwIjoxNTU5NjI5MzM0fQ.bT5An0F30yXAKCADWsGkYROlBZPmpS43w_JCb7ktp-I'
 
 describe('GET / With Token and User data, transaction_details', () =>{
