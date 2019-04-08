@@ -22,13 +22,15 @@ router.use(bodyParser.json({ type: 'application/json'}));
 
 //sign up 
 router.post('/auth/signup', (req, res) => {
-	if (!req.body['firstName'] || 
-		!req.body['lastName'] || 
-		!req.body['email'] ||
-		!req.body['password'] || 
-		!req.body['dob'] ||
-		!req.body['phone'] ) {
-
+	let data = Object.keys(req.body);
+	//checkif a all the fields are present by checking the length agains the expected length
+	let chkobj = [ 'email', 'firstName', 'lastName', 'phone', 'password', 'dob' ]
+	obj = []
+	for (let i = 0; i<data.length; i++){
+		let key = data[i];
+		obj.push(key);
+	}
+	if (obj < chkobj) {
 		res.json({
 			"status": 401,
 			"error": "Please Check, A field is missing"
