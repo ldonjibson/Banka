@@ -24,6 +24,15 @@ script:
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
+# blocklist
+branches:
+  except:
+  - develop
+
+# safelist
+branches:
+  only:
+  - api-one
 
 # deploy:
 #   provider: heroku
