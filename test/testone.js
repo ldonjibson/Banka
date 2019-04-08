@@ -9,7 +9,6 @@ let express = require('express');
 
 const PORT = process.env.PORT || 3000;
 
-
 let url = `http://localhost:${PORT}/api/v1/`
 
 describe('Checking if the page is accessible', () => {

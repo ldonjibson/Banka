@@ -11,7 +11,6 @@ let url = `http://localhost:${PORT}/api/v1/`
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNpbmNlcmVAYXByaWwuYml6IiwiaWQiOjEsImlzQWRtaW4iOnRydWUsImlhdCI6MTU1NDQ0NTMzNCwiZXhwIjoxNTU5NjI5MzM0fQ.bT5An0F30yXAKCADWsGkYROlBZPmpS43w_JCb7ktp-I'
 
 
-
 describe('GET / For Staff  and Admin Alone', ()=> {
 
 	it ('Should return all users except for admin and staffs ', (done) => {
