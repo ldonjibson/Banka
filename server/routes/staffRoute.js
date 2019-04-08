@@ -17,7 +17,6 @@ let url = '/api/v1/';
 let config = require('../config/config.js')
 
 // server.set('superSecret', config.secret);
-
 // router.use();
 // router.use('', jwtverify);
 router.use(bodyParser.urlencoded({ extended: false }));
