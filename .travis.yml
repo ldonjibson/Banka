@@ -18,7 +18,7 @@ before_script:
 script:
   - ls
   # - cd /server
-  - npm server/test
+  - npm test
 
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
