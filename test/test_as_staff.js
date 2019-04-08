@@ -1,6 +1,6 @@
 let expect = require('chai').expect;
 let request = require('request');
-let users = require('../datastore/user')
+let users = require('../server/datastore/user')
 
 let url = "http://localhost:3000/api/v1/"
 // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNpbmNlQGFwcmlsLmJpeiIsImlkIjoyLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTU0NDcwOTE3LCJleHAiOjE1NTk2NTQ5MTd9.-j_h2OUe1PH4Ptb1siOORyxle9rzeD85Zh2mbJA5S0I'

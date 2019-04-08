@@ -4,7 +4,7 @@ Change Port and base url as needed before runing tests
 
 let expect = require('chai').expect;
 let request = require('request');
-let users = require('../datastore/user');
+let users = require('../server/datastore/user')
 let express = require('express');
 
 let url = `http://localhost:3000/api/v1/`
