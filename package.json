@@ -28,7 +28,7 @@
     "supertest": "^4.0.2"
   },
   "scripts": {
-    "start": "nodemon server/index.js",
+    "start": "nodemon ./server/index.js",
     "test": "mocha test"
   },
   "author": "ldonjibson",
