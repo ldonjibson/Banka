@@ -6,6 +6,23 @@ cache:
   directories:
     - "server/node_modules"
 
+env:
+  global:
+    - CC_TEST_REPORTER_ID=b0768df2763f29fdbb69b1e9117d1003e8859c3946214e343107e0b7755c4cc1
+
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+  
+script:
+  - cd server
+  - npm test
+
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+
+
 deploy:
   provider: heroku
   api_key:
@@ -13,5 +30,6 @@ deploy:
   app: ebanka-api
   on: api-one
 
-script:
-  - npm server/test
+
+
+  
