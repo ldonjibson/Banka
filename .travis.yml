@@ -17,7 +17,7 @@ before_script:
   - ./cc-test-reporter before-build
 
 script:
-  - myc --reporter=lcov yarn run unit
+  - nyc --reporter=lcov yarn run unit
   #start server in background and continue with test
   - nodemon server/index.js &
   - npm test
@@ -28,7 +28,7 @@ after_script:
 
 notification:
   email: false
-  
+
 # blocklist
 branches:
   except:
