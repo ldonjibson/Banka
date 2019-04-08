@@ -1,12 +1,11 @@
 let expect = require('chai').expect;
 let request = require('request');
 let users = require('../server/datastore/user')
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 3000;
 
 
 let url = `http://localhost:${PORT}/api/v1/`
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNpbmNlcmVAYXByaWwuYml6IiwiaWQiOjEsImlzQWRtaW4iOnRydWUsImlhdCI6MTU1NDQ0NTMzNCwiZXhwIjoxNTU5NjI5MzM0fQ.bT5An0F30yXAKCADWsGkYROlBZPmpS43w_JCb7ktp-I'
-
 
 describe('GET / With Token For Admin Alone', ()=> {
 

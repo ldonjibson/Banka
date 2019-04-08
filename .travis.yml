@@ -17,7 +17,8 @@ before_script:
 
 script:
   - ls
-  # - cd /server
+  #start server in background and continue with test
+  - nodemon server/index.js &
   - npm test
 
 after_script:

@@ -3,8 +3,7 @@ let request = require('request');
 let users = require('../server/datastore/user')
 
 
-const PORT = process.env.PORT || 4000;
-
+const PORT = process.env.PORT || 3000;
 
 let url = `http://localhost:${PORT}/api/v1/`
 

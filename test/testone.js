@@ -7,8 +7,7 @@ let request = require('request');
 let users = require('../server/datastore/user')
 let express = require('express');
 
-const PORT = process.env.PORT || 4000;
-
+const PORT = process.env.PORT || 3000;
 
 let url = `http://localhost:${PORT}/api/v1/`
 
@@ -16,7 +15,7 @@ describe('Checking if the page is accessible', () => {
 
 	it('should just say Connected',(done) =>{
 		request.get(`${url}`, (error, response, body) => {
-			// console.log(response);
+			console.log(error);
 			let json = JSON.parse(response.body);
 			expect(response.statusCode).to.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');

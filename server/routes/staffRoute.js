@@ -124,7 +124,7 @@ router.patch('/user/profile/:id/changepassword', jwtStaffVerify,  (req, res) => 
 			let userpassword1 = req.body['password1'] || null;;
 			if (userpassword && userpassword1){
 				if (userpassword === userpassword1){
-					let hashedPassword = bcrypt.hashSync(password, 8);
+					let hashedPassword = bcrypt.hashSync(userpassword, 8);
 					chKUser.password = hashedPassword
 					res.json({
 						"status": 1000,
