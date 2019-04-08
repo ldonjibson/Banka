@@ -11,21 +11,26 @@ env:
     - CC_TEST_REPORTER_ID=b0768df2763f29fdbb69b1e9117d1003e8859c3946214e343107e0b7755c4cc1
 
 before_script:
+  - npm install yarn@latest
+  - yarn global add nyc
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
 
 script:
-  - ls
+  # - nyc --reporter=lcov
   #start server in background and continue with test
   - nodemon server/index.js &
-  - npm test
+  - nyc npm test
+  - nyc report --reporter=lcov
 
 after_script:
-  - NODE_ENV=test istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
-  - ./cc-test-reporter format-coverage -t simplecov -o coverage/codeclimate.json coverage/backend/.resultset.json # Format backend coverage
+  - NODE_ENV=test istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js #&& rm -rf ./coverage
+  - ./cc-test-reporter format-coverage coverage/coverage.json -t lcov -o coverage/lcov.info  # Format coverage
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
-  - if [[ "$TRAVIS_TEST_RESULT" == 0 ]]; then ./cc-test-reporter upload-coverage; fi  # Upload coverage/codeclimate.json
+
+notification:
+  email: false
 
 # blocklist
 branches:
