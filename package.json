@@ -31,7 +31,8 @@
   },
   "scripts": {
     "start": "nodemon ./server/index.js",
-    "test": "mocha test"
+    "test": "mocha test",
+    "coverage": "nyc report --reporter=text-lcov --reporter=lcov | coveralls",
   },
   "author": "ldonjibson",
   "license": "ISC"
