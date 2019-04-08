@@ -30,7 +30,6 @@ router.get('/users', jwtStaffVerify, (req, res) =>{
 	for (var i = allusers.length - 1; i >= 0; i--) {
 		let key = allusers[i]
 		delete key['password'];
-		console.log(key);
 		rmpassallusers.push(key);
 	}
 	
