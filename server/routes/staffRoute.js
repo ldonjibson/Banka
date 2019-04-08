@@ -17,7 +17,6 @@ let url = '/api/v1/';
 let config = require('../config/config.js')
 
 // server.set('superSecret', config.secret);
-
 // router.use();
 // router.use('', jwtverify);
 router.use(bodyParser.urlencoded({ extended: false }));
@@ -37,6 +36,10 @@ router.get('/users', jwtStaffVerify, (req, res) =>{
 		console.log(key);
 		rmpassallusers.push(key);
 	}
+<<<<<<< HEAD
+>>>>>>> api-one
+=======
+	
 >>>>>>> api-one
 	res.json({
 		"status": 1000,
