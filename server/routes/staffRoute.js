@@ -34,6 +34,7 @@ router.get('/users', jwtStaffVerify, (req, res) =>{
 		console.log(key);
 		rmpassallusers.push(key);
 	}
+	
 	res.json({
 		"status": 1000,
 		"data": rmpassallusers
