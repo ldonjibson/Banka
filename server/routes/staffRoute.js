@@ -108,10 +108,10 @@ router.patch('/user/profile/:id/changepassword', jwtStaffVerify,  (req, res) => 
 				error: "No Permmission, You Cannot edit a Staff/Admin profile"
 			});
 		} else {
-			let password = req.body['password'] || null;
-			let password1 = req.body['password1'] || null;;
-			if (password && password1){
-				if (password === password1){
+			let userpassword = req.body['password'] || null;
+			let userpassword1 = req.body['password1'] || null;;
+			if (userpassword && userpassword1){
+				if (userpassword === userpassword1){
 					let hashedPassword = bcrypt.hashSync(password, 8);
 					chKUser.password = hashedPassword
 					res.json({
