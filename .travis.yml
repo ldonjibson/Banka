@@ -16,18 +16,19 @@ before_script:
   - ./cc-test-reporter before-build
 
 script:
+  - ls
   - npm test
 
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
 
-deploy:
-  provider: heroku
-  api_key:
-    secure: "YOUR ENCRYPTED API KEY"
-  app: ebanka-api
-  on: api-one
+# deploy:
+#   provider: heroku
+#   api_key:
+#     secure: "YOUR ENCRYPTED API KEY"
+#   app: ebanka-api
+#   on: api-one
 
 
 
