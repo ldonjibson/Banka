@@ -1,6 +1,6 @@
 let expect = require('chai').expect;
 let request = require('request');
-let users = require('../datastore/user')
+let users = require('../server/datastore/user')
 
 let url = "http://localhost:3000/api/v1/"
 
