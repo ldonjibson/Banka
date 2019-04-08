@@ -108,7 +108,12 @@ router.post('/auth/signin', (req, res) => {
 		const getPassword = () => {
 			if (getUser){
 				//Unhash the password
-				const chkpassword = bcrypt.compare(password, getUser.password);
+				try {
+				const chkpassword = bcrypt.compareSync(password, getUser.password);
+				} 	catch (err){
+					return console.log(err);
+				} 
+				
 				if (chkpassword){
 					return true;
 				} else {
