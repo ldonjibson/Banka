@@ -28,7 +28,12 @@ router.use(bodyParser.json({ type: 'application/json'}));
 //credit account
 router.post('/transactions/:accountNumber/credit', jwtStaffVerify, (req, res) => {
 	let getUser = helper.togetUser(req);
-	if (getUser) {
+	if (!getUser){
+		res.json({
+			"status": 1004,
+			"error": "Invalid User Stay Out!"
+		})
+	} else {
 		//the field with "creditAmount" name
 		const getAmountcredit = req.body['creditAmount'] || 0.0;
 		//verify that the account number exist
@@ -53,19 +58,20 @@ router.post('/transactions/:accountNumber/credit', jwtStaffVerify, (req, res) =>
 			"amount": getAmountcredit,
 			"oldBalance": initialAmount,
 			"newBalance": getacc.balance,
+			"from": "Kelvin Magic",
+			"to": ""
 		}
 		// push the new transaction to the data
 		transactions.push(newTransaction);
 
 		// console.log(transactions);
 		const getaccowner = users.find(accowner => accowner.id === Number(getacc.owner));
-	    console.log(getaccowner.email)
 	    let mailOptions = {
 	        from: '"Krunal Lathiya" <ckagoxozic@gmail.com>', // sender address
 	        to: getaccowner.email, // list of receivers
 	        subject: "Ebanka Notification", // Subject line
 	        text: `hello ${getaccowner.firstName}, you have been credited with ${getAmountcredit} your new balance is ${getacc.balance}`, // plain text body
-	        html: '<b>hello ${getaccowner.firstName}, you have been credited with ${getAmountcredit} your new balance is ${getacc.balance}</b>' // html body
+	        html: `<b>hello ${getaccowner.firstName}, you have been credited with ${getAmountcredit} your new balance is ${getacc.balance}</b>` // html body
 	    };
 	    transporter.transporter.sendMail(mailOptions, (error, info) =>{
 	    	if (error){
@@ -80,7 +86,8 @@ router.post('/transactions/:accountNumber/credit', jwtStaffVerify, (req, res) =>
 						"transactionType": newTransaction.transactionType,
 						"accountBalance": newTransaction.newBalance,
 						"oldBalance": newTransaction.oldBalance,
-						"from": "Kelvin Magic"
+						"from": newTransaction.from,
+						"to": "" 
 					},
 					"mail": error
 				});
@@ -95,25 +102,26 @@ router.post('/transactions/:accountNumber/credit', jwtStaffVerify, (req, res) =>
 						"transactionType": newTransaction.transactionType,
 						"accountBalance": newTransaction.newBalance,
 						"oldBalance": newTransaction.oldBalance,
-						"from": "Kelvin Magic"
+						"from": newTransaction.from,
+						"to": "" 
 					},
 					"mail": info.response
 				});
 	    	}
 	    });
 
-	} else {
-		res.json({
-			"status": 1004,
-			"error": "Invalid User Stay Out!"
-		})
 	}
 });
 
 
 router.post('/transactions/:accountNumber/debit', jwtStaffVerify, (req, res) => {
 	let getUser = helper.togetUser(req);
-	if (getUser) {
+	if (!getUser){
+		res.json({
+			"status": 1004,
+			"error": "Invalid User Stay Out!"
+		})
+	} else {
 		//the field with "creditAmount" name
 		const getAmountcredit = req.body['debitAmount'] || 0.0;
 		//verify that the account number exist
@@ -126,31 +134,39 @@ router.post('/transactions/:accountNumber/debit', jwtStaffVerify, (req, res) => 
 		}
 		let initialAmount = parseFloat(getacc.balance);
 		const newAmount = initialAmount - parseFloat(getAmountcredit);
+		if (newAmount < 0){
+			res.json({
+				"status": 2099,
+				"error": "You donot have sufficient Amount to perform this operation"
+			})
+		}
 		//Replace the old balance with the new one
 		getacc.balance = newAmount;
 		// create a new transaction 
 		const newTransaction = {
 			"id": transactions.length + 1,
 	        "createdOn": new Date().toISOString(),
-			"transactionType": "credit",
+			"transactionType": "debit",
 	        "accountNumber": getacc.accountNumber,
 			"cashier": getUser.id,
 			"amount": getAmountcredit,
 			"oldBalance": initialAmount,
 			"newBalance": getacc.balance,
-			// "from": "Kelvin Magic"
+			"from": "Kelvin Magic",
+			"to": ""
 		}
 		// push the new transaction to the data
 		transactions.push(newTransaction);
 
 		// console.log(transactions); 
 		const getaccowner = users.find(accowner => accowner.id === Number(getacc.owner));
+	    console.log(getaccowner.email)
 	    let mailOptions = {
 	        from: '"Krunal Lathiya" <ckagoxozic@gmail.com>', // sender address
 	        to: "ckagoxozic@gmail.com", //getaccowner.email, // list of receivers
 	        subject: "Ebanka Notification", // Subject line
 	        text: `hello ${getaccowner.firstName}, you have been debited by ${getAmountcredit} your new balance is ${getacc.balance}`, // plain text body
-	        html: '<b>hello ${getaccowner.firstName}, you have been credited with ${getAmountcredit} your new balance is ${getacc.balance}</b>' // html body
+	        html: `<b>hello ${getaccowner.firstName}, you have been debited by ${getAmountcredit}<br>from ${newTransaction.from} your new balance is ${getacc.balance}</b>` // html body
 	    };
 	    transporter.transporter.sendMail(mailOptions, (error, info) =>{
 	    	if (error){
@@ -165,7 +181,8 @@ router.post('/transactions/:accountNumber/debit', jwtStaffVerify, (req, res) => 
 						"transactionType": newTransaction.transactionType,
 						"accountBalance": newTransaction.newBalance,
 						"oldBalance": newTransaction.oldBalance,
-						"from": "Kelvin Magic"
+						"from": newTransaction.from,
+						"to": "" 
 					},
 					"mail": error
 				});
@@ -179,7 +196,9 @@ router.post('/transactions/:accountNumber/debit', jwtStaffVerify, (req, res) => 
 						"cashier": newTransaction.cashier,
 						"transactionType": newTransaction.transactionType,
 						"accountBalance": newTransaction.newBalance,
-						"oldBalance": newTransaction.oldBalance
+						"oldBalance": newTransaction.oldBalance,
+						"from": newTransaction.from,
+						"to": "" 
 					},
 					"mail": info.response
 				});
