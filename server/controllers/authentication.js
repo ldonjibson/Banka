@@ -93,7 +93,7 @@ router.post('/auth/signin', (req, res) => {
 	let email = req.body.email
 	let password = req.body.password
 
-	console.log(password + ' , ' + email)
+	// console.log(password + ' , ' + email)
 	//cehck if username or password is missing or both
 	if (!email || !password){
 
@@ -114,7 +114,7 @@ router.post('/auth/signin', (req, res) => {
 			});
 		} else {
 			bcrypt.compare(password, getUser.password).then((response) =>{
-				console.log(response)
+				// console.log(response)
 				if (!response){
 					res.json({
 						"status": 1001,
