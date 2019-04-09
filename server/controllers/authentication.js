@@ -89,8 +89,9 @@ router.post('/auth/signup', (req, res) => {
 //login
 router.post('/auth/signin', (req, res) => {
 	let x = req.body;
-	let email = x['email']
-	let password = x['password']
+	console.log(x)
+	let email = req.body.email
+	let password = req.body.password
 
 	console.log(password + ' , ' + email)
 	//cehck if username or password is missing or both
@@ -105,49 +106,35 @@ router.post('/auth/signin', (req, res) => {
 		//verify that usr exist or not
 
 		//this search through the json(users) to getthe user if it exists
-		const getUser = users.find(usr => usr.email === email)
-		const getPassword = () => {
-			if (getUser){
-				//Unhash the password
-				const chkpassword = bcrypt.compareSync(req.body['password'], getUser.password);				
-				if (chkpassword){
-					return true;
-				} else {
-					return false
-				}
-			} else {
-				return "User Not found"
-			}
-		}
-		// console.log(getUser)
-		if (getPassword() === false) {
-
-			res.json({
-				"status": 1001,
-				"error": "Authentication Failed! password parameter invalid"
-			})
-
-			//This pushes the adds the new id
-		} else if(getPassword() === "User Not found") {
+		const getUser = users.find(usr => usr.email === email);
+		if (!getUser){
 			res.json({
 				"status": 1002,
 				"error": "User does not exist!"
-			})
-
-		} else if(getPassword() === true) {
-			const payload = {email: getUser.email, id: getUser.id, isAdmin: getUser.isAdmin}
-			let token = jwt.sign(payload, server.get('superSecret'), {
-				expiresIn: '60 days' //'24h' // expire in 24 hours
 			});
-			//add token to response
-			getUser['token'] = token;
-			// remove the password key
-			delete getUser['password'];
-			res.json({
-				"status": 1000,
-				"data": getUser
-			})
-
+		} else {
+			bcrypt.compare(password, getUser.password).then((response) =>{
+				console.log(response)
+				if (!response){
+					res.json({
+						"status": 1001,
+						"error": "Authentication Failed! password parameter invalid"
+					});
+				} else {
+					const payload = {email: getUser.email, id: getUser.id, isAdmin: getUser.isAdmin}
+					let token = jwt.sign(payload, server.get('superSecret'), {
+						expiresIn: '60 days' //'24h' // expire in 24 hours
+					});
+					//add token to response
+					getUser['token'] = token;
+					// remove the password key
+					delete getUser['password'];
+					res.json({
+						"status": 1000,
+						"data": getUser
+					});
+				}
+			});				
 		}
 
 	}
