@@ -58,7 +58,8 @@ router.post('/transactions/:accountNumber/credit', jwtStaffVerify, (req, res) =>
 		transactions.push(newTransaction);
 
 		// console.log(transactions);
-		const getaccowner = users.find(accowner => accowner.id === getacc.owner);
+		const getaccowner = users.find(accowner => accowner.id === Number(getacc.owner));
+	    console.log(getaccowner.email)
 	    let mailOptions = {
 	        from: '"Krunal Lathiya" <ckagoxozic@gmail.com>', // sender address
 	        to: getaccowner.email, // list of receivers
@@ -143,7 +144,7 @@ router.post('/transactions/:accountNumber/debit', jwtStaffVerify, (req, res) => 
 		transactions.push(newTransaction);
 
 		// console.log(transactions); 
-		const getaccowner = users.find(accowner => accowner.id === getacc.owner);
+		const getaccowner = users.find(accowner => accowner.id === Number(getacc.owner));
 	    let mailOptions = {
 	        from: '"Krunal Lathiya" <ckagoxozic@gmail.com>', // sender address
 	        to: "ckagoxozic@gmail.com", //getaccowner.email, // list of receivers
