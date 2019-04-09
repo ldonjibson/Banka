@@ -17,6 +17,7 @@ const AuthController = require('./controllers/authentication.js');
 const staffRouter = require('./routes/staffRoute.js');
 const adminRouter = require('./routes/adminRoute.js');
 const bothAdminStaff = require('./routes/bothAdminStaff.js');
+const bothAdStaf = require('./routes/bothAdStaf.js');
 
 // server.use();
 // All user ROUTES
@@ -33,6 +34,7 @@ server.use('/api/v1/', adminRouter);
 
 //Both admin and staff
 server.use('/api/v1/', bothAdminStaff);
+server.use('/api/v1/', bothAdStaf);
 
 
 // Define request response in root URL(/)
