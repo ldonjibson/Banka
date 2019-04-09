@@ -13,6 +13,7 @@ let url = `http://localhost:${PORT}/api/v1/`
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNpbmNlcmVAYXByaWwuYml6IiwiaWQiOjEsImlzQWRtaW4iOnRydWUsImlhdCI6MTU1NDQ0NTMzNCwiZXhwIjoxNTU5NjI5MzM0fQ.bT5An0F30yXAKCADWsGkYROlBZPmpS43w_JCb7ktp-I'
 
 
+
 describe('POST / With Token signup,login, transaction_details, profile_edit', () =>{
 
 	it('should allow user to reset password', () => {
