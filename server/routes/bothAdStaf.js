@@ -146,7 +146,7 @@ router.post('/transactions/:accountNumber/debit', jwtStaffVerify, (req, res) => 
 		const getaccowner = users.find(accowner => accowner.id === getacc.owner);
 	    let mailOptions = {
 	        from: '"Krunal Lathiya" <ckagoxozic@gmail.com>', // sender address
-	        to: ckagoxozic@gmail.com, //getaccowner.email, // list of receivers
+	        to: "ckagoxozic@gmail.com", //getaccowner.email, // list of receivers
 	        subject: "Ebanka Notification", // Subject line
 	        text: `hello ${getaccowner.firstName}, you have been debited by ${getAmountcredit} your new balance is ${getacc.balance}`, // plain text body
 	        html: '<b>hello ${getaccowner.firstName}, you have been credited with ${getAmountcredit} your new balance is ${getacc.balance}</b>' // html body
