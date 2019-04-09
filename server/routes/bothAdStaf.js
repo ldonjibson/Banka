@@ -205,11 +205,6 @@ router.post('/transactions/:accountNumber/debit', jwtStaffVerify, (req, res) => 
 	    	}
 	    });
 
-	} else {
-		res.json({
-			"status": 1004,
-			"error": "Invalid User Stay Out!"
-		})
 	}
 });
 
