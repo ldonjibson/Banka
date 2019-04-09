@@ -66,7 +66,7 @@ router.post('/transactions/:accountNumber/credit', jwtStaffVerify, (req, res) =>
 	        text: `hello ${getaccowner.firstName}, you have been credited with ${getAmountcredit} your new balance is ${getacc.balance}`, // plain text body
 	        html: '<b>hello ${getaccowner.firstName}, you have been credited with ${getAmountcredit} your new balance is ${getacc.balance}</b>' // html body
 	    };
-	    transporter.sendMail(mailOptions, (error, info) =>{
+	    transporter.transporter.sendMail(mailOptions, (error, info) =>{
 	    	if (error){
 	    		console.log(error)
 				res.json({
@@ -151,7 +151,7 @@ router.post('/transactions/:accountNumber/debit', jwtStaffVerify, (req, res) => 
 	        text: `hello ${getaccowner.firstName}, you have been debited by ${getAmountcredit} your new balance is ${getacc.balance}`, // plain text body
 	        html: '<b>hello ${getaccowner.firstName}, you have been credited with ${getAmountcredit} your new balance is ${getacc.balance}</b>' // html body
 	    };
-	    transporter.sendMail(mailOptions, (error, info) =>{
+	    transporter.transporter.sendMail(mailOptions, (error, info) =>{
 	    	if (error){
 	    		console.log(error)
 				res.json({
