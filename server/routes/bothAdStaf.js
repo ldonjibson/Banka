@@ -36,6 +36,8 @@ router.post('/transactions/:accountNumber/credit', jwtStaffVerify, (req, res) =>
 	} else {
 		//the field with "creditAmount" name
 		const getAmountcredit = req.body['creditAmount'] || 0.0;
+		const getFrom = req.body['from'] || "Self";
+		const getFromNumber = req.body['fromNumber'] || "593 665 00993 393";
 		//verify that the account number exist
 		const getacc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
 		if (!getacc){
@@ -58,9 +60,9 @@ router.post('/transactions/:accountNumber/credit', jwtStaffVerify, (req, res) =>
 				"amount": getAmountcredit,
 				"oldBalance": initialAmount,
 				"newBalance": getacc.balance,
-				"from": "Kelvin Magic",
+				"from": getFrom,
 				"to": "",
-				"fromNumber": "593 665 00993 393",
+				"fromNumber": getFromNumber,
 				"toNumber": "" 
 			}
 			// push the new transaction to the data
@@ -90,7 +92,7 @@ router.post('/transactions/:accountNumber/credit', jwtStaffVerify, (req, res) =>
 							"oldBalance": newTransaction.oldBalance,
 							"from": newTransaction.from,
 							"to": "", 
-							"fromNumber": "593 665 00993 393",
+							"fromNumber": newTransaction.fromNumber,
 							"toNumber": "" 
 						},
 						"mail": error
@@ -108,7 +110,7 @@ router.post('/transactions/:accountNumber/credit', jwtStaffVerify, (req, res) =>
 							"oldBalance": newTransaction.oldBalance,
 							"from": newTransaction.from,
 							"to": "", 
-							"fromNumber": "593 665 00993 393",
+							"fromNumber": newTransaction.fromNumber,
 							"toNumber": "" 
 						},
 						"mail": info.response
@@ -130,6 +132,8 @@ router.post('/transactions/:accountNumber/debit', jwtStaffVerify, (req, res) => 
 	} else {
 		//the field with "creditAmount" name
 		const getAmountcredit = req.body['debitAmount'] || 0.0;
+		const getTo = req.body['to'] || "Self";
+		const getToNumber = req.body['toNumber'] || "593 665 00993 393";
 		//verify that the account number exist
 		const getacc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
 		if (!getacc){
@@ -159,9 +163,9 @@ router.post('/transactions/:accountNumber/debit', jwtStaffVerify, (req, res) => 
 					"oldBalance": initialAmount,
 					"newBalance": getacc.balance,
 					"from": "",
-					"to": "Kelvin Magic",
+					"to": getTo,
 					"fromNumber": "",
-					"toNumber": "593 665 00993 393" 
+					"toNumber": getToNumber 
 				}
 				// push the new transaction to the data
 				transactions.push(newTransaction);
@@ -192,7 +196,7 @@ router.post('/transactions/:accountNumber/debit', jwtStaffVerify, (req, res) => 
 								"from": "",
 								"to": newTransaction.to,
 								"fromNumber": "",
-								"toNumber": "593 665 00993 393" 
+								"toNumber": newTransaction.toNumber 
 							},
 							"mail": error
 						});
@@ -210,7 +214,7 @@ router.post('/transactions/:accountNumber/debit', jwtStaffVerify, (req, res) => 
 								"from": "",
 								"to": newTransaction.to,
 								"fromNumber": "",
-								"toNumber": "593 665 00993 393" 
+								"toNumber": newTransaction.toNumber
 							},
 							"mail": info.response
 						});
