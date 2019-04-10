@@ -18,6 +18,39 @@ let config = require('../config/config.js')
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json({ type: 'application/json'}));
 
+router.get('/allusers', jwtAdminVerify, (req, res) =>{
+	// Allow only client to be shown to staff
+	const allusers = users;
+	rmpassallusers = []
+	for (var i = allusers.length - 1; i >= 0; i--) {
+		let key = allusers[i]
+		delete key['password'];
+		rmpassallusers.push(key);
+	}
+	res.json({
+		"status": 1000,
+		"data": rmpassallusers
+	});
+});
+
+
+// Get a specific User
+router.get('/allusers/:id', jwtAdminVerify, (req, res) => {
+	const getUser = users.find(usr => usr.id === Number(req.params.id));
+	if (getUser){
+		delete getUser['password'];
+		res.json({
+			"status":1000,
+			"data": getUser
+		});
+	} else {
+		res.json({
+			"status":1004,
+			"error": "User with that ID does not exist"
+		});
+	}
+});
+
 //start For users alone
 router.get('/staff', jwtAdminVerify, (req, res) =>{
 	// Allow only client to be shown to staff
@@ -40,13 +73,13 @@ router.get('/staff/:id', jwtAdminVerify, (req, res) => {
 		});
 	} else {
 		res.json({
-			"status":1000,
+			"status":1004,
 			"error": "User with that ID does not exist"
 		});
 	}
 });
 
-router.patch('/users/profile/:id/edit', upload.upload.single('file'), jwtAdminVerify,  (req, res) => {
+router.patch('/allusers/profile/:id/edit', upload.upload.single('file'), jwtAdminVerify,  (req, res) => {
 	const getUser = users.find(usr => usr.email === req.decoded.email);
 	if (getUser) {
 		const chKUser = users.find(chkusr => chkusr.id === Number(req.params.id));
@@ -85,7 +118,7 @@ router.patch('/users/profile/:id/edit', upload.upload.single('file'), jwtAdminVe
 });
 
 
-router.patch('/users/profile/:id/changepassword',jwtAdminVerify,  (req, res) => {
+router.patch('/allusers/profile/:id/changepassword',jwtAdminVerify,  (req, res) => {
 	const getUser = users.find(usr => usr.email === req.decoded.email);
 	if (getUser) {
 		let chKUser = users.find(chkusr => chkusr.id === Number(req.params.id));

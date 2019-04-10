@@ -22,7 +22,7 @@ let config = require('../config/config.js')
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json({ type: 'application/json'}));
 
-//start For users alone
+//staff For users alone
 router.get('/users', jwtStaffVerify, (req, res) =>{
 	// Allow only client to be shown to staff
 	const allusers = users.filter(usr => usr.isAdmin === false && usr.type === "client" );
@@ -49,7 +49,7 @@ router.get('/user/:id', jwtStaffVerify, (req, res) => {
 		});
 	} else {
 		res.json({
-			"status":1000,
+			"status":1004,
 			"error": "User with that ID does not exist"
 		});
 	}
