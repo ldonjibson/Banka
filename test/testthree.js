@@ -37,7 +37,7 @@ describe('GET / For Admin Alone', ()=> {
 describe('PATCH / For Admin Alone', ()=> {
 
 	it('should not allow Admin to edit user profile (No token)', (done) => {
-		request.patch(`${url}users/profile/1/edit`, (error, response, body) => {
+		request.patch(`${url}allusers/profile/1/edit`, (error, response, body) => {
 			expect(response.statusCode).to.equal(200);
 			let json = JSON.parse(response.body);
 			expect(response.headers['content-type']).to.contain('application/json');
@@ -49,7 +49,7 @@ describe('PATCH / For Admin Alone', ()=> {
 	});
 
 	it('should not allow Admin to change user password (No token)', (done) => {
-		request.patch(`${url}users/profile/1/changepassword`, (error, response, body) => {
+		request.patch(`${url}allusers/profile/1/changepassword`, (error, response, body) => {
 			expect(response.statusCode).to.equal(200);
 			let json = JSON.parse(response.body);
 			expect(response.headers['content-type']).to.contain('application/json');
