@@ -33,7 +33,7 @@ describe('GET / With Token For Admin Alone', ()=> {
 	});
 
 	it('should allow Admin get all use types', (done) => {
-		request.patch(`${url}allusers?token=${token}`, (error, response, body) => {
+		request.get(`${url}allusers?token=${token}`, (error, response, body) => {
 			expect(response.statusCode).to.equal(200);
 			let json = JSON.parse(response.body);
 			expect(response.headers['content-type']).to.contain('application/json');
