@@ -59,7 +59,9 @@ router.post('/transactions/:accountNumber/credit', jwtStaffVerify, (req, res) =>
 				"oldBalance": initialAmount,
 				"newBalance": getacc.balance,
 				"from": "Kelvin Magic",
-				"to": ""
+				"to": "",
+				"fromNumber": "593 665 00993 393",
+				"toNumber": "" 
 			}
 			// push the new transaction to the data
 			transactions.push(newTransaction);
@@ -87,7 +89,9 @@ router.post('/transactions/:accountNumber/credit', jwtStaffVerify, (req, res) =>
 							"accountBalance": newTransaction.newBalance,
 							"oldBalance": newTransaction.oldBalance,
 							"from": newTransaction.from,
-							"to": "" 
+							"to": "", 
+							"fromNumber": "593 665 00993 393",
+							"toNumber": "" 
 						},
 						"mail": error
 					});
@@ -103,7 +107,9 @@ router.post('/transactions/:accountNumber/credit', jwtStaffVerify, (req, res) =>
 							"accountBalance": newTransaction.newBalance,
 							"oldBalance": newTransaction.oldBalance,
 							"from": newTransaction.from,
-							"to": "" 
+							"to": "", 
+							"fromNumber": "593 665 00993 393",
+							"toNumber": "" 
 						},
 						"mail": info.response
 					});
@@ -152,8 +158,10 @@ router.post('/transactions/:accountNumber/debit', jwtStaffVerify, (req, res) => 
 					"amount": getAmountcredit,
 					"oldBalance": initialAmount,
 					"newBalance": getacc.balance,
-					"from": "Kelvin Magic",
-					"to": ""
+					"from": "",
+					"to": "Kelvin Magic",
+					"fromNumber": "",
+					"toNumber": "593 665 00993 393" 
 				}
 				// push the new transaction to the data
 				transactions.push(newTransaction);
@@ -181,8 +189,10 @@ router.post('/transactions/:accountNumber/debit', jwtStaffVerify, (req, res) => 
 								"transactionType": newTransaction.transactionType,
 								"accountBalance": newTransaction.newBalance,
 								"oldBalance": newTransaction.oldBalance,
-								"from": newTransaction.from,
-								"to": "" 
+								"from": "",
+								"to": newTransaction.to,
+								"fromNumber": "",
+								"toNumber": "593 665 00993 393" 
 							},
 							"mail": error
 						});
@@ -197,8 +207,10 @@ router.post('/transactions/:accountNumber/debit', jwtStaffVerify, (req, res) => 
 								"transactionType": newTransaction.transactionType,
 								"accountBalance": newTransaction.newBalance,
 								"oldBalance": newTransaction.oldBalance,
-								"from": newTransaction.from,
-								"to": "" 
+								"from": "",
+								"to": newTransaction.to,
+								"fromNumber": "",
+								"toNumber": "593 665 00993 393" 
 							},
 							"mail": info.response
 						});
