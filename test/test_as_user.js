@@ -13,7 +13,25 @@ let url = `http://localhost:${PORT}/api/v1/`
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNpbmNlcmVAYXByaWwuYml6IiwiaWQiOjEsImlzQWRtaW4iOnRydWUsImlhdCI6MTU1NDQ0NTMzNCwiZXhwIjoxNTU5NjI5MzM0fQ.bT5An0F30yXAKCADWsGkYROlBZPmpS43w_JCb7ktp-I'
 
 
+
 describe('POST / With Token signup,login, transaction_details, profile_edit', () =>{
+
+	it('should allow user to reset password', () => {
+		request.post({
+			url : `${url}/resetpassword`, 
+			form: {
+				'email':'newuser@gmail.com', 
+			}
+		}, 
+		(error, response, body) =>{
+			let json = JSON.parse(response.body);
+			expect(response.statusCode).to.equal(200);
+			expect(response.headers['content-type']).to.contain('application/json');
+			expect(json.status).to.be.equal(1101);
+			expect(json).to.be.an('object');
+		});
+	});
+
 
 	it('should allow user to sign up and create account on signup', (done) => {
 		request.post({
@@ -40,7 +58,7 @@ describe('POST / With Token signup,login, transaction_details, profile_edit', ()
 		});
 	});
 
-	it('Should allow user to login and generate token', (done) => {
+	it('Should allow user to login and generate token', () => {
 		request.post({
 			headers: {'content-type' : 'application/x-www-form-urlencoded'},
 			url : `${url}auth/signin`, 
@@ -54,7 +72,7 @@ describe('POST / With Token signup,login, transaction_details, profile_edit', ()
 			expect(json.status).to.be.equal(1001);
 			// expect(json.data.token).to.be.a('string');
 			expect(json).to.be.an('object');
-			done();
+			// console.log(json);
 		});
 	});
 

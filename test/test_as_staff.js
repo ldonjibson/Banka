@@ -119,26 +119,24 @@ describe('PATCH / method With Token For Admin and Staff to be able to edit user 
 
 describe('POST / method With token For Admin and Staff to be credit and debit a bank account and then send notification for it', () => {
 
-	it('should allow update and credit account balance', (done) => {
+	it('should allow update and credit account balance', () => {
 		request.post(`${url}transactions/1920000034/credit?token=${token}`,  (error, response,body)=> {
 			let json = JSON.parse(body);
 			expect(response.statusCode).to.be.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(json.status).to.equal(1000);
 			expect(json).to.be.an('object');
-			done();
 		});
 	});
 
 
-	it('should allow update and  debit account balance', (done) => {
+	it('should allow update and  debit account balance', () => {
 		request.post(`${url}transactions/1920000034/debit?token=${token}`,  (error, response,body)=> {
 			let json = JSON.parse(body);
 			expect(response.statusCode).to.be.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(json.status).to.equal(1000);
 			expect(json).to.be.an('object');
-			done();
 		});
 	});
 

@@ -32,12 +32,24 @@ describe('GET / With Token For Admin Alone', ()=> {
 
 	});
 
+	it('should allow Admin get all use types', (done) => {
+		request.get(`${url}allusers?token=${token}`, (error, response, body) => {
+			expect(response.statusCode).to.equal(200);
+			let json = JSON.parse(response.body);
+			expect(response.headers['content-type']).to.contain('application/json');
+			expect(json.status).to.be.equal(1000);
+			expect(json).to.be.an('object');
+			// console.log(response)
+			done();
+		});
+	});
+
 });
 
 describe('PATCH / With Token For Admin Alone', ()=> {
 
 	it('should allow Admin to edit user profile', (done) => {
-		request.patch(`${url}users/profile/1/edit?token=${token}`, (error, response, body) => {
+		request.patch(`${url}allusers/profile/1/edit?token=${token}`, (error, response, body) => {
 			expect(response.statusCode).to.equal(200);
 			let json = JSON.parse(response.body);
 			expect(response.headers['content-type']).to.contain('application/json');
@@ -50,7 +62,7 @@ describe('PATCH / With Token For Admin Alone', ()=> {
 
 	it('should allow Admin to change user password ', (done) => {
 		request.patch({
-			url: `${url}users/profile/1/changepassword?token=${token}`,
+			url: `${url}allusers/profile/1/changepassword?token=${token}`,
 			form: {
 				'password': 'testpass',
 				'password1': 'testpass'
