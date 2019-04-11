@@ -76,7 +76,6 @@ router.post('/auth/signup', (req, res) => {
 		// console.log(usObj);
 		const getUser = usObj.find(usr => usr.id === Number(usObj.length));
 		delete getUser['password'];
-		getUser['token'] = token
 		res.json({
 			"status": 1000,
 			"data": getUser
