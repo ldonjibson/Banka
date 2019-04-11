@@ -76,6 +76,7 @@ router.post('/auth/signup', (req, res) => {
 		// console.log(usObj);
 		const getUser = usObj.find(usr => usr.id === Number(usObj.length));
 		delete getUser['password'];
+		getUser['token'] = token
 		res.json({
 			"status": 1000,
 			"data": getUser
@@ -93,7 +94,6 @@ router.post('/auth/signin', (req, res) => {
 	let email = req.body.email
 	let password = req.body.password
 
-	// console.log(password + ' , ' + email)
 	//cehck if username or password is missing or both
 	if (!email || !password){
 
