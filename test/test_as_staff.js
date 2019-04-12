@@ -117,7 +117,9 @@ describe('PATCH / method With Token For Admin and Staff to be able to edit user 
 
 });
 
-describe('POST /method to create bank account for users', ()=>{
+
+describe('POST / method With token For Admin and Staff to be credit and debit a bank account and then send notification for it', () => {
+
 	it('create bank account for users by admin and staff', (done) => {
 		request.post({
 			url: `${url}createbank/accounts/?token=${token}`,
@@ -132,10 +134,7 @@ describe('POST /method to create bank account for users', ()=>{
 			expect(json).to.be.an('object');
 			done();
 		});
-	});
-});
-
-describe('POST / method With token For Admin and Staff to be credit and debit a bank account and then send notification for it', () => {
+	})
 
 	it('should allow update and credit account balance', () => {
 		request.post(`${url}transactions/1920000034/credit?token=${token}`,  (error, response,body)=> {
