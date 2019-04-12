@@ -41,7 +41,7 @@ router.get('/me/profile', jwtVerify,  (req, res) => {
 	} else {
 		res.json({
 			"status": 1005,
-			"data": "Invalid User Stay Out!"
+			"error": "Invalid User Stay Out!"
 		});
 	}
 
@@ -58,7 +58,7 @@ router.get('/me/account', jwtVerify,  (req, res) => {
 	} else {
 		res.json({
 			"status": 1005,
-			"data": "Invalid User Stay Out!"
+			"error": "Invalid User Stay Out!"
 		});
 	}
 
@@ -77,7 +77,7 @@ router.get('/me/account/transactions', jwtVerify,  (req, res) => {
 	} else {
 		res.json({
 			"status": 1005,
-			"data": "Invalid User Stay Out!"
+			"error": "Invalid User Stay Out!"
 		});
 	}
 
@@ -98,14 +98,14 @@ router.get('/me/account/transaction/:id/detail', jwtVerify,  (req, res) => {
 		} else {
 			res.json({
 				"status":2010,
-				error: "(not your transaction!) Wrong transaction details"
+				"error": "(not your transaction!) Wrong transaction details"
 			})
 		}
 	
 	} else {
 		res.json({
 			"status": 1005,
-			"data": "Invalid User Stay Out!"
+			"error": "Invalid User Stay Out!"
 		});
 	}
 

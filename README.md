@@ -4,7 +4,7 @@
 ## E-Banka
 Banka is a light-weight core banking application that powers banking operations like account creation, customer deposit and withdrawals. This app is meant to support a single bank, where users can signup and create bank accounts online, but must visit the branch to withdraw or deposit money..
 
-## Features
+### Features
 1. Users can create an account and log in.
 2. Users can create bank account.
 3. User can upload picture and edit profile
@@ -14,11 +14,11 @@ Banka is a light-weight core banking application that powers banking operations 
 7. Staff can only view clients
 8. Staff and Admin can credit and debit users
 
-## Technologies Used
+**Technologies Used**
 - NodeJS
 - ExpressJs
 
-## Installation
+**Installation**
 Install node, version 10 or greater
 
 Clone the repo:
@@ -30,114 +30,396 @@ git clone https://github.com/ldonjibson/Banka.git
 Start server:
 `npm start`
 
-##Testing tools
-Mocha - A Javascript test framework.
-Chai - A BDD / TDD Assertion library.
-Istanbul - Javascript code coverage tool.
-nyc - The Istanbul command line interface.
+**Testing tools**
+1. Mocha - A Javascript test framework.
+2. Chai - A BDD / TDD Assertion library.
+3. Istanbul - Javascript code coverage tool.
+4. nyc - The Istanbul command line interface.
 
-star Documentation star
-List of endpoints exposed by the service. For full api documentation, visit docs
+### Documentation 
+**[Link to Documentation !]('https://ebanka-api.herokuapp.com')**
+List of endpoints exposed by the service.
 
-Endpoints
-Routes
 
-## POST 
-`/api/v1/auth/signup `
+
+### Endpoints & Routes
+
+**CHEKING IF THE API EXISTS OR IS WORKING**
+### https://ebanka-api.herokuapp.com/api/v1/
+```
+{
+	"status": 1000,
+	"message": Connected
+}
+```
+**POST** 
+- `auth/signup `
 Use this route to create a new user account. The following fields are required:
 
-firstName The firstname of the user
-lastName The lastname of the user
-email The email of the user
-phone The telephone number of the user
-password The user's password
-dob User's Date of Birth
-isAdmin (Only admin can choose this)
-type (Only admin can choose this)
+1. firstName The firstname of the user
+2. lastName The lastname of the user
+3. email The email of the user
+4. phone The telephone number of the user
+5. password The user's password
+6. dob User's Date of Birth
+7. isAdmin (Only admin can choose this)
+8. type (Only admin can choose this)
 
-`/api/v1/auth/signin` Use this route to signin user account and generate token. The following fields are required:
+```
+### Success Response
+{
+	"status": 1000,
+	"data":	{
+		"token": string,
+		"id": integer,
+		"firstName": string,
+		"lastName": string,
+		"email": string,
+		"dob" : string,
+		"phone": string,
+		"registerDate": string,
+		"type": string,
+		"isAdmin": string
+	}
+}
 
-email The email or username of the user
-password The user's password
+### Error Response
+{
+	"status": 401,
+	"error": "Please Check, A field is missing"
+}
+```
 
-`me/account` Use this route to access bank account dashboard
+- `/api/v1/auth/signin` Use this route to signin user account and generate token. The following fields are required:
+
+1. email The email or username of the user
+2. password The user's password
+
+```
+### Success Response
+{
+	"status": 1000,
+	"data":	{
+		"token": string,
+		"id": integer,
+		"firstName": string,
+		"lastName": string,
+		"email": string,
+		"dob" : string,
+		"phone": string,
+		"registerDate": string,
+		"type": string,
+		"isAdmin": string
+	}
+}
+
+### Error Response
 
 
-## GET `/api/v1/`
-me/profile Use this route to access your profile details 
+{
+	"status": 401,
+	"error": "Please Check, One or More field is empty"
+}
 
-`/accounts` Create a bank account
+//The user email doesnot exist
+{
+	"status": 1002,
+	"error": "User does not exist"
+}
 
+//if password doesnot match
+{
+	"status": 1001,
+	"error": "Authentication Failed! password parameter invalid"
+}
+```
 
-`me/account/transactions` List my transactions
+- `accounts` Create a bank account for user
+```
+### Success Response
+{
+	"status": 1000,
+	"data":	{
+		"accountNumber": integer,
+		"firstName": string,
+		"lastName": string,
+		"email": string,
+		"type": string,
+		"openingBalance": Float
+	}
+}
 
-`me/account/transaction/<transaction-id>/detail` Check individual transaction detail
+The has to be LoggedIn
+### Error Response
+{
+	"status": 1006,
+	"error": "Log in to Create a Bank Account"
+}
+```
 
+**GET**
+- `me/account` Use this route to access bank account dashboard
+```
+### Success Response
+{
+	"status": 1000,
+	"data":	{
+		"id": integer,
+		"accountNumber": integer,
+		"createdOn": string,
+		"owner": integer,
+		"type": string,
+		"status": string,
+		"balance": Float
+	}
+}
 
-## PATCH `/api/v1/`
+### Error Response
+{
+	"status": 1005,
+	"data": "Invalid User Stay Out!"
+}
+```
 
-`me/profile/edit` edit your profile
-editable fields are: firstName, lastName, phone, image
+- `me/profile` Use this route to access your profile details 
+```
+### Success Response
+{
+	"status": 1000,
+	"data":	{
+		"id": integer,
+		"firstName": string,
+		"lastName": string,
+		"email": string,
+		"dob" : string,
+		"phone": string,
+		"registerDate": string,
+		"type": string,
+		"isAdmin": string
+	}
+}
 
-`me/profile/changepassword` change your password
+### Error Response
+{
+	"status": 1005,
+	"data": "Invalid User Stay Out!"
+}
+```
 
+- `me/account/transactions` List my transactions
+```
+### Success Response
+{
+	"status": 1000,
+	"data":	[{
+        "id": integer,
+        "createdOn": string,
+        "transactionType": string, e.g credit, debit
+        "accountNumber": integer,
+        "cashier": integer,
+        "amount": Float,
+        "oldBalance": Float,
+        "newBalance": Float,
+        "from": string,
+        "to" : "",
+        "fromNumber": string,
+        "toNumber": ""
+	},
+	{
+        "id": integer,
+        "createdOn": string,
+        "transactionType": string, e.g credit, debit
+        "accountNumber": integer,
+        "cashier": integer,
+        "amount": Float,
+        "oldBalance": Float,
+        "newBalance": Float,
+        "from": "",
+        "to" : string,
+        "fromNumber": "",
+        "toNumber": string
+	},
+	...
+	]
+}
 
-# General to reset password
+### Error Response
+{
+	"status": 1005,
+	"data": "Invalid User Stay Out!"
+}
+```
 
-## POST `/api/v1/`
-`resetpassword` for all users to reset password if they forget
+- `me/account/transaction/<transaction-id>/detail` Check individual transaction detail
+```
+### Success Response
+{
+	"status": 1000,
+	"data":	{
+        "id": integer,
+        "createdOn": string,
+        "transactionType": string, e.g credit, debit
+        "accountNumber": integer,
+        "cashier": integer,
+        "amount": Float,
+        "oldBalance": Float,
+        "newBalance": Float,
+        "from": string,
+        "to" : "",
+        "fromNumber": string,
+        "toNumber": ""
+	}
+}
 
+### Error Response
+//if a user is trying to access a transaction that doesnot belong to his/her
+{
+	"status": 2010,
+	"error": "(not your transaction!) Wrong transaction details
+}
 
-# Staff Only
+//if the user does not exist
+{
+	"status": 1005,
+	"data": "Invalid User Stay Out!"
+}
+```
 
-GET `/api/v1/`
-`users` Allows only Clients(Users) to be shown to Staff
+**PATCH**
 
-`user/<user-id>` single user detail is shown to the staff
+- `me/profile/edit` edit your profile
+editable fields are: firstName(optional), lastName(optional), phone(optional), image(optional)
+```
+### Success Response
+{
+	"status": 1000,
+	"data":	{
+		"id": integer,
+		"firstName": string,
+		"lastName": string,
+		"email": string,
+		"dob" : string,
+		"phone": string,
+		"registerDate": string,
+		"type": string,
+		"isAdmin": string
+	}
+}
 
-`user/profile/<user-id>/edit`	Allow staff to edit users
+//if the user does not exist
+{
+	"status": 1005,
+	"error": "Invalid User Stay Out!"
+}
+```
 
-## PATCH `/api/v1/`
+- `me/profile/changepassword` change your password 
+field requires password and password1(confirm password)
 
-`user/profile/<user-id>/changepassword` Allow staff to change user password
+```
+### Success Response
+{
+	"status": 1000,
+	"message": "Password changed successfully"
+}
 
-# Staff & Admin (Debit & Credit)
+### Error Response
 
-## POST `/api/v1/`
+// if Password doesnot match
+{
+	"status": 1007,
+	"error": "Both Password doesnot match!"
+}
 
-`transactions/<account-number>/credit` 
+// if password attempt was not made
+{
+	"status": 1008,
+	"error": "No password Attempt made"
+}
 
-`transactions/<account-number>/debit` 
+// if the user does not exist
+{
+	"status": 1005,
+	"error": "Invalid User Stay Out!"
+}
+```
 
-# Staff & Admin
+### General to reset password
 
-## GET `/api/v1/`
-`allclients/transactions` This display all clients' transactions
+**POST**
+- `resetpassword` for all users to reset password if they forget
+```
+### Success Response
+{
+	"status": 1000,
+	"data": "Password recovery was successful" or "Password not sent due to failed emailing",
+	"mail": <emailing response status>
+}
 
-`clienttransaction/<transaction-id>/detail` This diplay the details of a particular transaction
+## Error Response
+{
+	"status": 1101,
+	"error": "User with <email string> doest not exist"
+}
+```
 
-`mydone/usertransaction/` This display only transaction done by a particular Staff or Admin
+### Staff Only
 
-## DELETE `/api/v1/`
-`accounts/<account-number>` This Staff and admin can deletes a bank account
+**POST**
+// TODO
+- `staff/accounts` Create a bank account for user
 
-## PATCH `/api/v1/`
-`account/<account-number>` This Staff and admin can Deactivate/suspend/dormant a bank account
+**GET**
+- `users` Allows only Clients(Users) to be shown to Staff
 
-# Admin Only
+- `user/<user-id>` single user detail is shown to the staff
 
-## GET `/api/v1/`
-`allusers` This list alluser to the admin including the staff & clients
+- `user/profile/<user-id>/edit`	Allow staff to edit users
 
-`allusers/<user-id>` get a specific user details
+**PATCH**
 
-`staff` This list alluser to the admin including the staff
+- `user/profile/<user-id>/changepassword` Allow staff to change user password
 
-`staff/<staff-id>` This get a specific staff details.
+### Staff & Admin (Debit & Credit)
 
-## PATCH `/api/v1/`
-`allusers/profile/<user-id>/edit` get a specific user + staff details and edit.
+**POST**
 
-`allusers/profile/<user-id>/changepassword` get a specific user + staff details and changethe password.
+- `transactions/<account-number>/credit` 
+
+- `transactions/<account-number>/debit` 
+
+### Staff & Admin
+
+**GET**
+- `allclients/transactions` This display all clients' transactions
+
+- `clienttransaction/<transaction-id>/detail` This diplay the details of a particular transaction
+
+- `mydone/usertransaction/` This display only transaction done by a particular Staff or Admin
+
+**DELETE**
+- `accounts/<account-number>` This Staff and admin can deletes a bank account
+
+**PATCH**
+- `account/<account-number>` This Staff and admin can Deactivate/suspend/dormant a bank account
+
+### Admin Only
+**POST**
+//TODO
+- `admin/accounts` Create a bank account for user
+
+**GET**
+- `allusers` This list alluser to the admin including the staff & clients
+
+- `allusers/<user-id>` get a specific user details
+
+- `staff` This list alluser to the admin including the staff
+
+- `staff/<staff-id>` This get a specific staff details.
+
+**PATCH**
+- `allusers/profile/<user-id>/edit` get a specific user + staff details and edit.
+
+- `allusers/profile/<user-id>/changepassword` get a specific user + staff details and changethe password.
 
 
