@@ -131,21 +131,21 @@ router.patch('/account/:accountNumber', jwtStaffVerify, (req, res) => {
 
 
 //Create bank account for existing users 
-router.post('createbank/accounts', jwtStaffVerify, (req, res) => {
+router.post('/createbank/accounts', jwtStaffVerify, (req, res) => {
 	const getUser = helper.togetUser(req);
 	const getAllacc = accounts.length + 1;
 	if (getUser){
 		getuseremail = req.body['email'] || null
 		if (getuseremail === null){
 			res.json({
-				"status": 1002,
+				"status": 401,
 				"error": "No email was provided"
 			})
 		} else {
 			chKUser = users.find(usr=> usr.email === getuseremail)
 			if(!chKUser){
 				res.json({
-					"status": 1004,
+					"status": 1002,
 					"error": "User does not exist in the database create the user before a bank account"
 				})
 			} else {
@@ -180,4 +180,5 @@ router.post('createbank/accounts', jwtStaffVerify, (req, res) => {
 		})
 	}
 });
+
 module.exports = router;
