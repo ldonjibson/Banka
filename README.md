@@ -366,7 +366,6 @@ field requires password and password1(confirm password)
 ### Staff Only
 
 **POST**
-// TODO
 - `createbank/accounts` Create a bank account for user
 ```
 ### Success Response
@@ -402,7 +401,7 @@ field requires password and password1(confirm password)
 }
 
 ```
-
+//TODO
 **GET**
 - `users` Allows only Clients(Users) to be shown to Staff
 
@@ -440,7 +439,7 @@ field requires password and password1(confirm password)
 
 ### Admin Only
 **POST**
-//TODO
+
 - `admin/accounts` Create a bank account for user
 
 **GET**
