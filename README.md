@@ -400,19 +400,110 @@ field requires password and password1(confirm password)
 	"error": "No email was provided"
 }
 
+
 ```
 //TODO
 **GET**
 - `users` Allows only Clients(Users) to be shown to Staff
+```
+### Success Repsonse
+{
+    "status": 1000,
+    "data": [
+        {
+            "id": 3,
+            "email": "Nathan@yesenia.net",
+            "firstName": "Clementine Bauch",
+            "lastName": "Samantha",
+            "phone": "1-463-123-4447",
+            "dob": "25-05-1991",
+            "registerDate": "25-03-1999",
+            "type": "client",
+            "isAdmin": false,
+            "imageUrl": "http://localhost:3000/images/default-image.jpg"
+        },
+        ...
+    ]
+}
+
+```
 
 
 - `user/<user-id>` single user detail is shown to the staff
 
+```
+### Success Repsonse
+{
+    "status": 1000,
+    "data": 
+        {
+            "id": 3,
+            "email": "Nathan@yesenia.net",
+            "firstName": "Clementine Bauch",
+            "lastName": "Samantha",
+            "phone": "1-463-123-4447",
+            "dob": "25-05-1991",
+            "registerDate": "25-03-1999",
+            "type": "client",
+            "isAdmin": false,
+            "imageUrl": "http://localhost:3000/images/default-image.jpg"
+        },
+}
+
+```
+
 - `user/profile/<user-id>/edit`	Allow staff to edit users
+editable fields are: firstName(optional), lastName(optional), phone(optional), image(optional)
+```
+### Success Response
+{
+	"status": 1000,
+	"message": "Profile updated Successfully without Image"
+}
+
+{
+	"status": 1000,
+	"message": "Profile updated Successfully with Image"
+}
+
+//if the user does not exist
+{
+	"status": 1005,
+	"error": "Invalid User Stay Out!"
+}
+```
 
 **PATCH**
-
 - `user/profile/<user-id>/changepassword` Allow staff to change user password
+
+```
+### Success Response
+{
+	"status": 1000,
+	"message": "Password changed successfully"
+}
+
+### Error Response
+
+// if Password doesnot match
+{
+	"status": 1007,
+	"error": "Both Password doesnot match!"
+}
+
+// if password attempt was not made
+{
+	"status": 1008,
+	"error": "No password Attempt made"
+}
+
+// if the user does not exist
+{
+	"status": 1005,
+	"error": "Invalid User Stay Out!"
+}
+```
+
 
 ### Staff & Admin (Debit & Credit)
 
@@ -421,6 +512,42 @@ field requires password and password1(confirm password)
 - `transactions/<account-number>/credit` 
 
 - `transactions/<account-number>/debit` 
+
+```
+### Success Response
+{
+	"status": 1000,
+	"data": {
+		"transactionId": integer,
+		"accountNumber": integer,
+		"amount": Float,
+		"cashier": integer,
+		"transactionType": string,// credit or debit
+		"accountBalance": Float,
+		"oldBalance": Float,
+		"from": string, // only for credit transactiontype
+		"to": "string", // only for debit transactiontype
+		"fromNumber": string, // only for credit transactiontype
+		"toNumber": "string" // only for debit transactiontype
+	},
+	"mail": string // success or error
+}
+}
+
+### Error Response
+// if account number cannot be found
+{
+	"status":2004,
+	"error": "Cannot find a matching account number <accountNumber>"
+}
+
+// if the user does not exist
+{
+	"status": 1004,
+	"error": "Invalid User Stay Out!"
+}
+
+```
 
 ### Staff & Admin
 
