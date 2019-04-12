@@ -402,7 +402,6 @@ field requires password and password1(confirm password)
 
 
 ```
-//TODO
 **GET**
 - `users` Allows only Clients(Users) to be shown to Staff
 ```
