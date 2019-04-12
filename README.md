@@ -251,11 +251,13 @@ Use this route to create a new user account. The following fields are required:
 }
 
 ### Error Response
-
+//if a user is trying to access a transaction that doesnot belong to his/her
 {
 	"status": 2010,
 	"error": "(not your transaction!) Wrong transaction details
 }
+
+//if the user does not exist
 {
 	"status": 1005,
 	"data": "Invalid User Stay Out!"
@@ -265,18 +267,79 @@ Use this route to create a new user account. The following fields are required:
 **PATCH**
 
 - `me/profile/edit` edit your profile
-editable fields are: firstName, lastName, phone, image
+editable fields are: firstName(optional), lastName(optional), phone(optional), image(optional)
+```
+### Success Response
+{
+	"status": 1000,
+	"data":	{
+		"id": integer,
+		"firstName": string,
+		"lastName": string,
+		"email": string,
+		"dob" : string,
+		"phone": string,
+		"registerDate": string,
+		"type": string,
+		"isAdmin": string
+	}
+}
 
+//if the user does not exist
+{
+	"status": 1005,
+	"error": "Invalid User Stay Out!"
+}
+```
 
+- `me/profile/changepassword` change your password 
+field requires password and password1(confirm password)
 
-- `me/profile/changepassword` change your password
+```
+### Success Response
+{
+	"status": 1000,
+	"message": "Password changed successfully"
+}
 
+### Error Response
+
+// if Password doesnot match
+{
+	"status": 1007,
+	"error": "Both Password doesnot match!"
+}
+
+// if password attempt was not made
+{
+	"status": 1008,
+	"error": "No password Attempt made"
+}
+
+// if the user does not exist
+{
+	"status": 1005,
+	"error": "Invalid User Stay Out!"
+}
+```
 
 ### General to reset password
 
 **POST**
 - `resetpassword` for all users to reset password if they forget
+```
+### Success Response
+{
+	"status": 1000,
+	"data": "Password recovery was successful" or "Password not sent due to failed emailing"
+}
 
+## Error Response
+{
+	"status": 1101,
+	"error": "User with <email string> doest not exist"
+}
+```
 
 ### Staff Only
 
