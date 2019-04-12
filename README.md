@@ -36,14 +36,24 @@ Start server:
 3. Istanbul - Javascript code coverage tool.
 4. nyc - The Istanbul command line interface.
 
-### Documentation
+### Documentation 
+**[Link to Documentation !]('https://ebanka-api.herokuapp.com')**
 List of endpoints exposed by the service. For full api documentation, visit docs
 
-Endpoints
-Routes
 
+
+### Endpoints & Routes
+
+**CHEKING IF THE API EXISTS OR IS WORKING**
+### https://ebanka-api.herokuapp.com/api/v1/
+```
+{
+	"status": 1000,
+	"message": Connected
+}
+```
 **POST** 
-- `/api/v1/auth/signup `
+- `auth/signup `
 Use this route to create a new user account. The following fields are required:
 
 1. firstName The firstname of the user
@@ -60,16 +70,16 @@ Use this route to create a new user account. The following fields are required:
 {
 	"status": 1000,
 	"data":	{
-		"token": <token>,
-		"id": <:id>,
-		"firstName": <first-name>,
-		"lastName": <last-name>,
-		"email": <email>,
-		"dob" : <date-of-birth>,
-		"phone": <Phone>,
-		"registerDate": <Date>,
-		"type": <Type of User>,
-		"isAdmin": <User's Role>
+		"token": string,
+		"id": integer,
+		"firstName": string,
+		"lastName": string,
+		"email": string,
+		"dob" : string,
+		"phone": string,
+		"registerDate": string,
+		"type": string,
+		"isAdmin": string
 	}
 }
 
@@ -90,30 +100,34 @@ Use this route to create a new user account. The following fields are required:
 {
 	"status": 1000,
 	"data":	{
-		"token": <token>,
-		"id": <:id>,
-		"firstName": <first-name>,
-		"lastName": <last-name>,
-		"email": <email>,
-		"dob" : <date-of-birth>,
-		"phone": <Phone>,
-		"registerDate": <Date>,
-		"type": <Type of User>,
-		"isAdmin": <User's Role>
+		"token": string,
+		"id": integer,
+		"firstName": string,
+		"lastName": string,
+		"email": string,
+		"dob" : string,
+		"phone": string,
+		"registerDate": string,
+		"type": string,
+		"isAdmin": string
 	}
 }
 
 ### Error Response
+
+
 {
 	"status": 401,
 	"error": "Please Check, One or More field is empty"
 }
 
+//The user email doesnot exist
 {
 	"status": 1002,
 	"error": "User does not exist"
 }
 
+//if password doesnot match
 {
 	"status": 1001,
 	"error": "Authentication Failed! password parameter invalid"
@@ -122,20 +136,20 @@ Use this route to create a new user account. The following fields are required:
 
 
 
-**GET `/api/v1/`**
+**GET**
 - `me/account` Use this route to access bank account dashboard
 ```
 ### Success Response
 {
 	"status": 1000,
 	"data":	{
-		"id": <:id>,
-		"accountNumber": <AccountNumber>,
-		"createdOn": <created date>,
-		"owner": <user-id>,
-		"type": <type of account>,
-		"status": <status of account>,
-		"balance": <Amount in Bank>
+		"id": integer,
+		"accountNumber": integer,
+		"createdOn": string,
+		"owner": integer,
+		"type": string,
+		"status": string,
+		"balance": Float
 	}
 }
 
@@ -152,15 +166,15 @@ Use this route to create a new user account. The following fields are required:
 {
 	"status": 1000,
 	"data":	{
-		"id": <:id>,
-		"firstName": <first-name>,
-		"lastName": <last-name>,
-		"email": <email>,
-		"dob" : <date-of-birth>,
-		"phone": <Phone>,
-		"registerDate": <Date>,
-		"type": <Type of User>,
-		"isAdmin": <User's Role>
+		"id": integer,
+		"firstName": string,
+		"lastName": string,
+		"email": string,
+		"dob" : string,
+		"phone": string,
+		"registerDate": string,
+		"type": string,
+		"isAdmin": string
 	}
 }
 
@@ -248,40 +262,42 @@ Use this route to create a new user account. The following fields are required:
 }
 ```
 
-**PATCH `/api/v1/`**
+**PATCH**
 
 - `me/profile/edit` edit your profile
 editable fields are: firstName, lastName, phone, image
+
+
 
 - `me/profile/changepassword` change your password
 
 
 ### General to reset password
 
-**POST `/api/v1/`**
+**POST**
 - `resetpassword` for all users to reset password if they forget
 
 
 ### Staff Only
 
-**POST `/api/v1/`**
+**POST**
 - `/accounts` Create a bank account
 
 
-**GET `/api/v1/`**
+**GET**
 - `users` Allows only Clients(Users) to be shown to Staff
 
 - `user/<user-id>` single user detail is shown to the staff
 
 - `user/profile/<user-id>/edit`	Allow staff to edit users
 
-**PATCH `/api/v1/`**
+**PATCH**
 
 - `user/profile/<user-id>/changepassword` Allow staff to change user password
 
 ### Staff & Admin (Debit & Credit)
 
-**POST `/api/v1/`**
+**POST**
 
 - `transactions/<account-number>/credit` 
 
@@ -289,22 +305,22 @@ editable fields are: firstName, lastName, phone, image
 
 ### Staff & Admin
 
-**GET `/api/v1/`**
+**GET**
 - `allclients/transactions` This display all clients' transactions
 
 - `clienttransaction/<transaction-id>/detail` This diplay the details of a particular transaction
 
 - `mydone/usertransaction/` This display only transaction done by a particular Staff or Admin
 
-**DELETE `/api/v1/`**
+**DELETE**
 - `accounts/<account-number>` This Staff and admin can deletes a bank account
 
-**PATCH `/api/v1/`**
+**PATCH**
 - `account/<account-number>` This Staff and admin can Deactivate/suspend/dormant a bank account
 
 ### Admin Only
 
-**GET `/api/v1/`**
+**GET**
 - `allusers` This list alluser to the admin including the staff & clients
 
 - `allusers/<user-id>` get a specific user details
@@ -313,7 +329,7 @@ editable fields are: firstName, lastName, phone, image
 
 - `staff/<staff-id>` This get a specific staff details.
 
-**PATCH `/api/v1/`**
+**PATCH**
 - `allusers/profile/<user-id>/edit` get a specific user + staff details and edit.
 
 - `allusers/profile/<user-id>/changepassword` get a specific user + staff details and changethe password.
