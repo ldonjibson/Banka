@@ -172,9 +172,81 @@ Use this route to create a new user account. The following fields are required:
 ```
 
 - `me/account/transactions` List my transactions
+```
+### Success Response
+{
+	"status": 1000,
+	"data":	[{
+        "id": integer,
+        "createdOn": string,
+        "transactionType": string, e.g credit, debit
+        "accountNumber": integer,
+        "cashier": integer,
+        "amount": Float,
+        "oldBalance": Float,
+        "newBalance": Float,
+        "from": string,
+        "to" : "",
+        "fromNumber": string,
+        "toNumber": ""
+	},
+	{
+        "id": integer,
+        "createdOn": string,
+        "transactionType": string, e.g credit, debit
+        "accountNumber": integer,
+        "cashier": integer,
+        "amount": Float,
+        "oldBalance": Float,
+        "newBalance": Float,
+        "from": "",
+        "to" : string,
+        "fromNumber": "",
+        "toNumber": string
+	},
+	...
+	]
+}
+
+### Error Response
+{
+	"status": 1005,
+	"data": "Invalid User Stay Out!"
+}
+```
 
 - `me/account/transaction/<transaction-id>/detail` Check individual transaction detail
+```
+### Success Response
+{
+	"status": 1000,
+	"data":	{
+        "id": integer,
+        "createdOn": string,
+        "transactionType": string, e.g credit, debit
+        "accountNumber": integer,
+        "cashier": integer,
+        "amount": Float,
+        "oldBalance": Float,
+        "newBalance": Float,
+        "from": string,
+        "to" : "",
+        "fromNumber": string,
+        "toNumber": ""
+	}
+}
 
+### Error Response
+
+{
+	"status": 2010,
+	"error": "(not your transaction!) Wrong transaction details
+}
+{
+	"status": 1005,
+	"data": "Invalid User Stay Out!"
+}
+```
 
 **PATCH `/api/v1/`**
 
