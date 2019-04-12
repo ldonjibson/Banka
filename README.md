@@ -134,7 +134,28 @@ Use this route to create a new user account. The following fields are required:
 }
 ```
 
+- `accounts` Create a bank account for user
+```
+### Success Response
+{
+	"status": 1000,
+	"data":	{
+		"accountNumber": integer,
+		"firstName": string,
+		"lastName": string,
+		"email": string,
+		"type": string,
+		"openingBalance": Float
+	}
+}
 
+The has to be LoggedIn
+### Error Response
+{
+	"status": 1006,
+	"error": "Log in to Create a Bank Account"
+}
+```
 
 **GET**
 - `me/account` Use this route to access bank account dashboard
@@ -331,7 +352,8 @@ field requires password and password1(confirm password)
 ### Success Response
 {
 	"status": 1000,
-	"data": "Password recovery was successful" or "Password not sent due to failed emailing"
+	"data": "Password recovery was successful" or "Password not sent due to failed emailing",
+	"mail": <emailing response status>
 }
 
 ## Error Response
@@ -344,8 +366,8 @@ field requires password and password1(confirm password)
 ### Staff Only
 
 **POST**
-- `/accounts` Create a bank account
-
+// TODO
+- `staff/accounts` Create a bank account for user
 
 **GET**
 - `users` Allows only Clients(Users) to be shown to Staff
@@ -382,6 +404,9 @@ field requires password and password1(confirm password)
 - `account/<account-number>` This Staff and admin can Deactivate/suspend/dormant a bank account
 
 ### Admin Only
+**POST**
+//TODO
+- `admin/accounts` Create a bank account for user
 
 **GET**
 - `allusers` This list alluser to the admin including the staff & clients
