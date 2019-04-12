@@ -4,7 +4,7 @@
 ## E-Banka
 Banka is a light-weight core banking application that powers banking operations like account creation, customer deposit and withdrawals. This app is meant to support a single bank, where users can signup and create bank accounts online, but must visit the branch to withdraw or deposit money..
 
-## Features
+### Features
 1. Users can create an account and log in.
 2. Users can create bank account.
 3. User can upload picture and edit profile
@@ -14,11 +14,11 @@ Banka is a light-weight core banking application that powers banking operations 
 7. Staff can only view clients
 8. Staff and Admin can credit and debit users
 
-## Technologies Used
+**Technologies Used**
 - NodeJS
 - ExpressJs
 
-## Installation
+**Installation**
 Install node, version 10 or greater
 
 Clone the repo:
@@ -30,19 +30,19 @@ git clone https://github.com/ldonjibson/Banka.git
 Start server:
 `npm start`
 
-##Testing tools
+**Testing tools**
 1. Mocha - A Javascript test framework.
 2. Chai - A BDD / TDD Assertion library.
 3. Istanbul - Javascript code coverage tool.
 4. nyc - The Istanbul command line interface.
 
-star Documentation star
+### Documentation
 List of endpoints exposed by the service. For full api documentation, visit docs
 
 Endpoints
 Routes
 
-## POST 
+**POST** 
 - `/api/v1/auth/signup `
 Use this route to create a new user account. The following fields are required:
 
@@ -122,7 +122,7 @@ Use this route to create a new user account. The following fields are required:
 
 
 
-## GET `/api/v1/`
+**GET `/api/v1/`**
 - `me/account` Use this route to access bank account dashboard
 ```
 ### Success Response
@@ -176,7 +176,7 @@ Use this route to create a new user account. The following fields are required:
 - `me/account/transaction/<transaction-id>/detail` Check individual transaction detail
 
 
-## PATCH `/api/v1/`
+**PATCH `/api/v1/`**
 
 - `me/profile/edit` edit your profile
 editable fields are: firstName, lastName, phone, image
@@ -184,55 +184,55 @@ editable fields are: firstName, lastName, phone, image
 - `me/profile/changepassword` change your password
 
 
-# General to reset password
+### General to reset password
 
-## POST `/api/v1/`
+**POST `/api/v1/`**
 - `resetpassword` for all users to reset password if they forget
 
 
-# Staff Only
+### Staff Only
 
-POST `/api/v1/`
+**POST `/api/v1/`**
 - `/accounts` Create a bank account
 
 
-GET `/api/v1/`
+**GET `/api/v1/`**
 - `users` Allows only Clients(Users) to be shown to Staff
 
 - `user/<user-id>` single user detail is shown to the staff
 
 - `user/profile/<user-id>/edit`	Allow staff to edit users
 
-## PATCH `/api/v1/`
+**PATCH `/api/v1/`**
 
 - `user/profile/<user-id>/changepassword` Allow staff to change user password
 
-# Staff & Admin (Debit & Credit)
+### Staff & Admin (Debit & Credit)
 
-## POST `/api/v1/`
+**POST `/api/v1/`**
 
 - `transactions/<account-number>/credit` 
 
 - `transactions/<account-number>/debit` 
 
-# Staff & Admin
+### Staff & Admin
 
-## GET `/api/v1/`
+**GET `/api/v1/`**
 - `allclients/transactions` This display all clients' transactions
 
 - `clienttransaction/<transaction-id>/detail` This diplay the details of a particular transaction
 
 - `mydone/usertransaction/` This display only transaction done by a particular Staff or Admin
 
-## DELETE `/api/v1/`
+**DELETE `/api/v1/`**
 - `accounts/<account-number>` This Staff and admin can deletes a bank account
 
-## PATCH `/api/v1/`
+**PATCH `/api/v1/`**
 - `account/<account-number>` This Staff and admin can Deactivate/suspend/dormant a bank account
 
-# Admin Only
+### Admin Only
 
-## GET `/api/v1/`
+**GET `/api/v1/`**
 - `allusers` This list alluser to the admin including the staff & clients
 
 - `allusers/<user-id>` get a specific user details
@@ -241,7 +241,7 @@ GET `/api/v1/`
 
 - `staff/<staff-id>` This get a specific staff details.
 
-## PATCH `/api/v1/`
+**PATCH `/api/v1/`**
 - `allusers/profile/<user-id>/edit` get a specific user + staff details and edit.
 
 - `allusers/profile/<user-id>/changepassword` get a specific user + staff details and changethe password.

@@ -62,6 +62,16 @@ server.get('/api/v1/', (req, res) =>{
 	res.json(content);
 });
 
+server.get('/', (req,res)=>{
+	if (req.url === '/'){
+		console.log("yes");
+		res.redirect('https://github.com/ldonjibson/Banka/tree/api-one')
+	} else {
+		console.log("no response");
+	}
+
+
+});
 
  //end users
 
