@@ -64,10 +64,12 @@ server.get('/api/v1/', (req, res) =>{
 
 server.get('/', (req,res)=>{
 	if (req.url === '/'){
-		console.log("yes");
-		res.redirect('https://github.com/ldonjibson/Banka/tree/api-one')
+		res.redirect('https://github.com/ldonjibson/Banka/tree/api-one#documentation')
 	} else {
-		console.log("no response");
+		res.json({
+			"status": 404,
+			"error": "Something is Wrong with this Url"
+		});
 	}
 
 
