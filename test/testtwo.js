@@ -120,6 +120,17 @@ describe('Patch method For Admin and Staff to be able to edit user profile and c
 
 describe('Post method For Admin and Staff to be credit and debit a bank account and then send notification for it', () => {
 
+	it('should allow update and credit account balance', () => {
+		request.post(`${url}createbank/accounts`,  (error, response,body)=> {
+			let json = JSON.parse(body);
+			expect(response.statusCode).to.be.equal(200);
+			expect(response.headers['content-type']).to.contain('application/json');
+			expect(json.status).to.equal(401);
+			expect(json).to.be.an('object');
+		});
+	});
+
+
 	it('should return 1004 instead of updating the crediting account balance', (done) => {
 		request.post(`${url}transactions/1920000034/credit`,  (error, response,body)=> {
 			let json = JSON.parse(body);
