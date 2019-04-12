@@ -43,17 +43,17 @@ Endpoints
 Routes
 
 ## POST 
-`/api/v1/auth/signup `
+- `/api/v1/auth/signup `
 Use this route to create a new user account. The following fields are required:
 
-- firstName The firstname of the user
-- lastName The lastname of the user
-- email The email of the user
-- phone The telephone number of the user
-- password The user's password
-- dob User's Date of Birth
-- isAdmin (Only admin can choose this)
-- type (Only admin can choose this)
+1. firstName The firstname of the user
+2. lastName The lastname of the user
+3. email The email of the user
+4. phone The telephone number of the user
+5. password The user's password
+6. dob User's Date of Birth
+7. isAdmin (Only admin can choose this)
+8. type (Only admin can choose this)
 
 ```
 ### Success Response
@@ -78,13 +78,12 @@ Use this route to create a new user account. The following fields are required:
 	"status": 401,
 	"error": "Please Check, A field is missing"
 }
-
 ```
 
 - `/api/v1/auth/signin` Use this route to signin user account and generate token. The following fields are required:
 
-- email The email or username of the user
-- password The user's password
+1. email The email or username of the user
+2. password The user's password
 
 ```
 ### Success Response
@@ -107,21 +106,70 @@ Use this route to create a new user account. The following fields are required:
 ### Error Response
 {
 	"status": 401,
-	"error": "Please Check, A field is missing"
+	"error": "Please Check, One or More field is empty"
 }
 
+{
+	"status": 1002,
+	"error": "User does not exist"
+}
+
+{
+	"status": 1001,
+	"error": "Authentication Failed! password parameter invalid"
+}
 ```
 
 
 
 ## GET `/api/v1/`
 - `me/account` Use this route to access bank account dashboard
+```
+### Success Response
+{
+	"status": 1000,
+	"data":	{
+		"id": <:id>,
+		"accountNumber": <AccountNumber>,
+		"createdOn": <created date>,
+		"owner": <user-id>,
+		"type": <type of account>,
+		"status": <status of account>,
+		"balance": <Amount in Bank>
+	}
+}
 
+### Error Response
+{
+	"status": 1005,
+	"data": "Invalid User Stay Out!"
+}
+```
 
 - `me/profile` Use this route to access your profile details 
+```
+### Success Response
+{
+	"status": 1000,
+	"data":	{
+		"id": <:id>,
+		"firstName": <first-name>,
+		"lastName": <last-name>,
+		"email": <email>,
+		"dob" : <date-of-birth>,
+		"phone": <Phone>,
+		"registerDate": <Date>,
+		"type": <Type of User>,
+		"isAdmin": <User's Role>
+	}
+}
 
-- `/accounts` Create a bank account
-
+### Error Response
+{
+	"status": 1005,
+	"data": "Invalid User Stay Out!"
+}
+```
 
 - `me/account/transactions` List my transactions
 
@@ -143,6 +191,10 @@ editable fields are: firstName, lastName, phone, image
 
 
 # Staff Only
+
+POST `/api/v1/`
+- `/accounts` Create a bank account
+
 
 GET `/api/v1/`
 - `users` Allows only Clients(Users) to be shown to Staff
