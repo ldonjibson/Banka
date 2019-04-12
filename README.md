@@ -31,10 +31,10 @@ Start server:
 `npm start`
 
 ##Testing tools
-Mocha - A Javascript test framework.
-Chai - A BDD / TDD Assertion library.
-Istanbul - Javascript code coverage tool.
-nyc - The Istanbul command line interface.
+1. Mocha - A Javascript test framework.
+2. Chai - A BDD / TDD Assertion library.
+3. Istanbul - Javascript code coverage tool.
+4. nyc - The Istanbul command line interface.
 
 star Documentation star
 List of endpoints exposed by the service. For full api documentation, visit docs
@@ -46,98 +46,152 @@ Routes
 `/api/v1/auth/signup `
 Use this route to create a new user account. The following fields are required:
 
-firstName The firstname of the user
-lastName The lastname of the user
-email The email of the user
-phone The telephone number of the user
-password The user's password
-dob User's Date of Birth
-isAdmin (Only admin can choose this)
-type (Only admin can choose this)
+- firstName The firstname of the user
+- lastName The lastname of the user
+- email The email of the user
+- phone The telephone number of the user
+- password The user's password
+- dob User's Date of Birth
+- isAdmin (Only admin can choose this)
+- type (Only admin can choose this)
 
-`/api/v1/auth/signin` Use this route to signin user account and generate token. The following fields are required:
+```
+### Success Response
+{
+	"status": 1000,
+	"data":	{
+		"token": <token>,
+		"id": <:id>,
+		"firstName": <first-name>,
+		"lastName": <last-name>,
+		"email": <email>,
+		"dob" : <date-of-birth>,
+		"phone": <Phone>,
+		"registerDate": <Date>,
+		"type": <Type of User>,
+		"isAdmin": <User's Role>
+	}
+}
 
-email The email or username of the user
-password The user's password
+### Error Response
+{
+	"status": 401,
+	"error": "Please Check, A field is missing"
+}
 
-`me/account` Use this route to access bank account dashboard
+```
+
+- `/api/v1/auth/signin` Use this route to signin user account and generate token. The following fields are required:
+
+- email The email or username of the user
+- password The user's password
+
+```
+### Success Response
+{
+	"status": 1000,
+	"data":	{
+		"token": <token>,
+		"id": <:id>,
+		"firstName": <first-name>,
+		"lastName": <last-name>,
+		"email": <email>,
+		"dob" : <date-of-birth>,
+		"phone": <Phone>,
+		"registerDate": <Date>,
+		"type": <Type of User>,
+		"isAdmin": <User's Role>
+	}
+}
+
+### Error Response
+{
+	"status": 401,
+	"error": "Please Check, A field is missing"
+}
+
+```
+
 
 
 ## GET `/api/v1/`
-me/profile Use this route to access your profile details 
-
-`/accounts` Create a bank account
+- `me/account` Use this route to access bank account dashboard
 
 
-`me/account/transactions` List my transactions
+- `me/profile` Use this route to access your profile details 
 
-`me/account/transaction/<transaction-id>/detail` Check individual transaction detail
+- `/accounts` Create a bank account
+
+
+- `me/account/transactions` List my transactions
+
+- `me/account/transaction/<transaction-id>/detail` Check individual transaction detail
 
 
 ## PATCH `/api/v1/`
 
-`me/profile/edit` edit your profile
+- `me/profile/edit` edit your profile
 editable fields are: firstName, lastName, phone, image
 
-`me/profile/changepassword` change your password
+- `me/profile/changepassword` change your password
 
 
 # General to reset password
 
 ## POST `/api/v1/`
-`resetpassword` for all users to reset password if they forget
+- `resetpassword` for all users to reset password if they forget
 
 
 # Staff Only
 
 GET `/api/v1/`
-`users` Allows only Clients(Users) to be shown to Staff
+- `users` Allows only Clients(Users) to be shown to Staff
 
-`user/<user-id>` single user detail is shown to the staff
+- `user/<user-id>` single user detail is shown to the staff
 
-`user/profile/<user-id>/edit`	Allow staff to edit users
+- `user/profile/<user-id>/edit`	Allow staff to edit users
 
 ## PATCH `/api/v1/`
 
-`user/profile/<user-id>/changepassword` Allow staff to change user password
+- `user/profile/<user-id>/changepassword` Allow staff to change user password
 
 # Staff & Admin (Debit & Credit)
 
 ## POST `/api/v1/`
 
-`transactions/<account-number>/credit` 
+- `transactions/<account-number>/credit` 
 
-`transactions/<account-number>/debit` 
+- `transactions/<account-number>/debit` 
 
 # Staff & Admin
 
 ## GET `/api/v1/`
-`allclients/transactions` This display all clients' transactions
+- `allclients/transactions` This display all clients' transactions
 
-`clienttransaction/<transaction-id>/detail` This diplay the details of a particular transaction
+- `clienttransaction/<transaction-id>/detail` This diplay the details of a particular transaction
 
-`mydone/usertransaction/` This display only transaction done by a particular Staff or Admin
+- `mydone/usertransaction/` This display only transaction done by a particular Staff or Admin
 
 ## DELETE `/api/v1/`
-`accounts/<account-number>` This Staff and admin can deletes a bank account
+- `accounts/<account-number>` This Staff and admin can deletes a bank account
 
 ## PATCH `/api/v1/`
-`account/<account-number>` This Staff and admin can Deactivate/suspend/dormant a bank account
+- `account/<account-number>` This Staff and admin can Deactivate/suspend/dormant a bank account
 
 # Admin Only
 
 ## GET `/api/v1/`
-`allusers` This list alluser to the admin including the staff & clients
+- `allusers` This list alluser to the admin including the staff & clients
 
-`allusers/<user-id>` get a specific user details
+- `allusers/<user-id>` get a specific user details
 
-`staff` This list alluser to the admin including the staff
+- `staff` This list alluser to the admin including the staff
 
-`staff/<staff-id>` This get a specific staff details.
+- `staff/<staff-id>` This get a specific staff details.
 
 ## PATCH `/api/v1/`
-`allusers/profile/<user-id>/edit` get a specific user + staff details and edit.
+- `allusers/profile/<user-id>/edit` get a specific user + staff details and edit.
 
-`allusers/profile/<user-id>/changepassword` get a specific user + staff details and changethe password.
+- `allusers/profile/<user-id>/changepassword` get a specific user + staff details and changethe password.
 
 
