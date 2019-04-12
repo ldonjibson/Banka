@@ -125,7 +125,7 @@ describe('Post method For Admin and Staff to be credit and debit a bank account 
 			let json = JSON.parse(body);
 			expect(response.statusCode).to.be.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.equal(1000);
+			expect(json.status).to.equal(1004);
 			expect(json).to.be.an('object');
 			done();
 		});
