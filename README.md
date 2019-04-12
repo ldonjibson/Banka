@@ -42,8 +42,8 @@ List of endpoints exposed by the service. For full api documentation, visit docs
 Endpoints
 Routes
 
-# POST 
-/api/v1/auth/signup 
+## POST 
+`/api/v1/auth/signup `
 Use this route to create a new user account. The following fields are required:
 
 firstName The firstname of the user
@@ -55,30 +55,89 @@ dob User's Date of Birth
 isAdmin (Only admin can choose this)
 type (Only admin can choose this)
 
-/api/v1/auth/signin Use this route to signin user account and generate token. The following fields are required:
+`/api/v1/auth/signin` Use this route to signin user account and generate token. The following fields are required:
 
 email The email or username of the user
 password The user's password
 
-me/account Use this route to access bank account dashboard
+`me/account` Use this route to access bank account dashboard
 
 
-# GET /api/v1/
+## GET `/api/v1/`
 me/profile Use this route to access your profile details 
 
-/accounts Create a bank account
+`/accounts` Create a bank account
 
 
-me/account/transactions List my transactions
+`me/account/transactions` List my transactions
 
-me/account/transaction/<transaction-id>/detail Check individual transaction detail
+`me/account/transaction/<transaction-id>/detail` Check individual transaction detail
 
 
-PATCH /api/v1/
+## PATCH `/api/v1/`
 
-me/profile/edit edit your profile
+`me/profile/edit` edit your profile
 editable fields are: firstName, lastName, phone, image
 
-me/profile/changepassword change your password
+`me/profile/changepassword` change your password
+
+
+# General to reset password
+
+## POST `/api/v1/`
+`resetpassword` for all users to reset password if they forget
+
+
+# Staff Only
+
+GET `/api/v1/`
+`users` Allows only Clients(Users) to be shown to Staff
+
+`user/<user-id>` single user detail is shown to the staff
+
+`user/profile/<user-id>/edit`	Allow staff to edit users
+
+## PATCH `/api/v1/`
+
+`user/profile/<user-id>/changepassword` Allow staff to change user password
+
+# Staff & Admin (Debit & Credit)
+
+## POST `/api/v1/`
+
+`transactions/<account-number>/credit` 
+
+`transactions/<account-number>/debit` 
+
+# Staff & Admin
+
+## GET `/api/v1/`
+`allclients/transactions` This display all clients' transactions
+
+`clienttransaction/<transaction-id>/detail` This diplay the details of a particular transaction
+
+`mydone/usertransaction/` This display only transaction done by a particular Staff or Admin
+
+## DELETE `/api/v1/`
+`accounts/<account-number>` This Staff and admin can deletes a bank account
+
+## PATCH `/api/v1/`
+`account/<account-number>` This Staff and admin can Deactivate/suspend/dormant a bank account
+
+# Admin Only
+
+## GET `/api/v1/`
+`allusers` This list alluser to the admin including the staff & clients
+
+`allusers/<user-id>` get a specific user details
+
+`staff` This list alluser to the admin including the staff
+
+`staff/<staff-id>` This get a specific staff details.
+
+## PATCH `/api/v1/`
+`allusers/profile/<user-id>/edit` get a specific user + staff details and edit.
+
+`allusers/profile/<user-id>/changepassword` get a specific user + staff details and changethe password.
 
 
