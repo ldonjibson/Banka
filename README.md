@@ -38,7 +38,7 @@ Start server:
 
 ### Documentation 
 **[Link to Documentation !]('https://ebanka-api.herokuapp.com')**
-List of endpoints exposed by the service. For full api documentation, visit docs
+List of endpoints exposed by the service.
 
 
 
