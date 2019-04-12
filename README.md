@@ -367,10 +367,45 @@ field requires password and password1(confirm password)
 
 **POST**
 // TODO
-- `staff/accounts` Create a bank account for user
+- `createbank/accounts` Create a bank account for user
+```
+### Success Response
+{
+	"status": 1000,
+	"data":	{
+		"accountNumber": integer,
+		"firstName": string,
+		"lastName": string,
+		"email": string,
+		"type": string,
+		"openingBalance": Float
+	}
+}
+
+### Error Response
+//The has to be LoggedIn
+{
+	"status": 1006,
+	"error": "Log in to Create a Bank Account"
+}
+
+//User email cannot be found in the database
+{
+	"status": 1002,
+	"error": "User does not exist in the database create the user before a bank account"
+}
+
+//No email was sent/provided
+{
+	"status": 401,
+	"error": "No email was provided"
+}
+
+```
 
 **GET**
 - `users` Allows only Clients(Users) to be shown to Staff
+
 
 - `user/<user-id>` single user detail is shown to the staff
 
