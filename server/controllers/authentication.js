@@ -93,7 +93,6 @@ router.post('/auth/signin', (req, res) => {
 	let email = req.body.email
 	let password = req.body.password
 
-	// console.log(password + ' , ' + email)
 	//cehck if username or password is missing or both
 	if (!email || !password){
 
