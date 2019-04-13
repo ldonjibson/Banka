@@ -64,7 +64,7 @@ router.get('/mydone/usertransaction/', jwtStaffVerify, (req, res) =>{
 		} else {
 			res.json({
 				"status": 1000,
-				"erro": "You have not made any transaction at all"
+				"error": "You have not made any transaction at all"
 			})
 		}
 	} else {
