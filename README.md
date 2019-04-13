@@ -556,6 +556,9 @@ editable fields are: firstName(optional), lastName(optional), phone(optional), i
 
 **GET**
 - `allclients/transactions` This display all clients' transactions
+```
+
+```
 
 - `clienttransaction/<transaction-id>/detail` This diplay the details of a particular transaction
 
@@ -586,4 +589,34 @@ editable fields are: firstName(optional), lastName(optional), phone(optional), i
 
 - `allusers/profile/<user-id>/changepassword` get a specific user + staff details and changethe password.
 
+### Permission needed route checks and if it is not meet the response is always the same
 
+
+```
+// For Staff Permission level
+{
+	"status": "1005",
+	"error": "You are not a staff"
+}
+
+// For Admin Permission level
+{
+	"status": 1005,
+	"error": "You are not an Admin"
+}
+
+// For User Level Permission 
+{
+	"status": 1002,
+	"error": "Failed to Authenticate token"
+}
+
+//if no token was provided
+
+{
+	"status": 1004,
+	"error": "No token provided."
+}
+
+
+```
