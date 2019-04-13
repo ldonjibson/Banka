@@ -414,16 +414,16 @@ field requires password and password1(confirm password)
     "status": 1000,
     "data": [
         {
-            "id": 3,
-            "email": "Nathan@yesenia.net",
-            "firstName": "Clementine Bauch",
-            "lastName": "Samantha",
-            "phone": "1-463-123-4447",
-            "dob": "25-05-1991",
-            "registerDate": "25-03-1999",
-            "type": "client",
-            "isAdmin": false,
-            "imageUrl": "http://localhost:3000/images/default-image.jpg"
+            "id": integer,
+            "email": string,
+            "firstName": string,
+            "lastName": string,
+            "phone": string,
+            "dob": string,
+            "registerDate": string,
+            "type": string,
+            "isAdmin": false or true,
+            "imageUrl": string
         },
         ...
     ]
@@ -440,16 +440,16 @@ field requires password and password1(confirm password)
     "status": 1000,
     "data": 
         {
-            "id": 3,
-            "email": "Nathan@yesenia.net",
-            "firstName": "Clementine Bauch",
-            "lastName": "Samantha",
-            "phone": "1-463-123-4447",
-            "dob": "25-05-1991",
-            "registerDate": "25-03-1999",
-            "type": "client",
-            "isAdmin": false,
-            "imageUrl": "http://localhost:3000/images/default-image.jpg"
+            "id": integer,
+            "email": string,
+            "firstName": string,
+            "lastName": string,
+            "phone": string,
+            "dob": string,
+            "registerDate": string,
+            "type": string,
+            "isAdmin": false or true,
+            "imageUrl": string
         },
 }
 
@@ -557,37 +557,314 @@ editable fields are: firstName(optional), lastName(optional), phone(optional), i
 **GET**
 - `allclients/transactions` This display all clients' transactions
 ```
-
+###Success Response
+{
+	"status": 1000,
+	"data": [{
+        "id": integer,
+        "createdOn": string,
+        "transactionType": string, e.g credit, debit
+        "accountNumber": integer,
+        "cashier": integer,
+        "amount": Float,
+        "oldBalance": Float,
+        "newBalance": Float,
+        "from": string, //depends on transaction type
+        "to" : string,//depends on transaction type
+        "fromNumber": string, //depends on transaction type
+        "toNumber": string //depends on transaction type
+		},
+		...
+		]
+}
 ```
 
 - `clienttransaction/<transaction-id>/detail` This diplay the details of a particular transaction
 
-- `mydone/usertransaction/` This display only transaction done by a particular Staff or Admin
+```
+###Success Response
+{
+	"status": 1000,
+	"data": {
+        "id": integer,
+        "createdOn": string,
+        "transactionType": string, e.g credit, debit
+        "accountNumber": integer,
+        "cashier": integer,
+        "amount": Float,
+        "oldBalance": Float,
+        "newBalance": Float,
+        "from": string, //depends on transaction type
+        "to" : string,//depends on transaction type
+        "fromNumber": string, //depends on transaction type
+        "toNumber": string //depends on transaction type
+		}
+}
 
+### Error Response
+{
+	"status": 2009,
+	"error": "transaction ID does not exist!"
+}
+```
+
+- `mydone/usertransaction/` This display only transaction done by a particular Staff or Admin
+```
+###Success Response
+{
+	"status": 1000,
+	"data": [{
+        "id": integer,
+        "createdOn": string,
+        "transactionType": string, e.g credit, debit
+        "accountNumber": integer,
+        "cashier": integer,
+        "amount": Float,
+        "oldBalance": Float,
+        "newBalance": Float,
+        "from": string, //depends on transaction type
+        "to" : string,//depends on transaction type
+        "fromNumber": string, //depends on transaction type
+        "toNumber": string //depends on transaction type
+		},
+		...
+		]
+}
+
+###Second success
+{
+	"status": 1000,
+	"data": "You have not made any transaction at all"
+}
+
+### Error Response
+{
+	"status": 1004,
+	"error": "Invalid User Stay Out!"
+}
+```
 **DELETE**
 - `accounts/<account-number>` This Staff and admin can deletes a bank account
+
+```
+###Success Response
+{
+	"status": 1000,
+	"message": "Account <accountNumber> deleted Succesfully"
+}
+
+### Error Response
+// account number doesnnot exist
+{
+	"status": 2004,
+	"error": "Cannot find a matching account number <accountNumber>"
+
+}
+// User doesnot exist
+{
+	"status": 1004,
+	"error": "Invalid User Stay Out!"
+}
+```
 
 **PATCH**
 - `account/<account-number>` This Staff and admin can Deactivate/suspend/dormant a bank account
 
+```
+###Success Response
+{
+	"status": 1000,
+	"data": {
+        "id": integer,
+        "accountNumber": integer,
+        "createdOn": string,
+        "owner": integer,
+        "type": string,
+        "status": string, //Status (dormant/active)
+        "balance": Float
+	}
+}
+
+### Error Response
+// account number doesnnot exist
+{
+	"status": 2004,
+	"error": "Cannot find a matching account number <accountNumber>"
+
+}
+// User doesnot exist
+{
+	"status": 1004,
+	"error": "Invalid User Stay Out!"
+}
+```
+
 ### Admin Only
-**POST**
-
-- `admin/accounts` Create a bank account for user
-
 **GET**
 - `allusers` This list alluser to the admin including the staff & clients
+```
+### Success Repsonse
+{
+    "status": 1000,
+    "data": [
+        {
+            "id": integer,
+            "email": string,
+            "firstName": string,
+            "lastName": string,
+            "phone": string,
+            "dob": string,
+            "registerDate": string,
+            "type": string,
+            "isAdmin": false or true,
+            "imageUrl": string
+        },
+        ...
+    ]
+}
+
+```
 
 - `allusers/<user-id>` get a specific user details
+```
+### Success Repsonse
+{
+    "status": 1000,
+    "data": {
+            "id": integer,
+            "email": string,
+            "firstName": string,
+            "lastName": string,
+            "phone": string,
+            "dob": string,
+            "registerDate": string,
+            "type": string,
+            "isAdmin": false or true,
+            "imageUrl": string
+        }
+}
+
+##Error Response
+
+{
+	"status": 1004,
+	"error": "User with that ID does not exist"
+}
+
+```
 
 - `staff` This list alluser to the admin including the staff
+```
+### Success Repsonse
+{
+    "status": 1000,
+    "data": {
+            "id": integer,
+            "email": string,
+            "firstName": string,
+            "lastName": string,
+            "phone": string,
+            "dob": string,
+            "registerDate": string,
+            "type": staff,
+            "isAdmin": false or true,
+            "imageUrl": string
+        }
+}
+
+##Error Response
+
+{
+	"status": 1004,
+	"error": "User with that ID does not exist"
+}
+
+```
 
 - `staff/<staff-id>` This get a specific staff details.
+```
+### Success Repsonse
+{
+    "status": 1000,
+    "data": {
+            "id": integer,
+            "email": string,
+            "firstName": string,
+            "lastName": string,
+            "phone": string,
+            "dob": string,
+            "registerDate": string,
+            "type": staff,
+            "isAdmin": false or true,
+            "imageUrl": string
+        }
+}
+
+##Error Response
+
+{
+	"status": 1004,
+	"error": "User with that ID does not exist"
+}
+
+```
 
 **PATCH**
-- `allusers/profile/<user-id>/edit` get a specific user + staff details and edit.
+- `allusers/profile/<user-id>/edit` get a specific user + staff details and edit. 
+Field Required are:
+- firstName(optional), lastName(optional), phone(optional), image(optional)
+```
+### Success Repsonse
+{
+    "status": 1000,
+    "message": "Profile updated Successfully without Image"
+}
+
+{
+    "status": 1000,
+    "message": "Profile updated Successfully with Image"
+}
+
+##Error Response
+
+{
+	"status": 1005,
+	"error": "Invalid User Stay Out!"
+}
+
+```
 
 - `allusers/profile/<user-id>/changepassword` get a specific user + staff details and changethe password.
+field requires password and password1(confirm password)
+
+```
+### Success Response
+{
+	"status": 1000,
+	"message": "Password changed successfully"
+}
+
+### Error Response
+
+// if Password doesnot match
+{
+	"status": 1007,
+	"error": "Both Password doesnot match!"
+}
+
+// if password attempt was not made
+{
+	"status": 1008,
+	"error": "No password Attempt made"
+}
+
+// if the user does not exist
+{
+	"status": 1005,
+	"error": "Invalid User Stay Out!"
+}
+```
+
 
 ### Permission needed route checks and if it is not meet the response is always the same
 
