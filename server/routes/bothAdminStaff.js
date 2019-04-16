@@ -3,10 +3,12 @@ let bodyParser = require('body-parser');
 let bcrypt = require('bcryptjs'); // used to encrypt password
 let jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 let helper = require('../helpers/helper')
-let users = require('../datastore/user.js')
-let transactions = require('../datastore/transaction.js')
-let accounts = require('../datastore/account.js')
-const jwtStaffVerify = require('../middleware/verifyStaff.js')
+let users = require('../datastore/user')
+let transactions = require('../datastore/transaction')
+let accounts = require('../datastore/account')
+const jwtStaffVerify = require('../middleware/verifyStaff')
+const paramChecks = requrie('../middleware/paramCheck')
+
 let upload = require('../helpers/upload')
 
 
@@ -14,12 +16,8 @@ let server = express();
 const router = express.Router();
 let url = '/api/v1/';
 
-let config = require('../config/config.js')
+let config = require('../config/config')
 
-// server.set('superSecret', config.secret);
-
-// router.use();
-// router.use('', jwtverify);
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json({ type: 'application/json'}));
 
@@ -28,7 +26,7 @@ router.use(bodyParser.json({ type: 'application/json'}));
 router.get('/allclients/transactions', jwtStaffVerify, (req,res) =>{
 	const alltrans = transactions
 	res.json({
-		"status": 1000,
+		"status": 200,
 		"data": transactions
 	})
 }); 
@@ -38,12 +36,12 @@ router.get('/clienttransaction/:id/detail/', jwtStaffVerify, (req,res) =>{
 	const clienttrans = transactions.find(trans => trans.id === Number(req.params.id));
 	if (clienttrans){
 		res.json({
-			"status": 1000,
+			"status": 200,
 			"data": clienttrans
 		});
 	} else {
 		res.json({
-			"status":2009,
+			"status":401,
 			"error": "transaction ID does not exist!"
 		});
 	}
@@ -58,18 +56,18 @@ router.get('/mydone/usertransaction/', jwtStaffVerify, (req, res) =>{
 		// console.log(gettrans)
 		if (gettrans) {
 			res.json({
-				"status":1000,
+				"status":201,
 				"data": gettrans
 			})
 		} else {
 			res.json({
-				"status": 1000,
+				"status": 200,
 				"error": "You have not made any transaction at all"
 			})
 		}
 	} else {
 		res.json({
-			"status": 1004,
+			"status": 403,
 			"error": "Invalid User Stay Out!"
 		})
 	}
@@ -81,7 +79,7 @@ router.delete('/accounts/:accountNumber', jwtStaffVerify, (req, res) => {
 		const getacc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
 		if (!getacc){
 			res.json({
-				"status":2004,
+				"status":401,
 				"error": `Cannot find a matching account number ${req.params.accountNumber}`
 			})
 		}
@@ -91,13 +89,13 @@ router.delete('/accounts/:accountNumber', jwtStaffVerify, (req, res) => {
 		accounts.splice(index, 1);
 
 		res.json({
-			"status": 1000,
+			"status": 204,
 			"message": `Account ${getacc.accountNumber} deleted  Successfully` 
 		});
 
 	} else {
 		res.json({
-			"status": 1004,
+			"status": 403,
 			"error": "Invalid User Stay Out!"
 		})
 	}
@@ -109,21 +107,20 @@ router.patch('/account/:accountNumber', jwtStaffVerify, (req, res) => {
 		const getacc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
 		if (!getacc){
 			res.json({
-				"status":2004,
+				"status":401,
 				"error": `Cannot find a matching account number ${req.params.accountNumber}`
 			})
 		}
 		getacc.status = "dormant";
-		// console.log(getacc);
 		
 		res.json({
-			"status": 1000,
+			"status": 201,
 			"data": getacc 
 		});
 
 	} else {
 		res.json({
-			"status": 1004,
+			"status": 403,
 			"error": "Invalid User Stay Out!"
 		});
 	}
@@ -145,7 +142,7 @@ router.post('/createbank/accounts', jwtStaffVerify, (req, res) => {
 			chKUser = users.find(usr=> usr.email === getuseremail)
 			if(!chKUser){
 				res.json({
-					"status": 1002,
+					"status": 400,
 					"error": "User does not exist in the database create the user before a bank account"
 				})
 			} else {
@@ -160,7 +157,7 @@ router.post('/createbank/accounts', jwtStaffVerify, (req, res) => {
 			        "balance": getbalance,
 			    }
 			    res.json({
-			    	"status": 1000,
+			    	"status": 201,
 			    	"data": { 
 			    		"accountNumber": creatBank['accountNumber'],
 			    		"firstName": chKUser.firstName,
@@ -175,7 +172,7 @@ router.post('/createbank/accounts', jwtStaffVerify, (req, res) => {
 
 	} else {
 		res.json({
-			"status": 1006,
+			"status": 403,
 			"error":"Log in to Create a Bank Account for Users"
 		})
 	}
