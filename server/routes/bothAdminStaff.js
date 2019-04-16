@@ -3,10 +3,12 @@ let bodyParser = require('body-parser');
 let bcrypt = require('bcryptjs'); // used to encrypt password
 let jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 let helper = require('../helpers/helper')
-let users = require('../datastore/user.js')
-let transactions = require('../datastore/transaction.js')
-let accounts = require('../datastore/account.js')
-const jwtStaffVerify = require('../middleware/verifyStaff.js')
+let users = require('../datastore/user')
+let transactions = require('../datastore/transaction')
+let accounts = require('../datastore/account')
+const jwtStaffVerify = require('../middleware/verifyStaff')
+const paramChecks = require('../middleware/paramCheck')
+
 let upload = require('../helpers/upload')
 
 
@@ -14,36 +16,32 @@ let server = express();
 const router = express.Router();
 let url = '/api/v1/';
 
-let config = require('../config/config.js')
+let config = require('../config/config')
 
-// server.set('superSecret', config.secret);
-
-// router.use();
-// router.use('', jwtverify);
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json({ type: 'application/json'}));
 
 
 //Get all transactions
 router.get('/allclients/transactions', jwtStaffVerify, (req,res) =>{
-	const alltrans = transactions
+	const allTrans = transactions
 	res.json({
-		"status": 1000,
+		"status": 206,
 		"data": transactions
 	})
 }); 
 
 //Get individual client transaction
-router.get('/clienttransaction/:id/detail/', jwtStaffVerify, (req,res) =>{
-	const clienttrans = transactions.find(trans => trans.id === Number(req.params.id));
-	if (clienttrans){
+router.get('/clienttransaction/:id/detail/',paramChecks, jwtStaffVerify, (req,res) =>{
+	const clientTrans = transactions.find(trans => trans.id === Number(req.params.id));
+	if (clientTrans){
 		res.json({
-			"status": 1000,
-			"data": clienttrans
+			"status": 200,
+			"data": clientTrans
 		});
 	} else {
 		res.json({
-			"status":2009,
+			"status":401,
 			"error": "transaction ID does not exist!"
 		});
 	}
@@ -58,72 +56,71 @@ router.get('/mydone/usertransaction/', jwtStaffVerify, (req, res) =>{
 		// console.log(gettrans)
 		if (gettrans) {
 			res.json({
-				"status":1000,
+				"status":201,
 				"data": gettrans
 			})
 		} else {
 			res.json({
-				"status": 1000,
+				"status": 200,
 				"error": "You have not made any transaction at all"
 			})
 		}
 	} else {
 		res.json({
-			"status": 1004,
+			"status": 403,
 			"error": "Invalid User Stay Out!"
 		})
 	}
 });
 
-router.delete('/accounts/:accountNumber', jwtStaffVerify, (req, res) => {
+router.delete('/accounts/:accountNumber',paramChecks, jwtStaffVerify, (req, res) => {
 	let getUser = helper.togetUser(req);
 	if (getUser) {
-		const getacc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
-		if (!getacc){
+		const getAcc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
+		if (!getAcc){
 			res.json({
-				"status":2004,
+				"status":401,
 				"error": `Cannot find a matching account number ${req.params.accountNumber}`
 			})
 		}
 		// get the position of the account to be deleted
-		const index = accounts.indexOf(getacc);
+		const index = accounts.indexOf(getAcc);
 		//delete the account at tha position
 		accounts.splice(index, 1);
 
 		res.json({
-			"status": 1000,
-			"message": `Account ${getacc.accountNumber} deleted  Successfully` 
+			"status": 204,
+			"message": `Account ${getAcc.accountNumber} deleted  Successfully` 
 		});
 
 	} else {
 		res.json({
-			"status": 1004,
+			"status": 403,
 			"error": "Invalid User Stay Out!"
 		})
 	}
 });
 
-router.patch('/account/:accountNumber', jwtStaffVerify, (req, res) => {
+router.patch('/account/:accountNumber',paramChecks, jwtStaffVerify, (req, res) => {
 	let getUser = helper.togetUser(req);
 	if (getUser) {
-		const getacc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
-		if (!getacc){
+		const getAcc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
+		if (!getAcc){
 			res.json({
-				"status":2004,
+				"status":401,
 				"error": `Cannot find a matching account number ${req.params.accountNumber}`
 			})
 		}
-		getacc.status = "dormant";
-		// console.log(getacc);
+		getAcc.status = "dormant";
 		
 		res.json({
-			"status": 1000,
-			"data": getacc 
+			"status": 201,
+			"data": getAcc 
 		});
 
 	} else {
 		res.json({
-			"status": 1004,
+			"status": 403,
 			"error": "Invalid User Stay Out!"
 		});
 	}
@@ -133,7 +130,7 @@ router.patch('/account/:accountNumber', jwtStaffVerify, (req, res) => {
 //Create bank account for existing users 
 router.post('/createbank/accounts', jwtStaffVerify, (req, res) => {
 	const getUser = helper.togetUser(req);
-	const getAllacc = accounts.length + 1;
+	const getAllAcc = accounts.length + 1;
 	if (getUser){
 		getuseremail = req.body['email'] || null
 		if (getuseremail === null){
@@ -145,13 +142,13 @@ router.post('/createbank/accounts', jwtStaffVerify, (req, res) => {
 			chKUser = users.find(usr=> usr.email === getuseremail)
 			if(!chKUser){
 				res.json({
-					"status": 1002,
+					"status": 400,
 					"error": "User does not exist in the database create the user before a bank account"
 				})
 			} else {
 				getbalance = parseFloat(req.body['openingBalance']) || parseFloat(0.12);
 				let creatBank = {
-			        "id": getAllacc,
+			        "id": getAllAcc,
 			        "accountNumber": helper.uniqueAccNumber(),
 			        "createdOn": new Date().toISOString(),
 			        "owner": chKUser.id,
@@ -160,7 +157,7 @@ router.post('/createbank/accounts', jwtStaffVerify, (req, res) => {
 			        "balance": getbalance,
 			    }
 			    res.json({
-			    	"status": 1000,
+			    	"status": 201,
 			    	"data": { 
 			    		"accountNumber": creatBank['accountNumber'],
 			    		"firstName": chKUser.firstName,
@@ -175,7 +172,7 @@ router.post('/createbank/accounts', jwtStaffVerify, (req, res) => {
 
 	} else {
 		res.json({
-			"status": 1006,
+			"status": 403,
 			"error":"Log in to Create a Bank Account for Users"
 		})
 	}

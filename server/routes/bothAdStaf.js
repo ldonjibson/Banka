@@ -7,6 +7,7 @@ let users = require('../datastore/user.js')
 let transactions = require('../datastore/transaction.js')
 let accounts = require('../datastore/account.js')
 const jwtStaffVerify = require('../middleware/verifyStaff.js')
+const paramChecks = require('../middleware/paramCheck')
 let upload = require('../helpers/upload')
 let transporter = require('../helpers/mailer')
 
@@ -17,20 +18,16 @@ let url = '/api/v1/';
 
 let config = require('../config/config.js')
 
-// server.set('superSecret', config.secret);
-
-// router.use();
-// router.use('', jwtverify);
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json({ type: 'application/json'}));
 
 
 //credit account
-router.post('/transactions/:accountNumber/credit', jwtStaffVerify, (req, res) => {
+router.post('/transactions/:accountNumber/credit',paramChecks, jwtStaffVerify, (req, res) => {
 	let getUser = helper.togetUser(req);
 	if (!getUser){
 		res.json({
-			"status": 1004,
+			"status": 403,
 			"error": "Invalid User Stay Out!"
 		})
 	} else {
@@ -39,27 +36,27 @@ router.post('/transactions/:accountNumber/credit', jwtStaffVerify, (req, res) =>
 		const getFrom = req.body['from'] || "Self";
 		const getFromNumber = req.body['fromNumber'] || "593 665 00993 393";
 		//verify that the account number exist
-		const getacc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
-		if (!getacc){
+		const getAcc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
+		if (!getAcc){
 			res.json({
-				"status":2004,
+				"status":401,
 				"error": `Cannot find a matching account number ${req.params.accountNumber}`
 			})
 		} else {
-			let initialAmount = parseFloat(getacc.balance);
+			let initialAmount = parseFloat(getAcc.balance);
 			const newAmount = parseFloat(getAmountcredit) + initialAmount;
 			//Replace the old balance with the new one
-			getacc.balance = newAmount;
+			getAcc.balance = newAmount;
 			// create a new transaction 
 			const newTransaction = {
 				"id": transactions.length + 1,
 		        "createdOn": new Date().toISOString(),
 				"transactionType": "credit",
-		        "accountNumber": getacc.accountNumber,
+		        "accountNumber": getAcc.accountNumber,
 				"cashier": getUser.id,
 				"amount": getAmountcredit,
 				"oldBalance": initialAmount,
-				"newBalance": getacc.balance,
+				"newBalance": getAcc.balance,
 				"from": getFrom,
 				"to": "",
 				"fromNumber": getFromNumber,
@@ -68,20 +65,19 @@ router.post('/transactions/:accountNumber/credit', jwtStaffVerify, (req, res) =>
 			// push the new transaction to the data
 			transactions.push(newTransaction);
 
-			// console.log(transactions);
-			const getaccowner = users.find(accowner => accowner.id === Number(getacc.owner));
+			const getAccowner = users.find(accowner => accowner.id === Number(getAcc.owner));
 		    let mailOptions = {
 		        from: '"Krunal Lathiya" <ckagoxozic@gmail.com>', // sender address
-		        to: getaccowner.email, // list of receivers
+		        to: getAccowner.email, // list of receivers
 		        subject: "Ebanka Notification", // Subject line
-		        text: `hello ${getaccowner.firstName}, you have been credited with ${getAmountcredit} your new balance is ${getacc.balance}`, // plain text body
-		        html: `<b>hello ${getaccowner.firstName}, you have been credited with ${getAmountcredit} your new balance is ${getacc.balance}</b>` // html body
+		        text: `hello ${getAccowner.firstName}, you have been credited with ${getAmountcredit} your new balance is ${getAcc.balance}`, // plain text body
+		        html: `<b>hello ${getAccowner.firstName}, you have been credited with ${getAmountcredit} your new balance is ${getAcc.balance}</b>` // html body
 		    };
 		    transporter.transporter.sendMail(mailOptions, (error, info) =>{
 		    	if (error){
 		    		console.log(error)
 					res.json({
-						"status": 1000,
+						"status": 201,
 						"data": {
 							"transactionId": newTransaction.id,
 							"accountNumber": newTransaction.accountNumber,
@@ -99,7 +95,7 @@ router.post('/transactions/:accountNumber/credit', jwtStaffVerify, (req, res) =>
 					});
 		    	} else {
 					res.json({
-						"status": 1000,
+						"status": 201,
 						"data": {
 							"transactionId": newTransaction.id,
 							"accountNumber": newTransaction.accountNumber,
@@ -122,11 +118,11 @@ router.post('/transactions/:accountNumber/credit', jwtStaffVerify, (req, res) =>
 });
 
 
-router.post('/transactions/:accountNumber/debit', jwtStaffVerify, (req, res) => {
+router.post('/transactions/:accountNumber/debit',paramChecks, jwtStaffVerify, (req, res) => {
 	let getUser = helper.togetUser(req);
 	if (!getUser){
 		res.json({
-			"status": 1004,
+			"status": 403,
 			"error": "Invalid User Stay Out!"
 		})
 	} else {
@@ -135,33 +131,33 @@ router.post('/transactions/:accountNumber/debit', jwtStaffVerify, (req, res) => 
 		const getTo = req.body['to'] || "Self";
 		const getToNumber = req.body['toNumber'] || "593 665 00993 393";
 		//verify that the account number exist
-		const getacc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
-		if (!getacc){
+		const getAcc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
+		if (!getAcc){
 			res.json({
-				"status":2004,
+				"status":401,
 				"error": `Cannot find a matching account number ${req.params.accountNumber}`
 			})
 		} else {
-			let initialAmount = parseFloat(getacc.balance);
+			let initialAmount = parseFloat(getAcc.balance);
 			const newAmount = initialAmount - parseFloat(getAmountcredit);
 			if (newAmount < 0){
 				res.json({
-					"status": 2099,
+					"status": 401,
 					"error": "You donot have sufficient Amount to perform this operation"
 				})
 			} else {
 				//Replace the old balance with the new one
-				getacc.balance = newAmount;
+				getAcc.balance = newAmount;
 				// create a new transaction 
 				const newTransaction = {
 					"id": transactions.length + 1,
 			        "createdOn": new Date().toISOString(),
 					"transactionType": "debit",
-			        "accountNumber": getacc.accountNumber,
+			        "accountNumber": getAcc.accountNumber,
 					"cashier": getUser.id,
 					"amount": getAmountcredit,
 					"oldBalance": initialAmount,
-					"newBalance": getacc.balance,
+					"newBalance": getAcc.balance,
 					"from": "",
 					"to": getTo,
 					"fromNumber": "",
@@ -170,21 +166,20 @@ router.post('/transactions/:accountNumber/debit', jwtStaffVerify, (req, res) => 
 				// push the new transaction to the data
 				transactions.push(newTransaction);
 
-				// console.log(transactions); 
-				const getaccowner = users.find(accowner => accowner.id === Number(getacc.owner));
-			    console.log(getaccowner.email)
+				const getAccowner = users.find(accowner => accowner.id === Number(getAcc.owner));
+			    console.log(getAccowner.email)
 			    let mailOptions = {
 			        from: '"Krunal Lathiya" <ckagoxozic@gmail.com>', // sender address
-			        to: "ckagoxozic@gmail.com", //getaccowner.email, // list of receivers
+			        to: "ckagoxozic@gmail.com", //getAccowner.email, // list of receivers
 			        subject: "Ebanka Notification", // Subject line
-			        text: `hello ${getaccowner.firstName}, you have been debited by ${getAmountcredit} your new balance is ${getacc.balance}`, // plain text body
-			        html: `<b>hello ${getaccowner.firstName}, you have been debited by ${getAmountcredit}<br>from ${newTransaction.from} your new balance is ${getacc.balance}</b>` // html body
+			        text: `hello ${getAccowner.firstName}, you have been debited by ${getAmountcredit} your new balance is ${getAcc.balance}`, // plain text body
+			        html: `<b>hello ${getAccowner.firstName}, you have been debited by ${getAmountcredit}<br>from ${newTransaction.from} your new balance is ${getAcc.balance}</b>` // html body
 			    };
 			    transporter.transporter.sendMail(mailOptions, (error, info) =>{
 			    	if (error){
 			    		console.log(error)
 						res.json({
-							"status": 1000,
+							"status": 201,
 							"data": {
 								"transactionId": newTransaction.id,
 								"accountNumber": newTransaction.accountNumber,
@@ -202,7 +197,7 @@ router.post('/transactions/:accountNumber/debit', jwtStaffVerify, (req, res) => 
 						});
 			    	} else {
 						res.json({
-							"status": 1000,
+							"status": 201,
 							"data": {
 								"transactionId": newTransaction.id,
 								"accountNumber": newTransaction.accountNumber,

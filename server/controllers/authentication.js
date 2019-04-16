@@ -15,8 +15,7 @@ let config = require('../config/config.js')
 
 server.set('superSecret', config.secret);
 
-// router.use();
-// router.use('', jwtverify);
+
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json({ type: 'application/json'}));
 
@@ -67,18 +66,26 @@ router.post('/auth/signup', (req, res) => {
 		} else {
 			newUser ['isAdmin'] = true;
 		}
-		// console.log(req.body)
 
 		//This pushes the newly gotten value to the data
-		// users = JSON.stringify(usobj);
 		let usObj = users
 		usObj.push(newUser);
-		// console.log(usObj);
 		const getUser = usObj.find(usr => usr.id === Number(usObj.length));
-		delete getUser['password'];
 		res.json({
-			"status": 1000,
-			"data": getUser
+			"status": 201,
+			"data": {
+				"id": getUser['id'],
+		        "email": getUser['email'],
+		        "firstName": getUser['firstName'],
+		        "lastName": getUser['lastName'],
+		        "phone": getUser['phone'],
+		        "dob": getUser['dob'],
+		        "registerDate": getUser['registerDate'],
+		        "type": getUser['type'],
+		        "isAdmin": getUser['isAdmin'],
+		        "imageUrl": getUser['imageUrl']
+
+			}
 		});
 
 	}
@@ -108,15 +115,14 @@ router.post('/auth/signin', (req, res) => {
 		const getUser = users.find(usr => usr.email === email);
 		if (!getUser){
 			res.json({
-				"status": 1002,
+				"status": 404,
 				"error": "User does not exist!"
 			});
 		} else {
 			bcrypt.compare(password, getUser.password).then((response) =>{
-				// console.log(response)
 				if (!response){
 					res.json({
-						"status": 1001,
+						"status": 401,
 						"error": "Authentication Failed! password parameter invalid"
 					});
 				} else {
@@ -126,11 +132,20 @@ router.post('/auth/signin', (req, res) => {
 					});
 					//add token to response
 					getUser['token'] = token;
-					// remove the password key
-					delete getUser['password'];
 					res.json({
-						"status": 1000,
-						"data": getUser
+						"status": 200,
+						"data": {
+							"id": getUser['id'],
+					        "email": getUser['email'],
+					        "firstName": getUser['firstName'],
+					        "lastName": getUser['lastName'],
+					        "phone": getUser['phone'],
+					        "dob": getUser['dob'],
+					        "registerDate": getUser['registerDate'],
+					        "type": getUser['type'],
+					        "isAdmin": getUser['isAdmin'],
+					        "imageUrl": getUser['imageUrl']
+						}
 					});
 				}
 			});				
@@ -139,30 +154,5 @@ router.post('/auth/signin', (req, res) => {
 	}
 
 });
-
-
-//Request Password Reset
-router.post('/password-reset/',  (req, res) => {
-	const email = req.body['email'];
-	if(!email){
-		res.json({
-			"status": 1100,
-			"error": "No email provided"
-		});
-	} else {
-		const chkForUser = users.find(usr => usr.email === email);
-		if (!chkForUser){
-			res.json({
-				"status": 1002,
-				"error": "User does not exist!"
-			})
-		} else {
-
-		}
-
-	}
-});
-
-
 
 module.exports = router;

@@ -1,4 +1,5 @@
-
+.env
 node_modules
 second.js
 index_old.js
+

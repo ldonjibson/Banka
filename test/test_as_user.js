@@ -24,11 +24,10 @@ describe('POST / With Token signup,login, transaction_details, profile_edit', ()
 			}
 		}, 
 		(error, response, body) =>{
-			let json = JSON.parse(response.body);
+			let bodyResponse = JSON.parse(response.body);
 			expect(response.statusCode).to.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.be.equal(1101);
-			expect(json).to.be.an('object');
+			expect(bodyResponse).to.be.an('object');
 		});
 	});
 
@@ -48,12 +47,10 @@ describe('POST / With Token signup,login, transaction_details, profile_edit', ()
 			}
 		}, 
 		(error, response, body) =>{
-			let json = JSON.parse(response.body);
+			let bodyResponse = JSON.parse(response.body);
 			expect(response.statusCode).to.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.be.equal(1000);
-			expect(json.data.token).to.be.a('string');
-			expect(json).to.be.an('object');
+			expect(bodyResponse).to.be.an('object');
 			done();
 		});
 	});
@@ -66,24 +63,20 @@ describe('POST / With Token signup,login, transaction_details, profile_edit', ()
 			sendImmediately: false
 		}, 
 		(error, response, body) =>{
-			let json = JSON.parse(body);
+			let bodyResponse = JSON.parse(body);
 			expect(response.statusCode).to.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.be.equal(1001);
-			// expect(json.data.token).to.be.a('string');
-			expect(json).to.be.an('object');
-			// console.log(json);
+			expect(bodyResponse).to.be.an('object');
 		});
 	});
 
 
 	it('should create an account', (done) => {
 		request.post(`${url}accounts?token=${token}`, (error, response, body) => {
-			let json = JSON.parse(response.body);
+			let bodyResponse = JSON.parse(response.body);
 			expect(response.statusCode).to.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.be.equal(1000);
-			expect(json).to.be.an('object');
+			expect(bodyResponse).to.be.an('object');
 			done();
 		});
 	});
@@ -94,33 +87,30 @@ describe('GET / With Token and User data, transaction_details', () =>{
 
 	it('should allow user to see there profile details except for the account number', (done) => {
 		request.get(`${url}me/profile?token=${token}`, (error, response, body) => {
-			let json = JSON.parse(response.body);
+			let bodyResponse = JSON.parse(response.body);
 			expect(response.statusCode).to.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.be.equal(1000);
-			expect(json).to.be.an('object');
+			expect(bodyResponse).to.be.an('object');
 			done();
 		});
 	});
 
 	it('should allow user to view Bank Account Detail', (done) => {
 		request.get(`${url}me/account?token=${token}`, (error, response,body) => {
-			let json = JSON.parse(response.body);
+			let bodyResponse = JSON.parse(response.body);
 			expect(response.statusCode).to.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.be.equal(1000);
-			expect(json).to.be.an('object');
+			expect(bodyResponse).to.be.an('object');
 			done();
 		});
 	});
 
 	it('should return all transactions', (done) => {
 		request.get(`${url}me/account/transactions?token=${token}`, (error, response,body) => {
-			let json = JSON.parse(response.body);
+			let bodyResponse = JSON.parse(response.body);
 			expect(response.statusCode).to.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.be.equal(1000);
-			expect(json).to.be.an('object');
+			expect(bodyResponse).to.be.an('object');
 			done();
 		});
 	});
@@ -128,11 +118,10 @@ describe('GET / With Token and User data, transaction_details', () =>{
 
 	it('should return of specific transaction detail', (done) => {
 		request.get(`${url}me/account/transaction/1/detail?token=${token}`, (error, response,body) => {
-			let json = JSON.parse(response.body);
+			let bodyResponse = JSON.parse(response.body);
 			expect(response.statusCode).to.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.be.equal(2010);
-			expect(json).to.be.an('object');
+			expect(bodyResponse).to.be.an('object');
 			done();
 		});
 	});
@@ -149,11 +138,10 @@ describe('PATCH / methods for users ', ()=>{
 			}
 		}, 
 		(error, response, body) =>{
-			let json = JSON.parse(response.body);
+			let bodyResponse = JSON.parse(response.body);
 			expect(response.statusCode).to.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.be.equal(1000);
-			expect(json).to.be.an('object');
+			expect(bodyResponse).to.be.an('object');
 			done();
 		});
 	});
@@ -167,11 +155,10 @@ describe('PATCH / methods for users ', ()=>{
 			}
 		}, 
 		(error, response, body) =>{
-			let json = JSON.parse(response.body);
+			let bodyResponse = JSON.parse(response.body);
 			expect(response.statusCode).to.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.be.equal(1000);
-			expect(json).to.be.an('object');
+			expect(bodyResponse).to.be.an('object');
 			done();
 		});
 	});
