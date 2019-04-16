@@ -27,32 +27,29 @@ const jwtAdminVerify= ((req, res, next) => {
 		//verifies secret and check up
 		jwt.verify(token, server.get('superSecret'), (err, decoded) => {
 			if(err) {
-				return res.json({"status":1002, "error": 'Failed to Authenticate token'});
+				return res.json({"status":403, "error": 'Failed to Authenticate token'});
 			} else {
 				//if authenticatable save to request for other route to use
 				req.decoded = decoded;
-				// console.log(decoded);
 				//check if user email has staff property
 				const getUser = users.find(usr => usr.email === decoded.email);
 				if (getUser.type === "staff" && getUser.isAdmin === true ){
 					next();
 				} else {
 					res.json({
-						"status":1005,
+						"status":401,
 						"error": "You are not an Admin"
 					});
 				}
-				// res.status(200).send();
 			}
 		})
 	} else {
 		//if there is no token return an error
 		return res.json({
-			"status": 1004,
+			"status": 400,
 			"error": "No token provided."
 		});
 	}
 });
 
 module.exports = jwtAdminVerify;
-// server.use('', router);
