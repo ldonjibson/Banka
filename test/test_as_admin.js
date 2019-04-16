@@ -11,20 +11,20 @@ describe('GET / With Token For Admin Alone', ()=> {
 
 	it ('Should contain status code 200 and return error', (done) => {
 		request.get(`${url}staff?token=${token}`, (error,response,body) => {
-			let json = JSON.parse(body);
+			let bodyResponse = JSON.parse(body);
 			expect(response.statusCode).to.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json).to.be.an('object');
+			expect(bodyResponse).to.be.an('object');
 			done();	
 		});
 	}); 
 
 	it('should get the single staff with the id passed', (done) => {
 		request.get(`${url}staff/2?token=${token}`, (error,response,body) =>{
-			let json = JSON.parse(body);
+			let bodyResponse = JSON.parse(body);
 			expect(response.statusCode).to.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json).to.be.an('object');
+			expect(bodyResponse).to.be.an('object');
 			done();
 		});
 
@@ -33,9 +33,9 @@ describe('GET / With Token For Admin Alone', ()=> {
 	it('should allow Admin get all use types', (done) => {
 		request.get(`${url}allusers?token=${token}`, (error, response, body) => {
 			expect(response.statusCode).to.equal(200);
-			let json = JSON.parse(response.body);
+			let bodyResponse = JSON.parse(response.body);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json).to.be.an('object');
+			expect(bodyResponse).to.be.an('object');
 			done();
 		});
 	});
@@ -47,9 +47,9 @@ describe('PATCH / With Token For Admin Alone', ()=> {
 	it('should allow Admin to edit user profile', (done) => {
 		request.patch(`${url}allusers/profile/1/edit?token=${token}`, (error, response, body) => {
 			expect(response.statusCode).to.equal(200);
-			let json = JSON.parse(response.body);
+			let bodyResponse = JSON.parse(response.body);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json).to.be.an('object');
+			expect(bodyResponse).to.be.an('object');
 			done();
 		});
 	});
@@ -62,9 +62,9 @@ describe('PATCH / With Token For Admin Alone', ()=> {
 				'password1': 'testpass'
 			}}, (error, response, body) => {
 			expect(response.statusCode).to.equal(200);
-			let json = JSON.parse(response.body);
+			let bodyResponse = JSON.parse(response.body);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json).to.be.an('object');
+			expect(bodyResponse).to.be.an('object');
 			done();
 		});
 	});
