@@ -82,7 +82,7 @@ describe('User signup,login, transaction_details, profile_edit', () =>{
 	});
 
 
-	it('should return "1004" instead of specific transaction detail', (done) => {
+	it('should return error instead of specific transaction detail', (done) => {
 		request.get(`${url}me/account/transaction/1/detail`, (error, response,body) => {
 			expect(response.statusCode).to.equal(200);
 			let bodyResponse = JSON.parse(response.body);
@@ -92,7 +92,7 @@ describe('User signup,login, transaction_details, profile_edit', () =>{
 		});
 	});
 
-	it('should return "1004" instead of creating an account', (done) => {
+	it('should return error instead of creating an account', (done) => {
 		request.post(`${url}accounts`, (error, response, body) => {
 			expect(response.statusCode).to.equal(200);
 			let bodyResponse = JSON.parse(response.body);
