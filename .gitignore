@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 .env
 node_modules
 second.js
 index_old.js
-=======
-node_modules
->>>>>>> routes
+
