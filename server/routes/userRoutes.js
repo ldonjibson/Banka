@@ -110,11 +110,11 @@ router.get('/me/account/transaction/:id/detail',paramChecks, jwtVerify,  (req, r
 
 router.post('/accounts', jwtVerify, (req, res) => {
 	const getUser = helper.togetUser(req);
-	const getAllacc = accounts.length + 1;
+	const getAllAcc = accounts.length + 1;
 	if (getUser){
 		getbalance = parseFloat(req.body['openingBalance']) || parseFloat(0.12);
 		let creatBank = {
-	        "id": getAllacc,
+	        "id": getAllAcc,
 	        "accountNumber": helper.uniqueAccNumber(),
 	        "createdOn": new Date().toISOString(),
 	        "owner": getUser.id,

@@ -36,27 +36,27 @@ router.post('/transactions/:accountNumber/credit',paramChecks, jwtStaffVerify, (
 		const getFrom = req.body['from'] || "Self";
 		const getFromNumber = req.body['fromNumber'] || "593 665 00993 393";
 		//verify that the account number exist
-		const getacc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
-		if (!getacc){
+		const getAcc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
+		if (!getAcc){
 			res.json({
 				"status":401,
 				"error": `Cannot find a matching account number ${req.params.accountNumber}`
 			})
 		} else {
-			let initialAmount = parseFloat(getacc.balance);
+			let initialAmount = parseFloat(getAcc.balance);
 			const newAmount = parseFloat(getAmountcredit) + initialAmount;
 			//Replace the old balance with the new one
-			getacc.balance = newAmount;
+			getAcc.balance = newAmount;
 			// create a new transaction 
 			const newTransaction = {
 				"id": transactions.length + 1,
 		        "createdOn": new Date().toISOString(),
 				"transactionType": "credit",
-		        "accountNumber": getacc.accountNumber,
+		        "accountNumber": getAcc.accountNumber,
 				"cashier": getUser.id,
 				"amount": getAmountcredit,
 				"oldBalance": initialAmount,
-				"newBalance": getacc.balance,
+				"newBalance": getAcc.balance,
 				"from": getFrom,
 				"to": "",
 				"fromNumber": getFromNumber,
@@ -65,13 +65,13 @@ router.post('/transactions/:accountNumber/credit',paramChecks, jwtStaffVerify, (
 			// push the new transaction to the data
 			transactions.push(newTransaction);
 
-			const getaccowner = users.find(accowner => accowner.id === Number(getacc.owner));
+			const getAccowner = users.find(accowner => accowner.id === Number(getAcc.owner));
 		    let mailOptions = {
 		        from: '"Krunal Lathiya" <ckagoxozic@gmail.com>', // sender address
-		        to: getaccowner.email, // list of receivers
+		        to: getAccowner.email, // list of receivers
 		        subject: "Ebanka Notification", // Subject line
-		        text: `hello ${getaccowner.firstName}, you have been credited with ${getAmountcredit} your new balance is ${getacc.balance}`, // plain text body
-		        html: `<b>hello ${getaccowner.firstName}, you have been credited with ${getAmountcredit} your new balance is ${getacc.balance}</b>` // html body
+		        text: `hello ${getAccowner.firstName}, you have been credited with ${getAmountcredit} your new balance is ${getAcc.balance}`, // plain text body
+		        html: `<b>hello ${getAccowner.firstName}, you have been credited with ${getAmountcredit} your new balance is ${getAcc.balance}</b>` // html body
 		    };
 		    transporter.transporter.sendMail(mailOptions, (error, info) =>{
 		    	if (error){
@@ -131,14 +131,14 @@ router.post('/transactions/:accountNumber/debit',paramChecks, jwtStaffVerify, (r
 		const getTo = req.body['to'] || "Self";
 		const getToNumber = req.body['toNumber'] || "593 665 00993 393";
 		//verify that the account number exist
-		const getacc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
-		if (!getacc){
+		const getAcc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
+		if (!getAcc){
 			res.json({
 				"status":401,
 				"error": `Cannot find a matching account number ${req.params.accountNumber}`
 			})
 		} else {
-			let initialAmount = parseFloat(getacc.balance);
+			let initialAmount = parseFloat(getAcc.balance);
 			const newAmount = initialAmount - parseFloat(getAmountcredit);
 			if (newAmount < 0){
 				res.json({
@@ -147,17 +147,17 @@ router.post('/transactions/:accountNumber/debit',paramChecks, jwtStaffVerify, (r
 				})
 			} else {
 				//Replace the old balance with the new one
-				getacc.balance = newAmount;
+				getAcc.balance = newAmount;
 				// create a new transaction 
 				const newTransaction = {
 					"id": transactions.length + 1,
 			        "createdOn": new Date().toISOString(),
 					"transactionType": "debit",
-			        "accountNumber": getacc.accountNumber,
+			        "accountNumber": getAcc.accountNumber,
 					"cashier": getUser.id,
 					"amount": getAmountcredit,
 					"oldBalance": initialAmount,
-					"newBalance": getacc.balance,
+					"newBalance": getAcc.balance,
 					"from": "",
 					"to": getTo,
 					"fromNumber": "",
@@ -166,14 +166,14 @@ router.post('/transactions/:accountNumber/debit',paramChecks, jwtStaffVerify, (r
 				// push the new transaction to the data
 				transactions.push(newTransaction);
 
-				const getaccowner = users.find(accowner => accowner.id === Number(getacc.owner));
-			    console.log(getaccowner.email)
+				const getAccowner = users.find(accowner => accowner.id === Number(getAcc.owner));
+			    console.log(getAccowner.email)
 			    let mailOptions = {
 			        from: '"Krunal Lathiya" <ckagoxozic@gmail.com>', // sender address
-			        to: "ckagoxozic@gmail.com", //getaccowner.email, // list of receivers
+			        to: "ckagoxozic@gmail.com", //getAccowner.email, // list of receivers
 			        subject: "Ebanka Notification", // Subject line
-			        text: `hello ${getaccowner.firstName}, you have been debited by ${getAmountcredit} your new balance is ${getacc.balance}`, // plain text body
-			        html: `<b>hello ${getaccowner.firstName}, you have been debited by ${getAmountcredit}<br>from ${newTransaction.from} your new balance is ${getacc.balance}</b>` // html body
+			        text: `hello ${getAccowner.firstName}, you have been debited by ${getAmountcredit} your new balance is ${getAcc.balance}`, // plain text body
+			        html: `<b>hello ${getAccowner.firstName}, you have been debited by ${getAmountcredit}<br>from ${newTransaction.from} your new balance is ${getAcc.balance}</b>` // html body
 			    };
 			    transporter.transporter.sendMail(mailOptions, (error, info) =>{
 			    	if (error){

@@ -21,16 +21,16 @@ router.use(bodyParser.json({ type: 'application/json'}));
 
 router.get('/allusers', jwtAdminVerify, (req, res) =>{
 	// Allow only client to be shown to staff
-	const allusers = users;
-	rmpassallusers = []
-	for (var i = allusers.length - 1; i >= 0; i--) {
-		let key = allusers[i]
+	const allUsers = users;
+	rmPassAllUsers = []
+	for (var i = allUsers.length - 1; i >= 0; i--) {
+		let key = allUsers[i]
 		delete key['password'];
-		rmpassallusers.push(key);
+		rmPassAllUsers.push(key);
 	}
 	res.json({
 		"status": 200,
-		"data": rmpassallusers
+		"data": rmPassAllUsers
 	});
 });
 
@@ -55,8 +55,8 @@ router.get('/allusers/:id', paramChecks, jwtAdminVerify, (req, res) => {
 //start For users alone
 router.get('/staff', jwtAdminVerify, (req, res) =>{
 	// Allow only client to be shown to staff
-	const allstaff = users.filter(usr => usr.type === "staff" );
-	delete allstaff['password']
+	const allStaff = users.filter(usr => usr.type === "staff" );
+	delete allStaff['password']
 	res.json({
 		"status": 200,
 		"data": allstaff
