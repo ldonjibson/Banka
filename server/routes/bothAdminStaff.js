@@ -32,7 +32,7 @@ router.get('/allclients/transactions', jwtStaffVerify, (req,res) =>{
 }); 
 
 //Get individual client transaction
-router.get('/clienttransaction/:id/detail/', jwtStaffVerify, (req,res) =>{
+router.get('/clienttransaction/:id/detail/',paramChecks, jwtStaffVerify, (req,res) =>{
 	const clientTrans = transactions.find(trans => trans.id === Number(req.params.id));
 	if (clientTrans){
 		res.json({
@@ -73,7 +73,7 @@ router.get('/mydone/usertransaction/', jwtStaffVerify, (req, res) =>{
 	}
 });
 
-router.delete('/accounts/:accountNumber', jwtStaffVerify, (req, res) => {
+router.delete('/accounts/:accountNumber',paramChecks, jwtStaffVerify, (req, res) => {
 	let getUser = helper.togetUser(req);
 	if (getUser) {
 		const getAcc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
@@ -101,7 +101,7 @@ router.delete('/accounts/:accountNumber', jwtStaffVerify, (req, res) => {
 	}
 });
 
-router.patch('/account/:accountNumber', jwtStaffVerify, (req, res) => {
+router.patch('/account/:accountNumber',paramChecks, jwtStaffVerify, (req, res) => {
 	let getUser = helper.togetUser(req);
 	if (getUser) {
 		const getAcc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
