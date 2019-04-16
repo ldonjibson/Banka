@@ -45,17 +45,27 @@
 						<option value="main">Main Board</option>
 						<option value="users">Users</option>
 						<option value="staff">Staff</option>
-						<option value="create-user-staff">Create Users/Staff</option>
+						<option value="create-user-staff">Create Admin/Staff</option>
 						<option value="logout">Logout</option>
 					</select>
 					<div class="navigation">
 						<h4 class="text-center tshadow">Admin Dashboard Navigation</h4>
 						<div class="no-style text-center">
-							<div><a class="dlink" href="./admin-dashboard.html"> Main Board</a></div>
-							<div><a class="dlink" href="./admin-profile.html"> Manage Profile</a></div>
-							<div><a class="dlink" href="./admin-dashboard-users.html"> Users List</a></div>
-							<div><a class="dlink" href="./admin-create-users.html"> Create Users/Staff</a></div>
-							<div><a class="dlink" href="./admin-login.html"> Logout</a></div>							
+							<div class="dlink-margin"> 
+								<a class="dlink-btn dlink" href="./admin-dashboard.html"> Main Board</a>
+							</div>
+							<div class="dlink-margin"> 
+								<a class="dlink-btn dlink" href="./admin-profile.html"> Manage Profile</a>
+							</div>
+							<div class="dlink-margin"> 
+								<a class="dlink-btn dlink" href="./admin-dashboard-users.html"> Users List</a>
+							</div>
+							<div class="dlink-margin"> 
+								<a class="dlink-btn dlink" href="./admin-create-users.html"> Create Admin/Staff</a>
+							</div>
+							<div class="dlink-margin"> 
+								<a class="dlink-btn dlink" href="./admin-login.html"> Logout</a>
+							</div>							
 						</div>
 					</div>
 				</div>
@@ -63,13 +73,12 @@
 					<h4 class="text-center tshadow">John Doe eBanka Account Detail</h4>
 					<h4 class="text-center">Account Number: 010100110</h4>
 						<div class="cl-6">
+							<img src="file:///C:/Users/USER/Desktop/ANDELA/Banka/Banka/UI/images/man-placeholder.jpg" class="profile-img">
+						</div>
+						<div class="cl-6">
 							<div class="table-scroll">
 								<table class="" width="100%">
 									<tbody>
-										<tr>
-											<th>Image</th>
-											<td><img src="./images/man-placeholder.jpg" class="profile-img-admin"></td>
-										</tr>
 										<tr>
 											<th>Account Type</th>
 											<td>User</td>
@@ -113,78 +122,11 @@
 									</tbody>
 								</table>
 								<div class="text-center">
-									<button class="suspend cl-6" onclick="alert('User Has Been Suspended');"> <i class="fa fa-ban"></i> Suspend</button>
-									<button class="delete cl-6" onclick="alert('User Has Been Deleted');"><i class="fa fa-trash"></i> Delete</button>
+									<button title="active/deactivate account" class="suspend cl-6" onclick="alert('User Has Been Suspended');"> <i class="fa fa-pause-circle-o"></i> / <i class="fa fa-play-circle-o"></i></button>
+									<button title="Delete" class="delete cl-6" onclick="alert('User Has Been Deleted');"><i class="fa fa-trash"></i></button>
 								</div>
 							</div>
 						</div>
-						<div class="cl-6">
-							<div class="profile-dema text-center">
-							<div id="amountupsdate" class="text-center"></div>
-								<div class="space">
-									<button class="btn btn-basic btn-register" id="user-update-toggle" onclick="adminDrCrUpdate();">Credit / Debit User Account</button>
-								</div>
-								<div>
-									<form id="credit-debit" class="hide" action="" enctype="multipart/form-data" onsubmit="creditDebit();">
-										<input type="number" name="credit-debit">
-										<button id="crdr" class="btn-stretch" placeholder="Debit/Credit">Credit/Debit</button>
-									</form>
-								</div>							
-								<div class="space">
-									<button class="btn btn-basic btn-register" id="user-update-toggle" onclick="adminUpdate();">Toggle Edit User</button>
-								</div>
-								<div id="admin-toggle-user-edit" class="hide">
-									<form action="" method="POST" enctype="multipart/form-data" id="admin-create-user-profile" onsubmit="updateUserStaff();">
-										<div id="passwordtop" class="text-center"></div>
-										<div>
-											<input type="number" max="9999999999" name="account-number" id="account-number" placeholder="Account Number" class="" value="0101001100" required="">
-										</div>
-										<div>
-											<input type="text" name="firstname" placeholder="First Name" class="" value="John" required="">
-										</div>
-										<div>
-											<input type="text" name="lastname" placeholder="Last Name" class="" value="Doe" required="">
-										</div>
-										<div>
-											<input type="email" name="email" placeholder="Email ..." class="" value="johndoe@gmail.com" required="">
-										</div>
-										<div>
-											<input type="text" name="tel" placeholder="+234818010000" class="" value="+1 478 7547 885" required="">
-										</div>
-										<div>
-											<input type="date" name="date" placeholder="" class="" required="">
-										</div>
-										<div>
-											<input type="file" name="profile-img" id="uplaod-img" class="admin-photo">
-											<label for="uplaod-img" class="text-left"><i class="fa fa-camera-retro"></i> Click me to upload pics</label>
-										</div>
-										<div>
-											<select name="role" id="role">
-												<option>Select User Account Type</option>
-												<option>User Account</option>
-												<option>Staff</option>
-												<option>Admin</option>
-											</select>
-										</div>
-										<div class="space">
-											<button class="btn-stretch" type="submit" id="register">Update <i class="fa fa-floppy-o"></i></button>
-										</div>
-									</form>
-									<h4>Change User Password</h4>
-									<form action="" id="adminedit-changepassword" onsubmit="adminchangePassword();">
-										<div>
-											<input type="password" name="newpassword" placeholder="New Password">
-										</div>
-										<div>
-											<input type="password" name="newpassword1" placeholder="Confirm New Password">
-										</div>
-										<div class="space">
-											<button class="btn btn-basic btn-register" type="submit" id="register">Change Password <i class="fa fa-floppy-o"></i></button>
-										</div>
-									</form>
-								</div>
-							</div>
-					</div>
 				</div>
 			</div>
 		</div>
