@@ -7,7 +7,7 @@ let users = require('../datastore/user.js')
 let transactions = require('../datastore/transaction.js')
 let accounts = require('../datastore/account.js')
 const jwtStaffVerify = require('../middleware/verifyStaff.js')
-const paramChecks = requrie('../middleware/paramCheck')
+const paramChecks = require('../middleware/paramCheck')
 let upload = require('../helpers/upload')
 let transporter = require('../helpers/mailer')
 
