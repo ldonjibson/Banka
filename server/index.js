@@ -28,7 +28,7 @@ server.use(morgan('combined'));
 
 server.get('/api/v1/', (req, res) =>{
 	let content = {
-		status: 1000,
+		status: 200,
 		message: "Connected"
 	}
 	res.json(content);
