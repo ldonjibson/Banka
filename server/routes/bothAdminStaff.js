@@ -24,7 +24,7 @@ router.use(bodyParser.json({ type: 'application/json'}));
 
 //Get all transactions
 router.get('/allclients/transactions', jwtStaffVerify, (req,res) =>{
-	const alltrans = transactions
+	const allTrans = transactions
 	res.json({
 		"status": 200,
 		"data": transactions
@@ -33,11 +33,11 @@ router.get('/allclients/transactions', jwtStaffVerify, (req,res) =>{
 
 //Get individual client transaction
 router.get('/clienttransaction/:id/detail/', jwtStaffVerify, (req,res) =>{
-	const clienttrans = transactions.find(trans => trans.id === Number(req.params.id));
-	if (clienttrans){
+	const clientTrans = transactions.find(trans => trans.id === Number(req.params.id));
+	if (clientTrans){
 		res.json({
 			"status": 200,
-			"data": clienttrans
+			"data": clientTrans
 		});
 	} else {
 		res.json({
@@ -76,21 +76,21 @@ router.get('/mydone/usertransaction/', jwtStaffVerify, (req, res) =>{
 router.delete('/accounts/:accountNumber', jwtStaffVerify, (req, res) => {
 	let getUser = helper.togetUser(req);
 	if (getUser) {
-		const getacc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
-		if (!getacc){
+		const getAcc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
+		if (!getAcc){
 			res.json({
 				"status":401,
 				"error": `Cannot find a matching account number ${req.params.accountNumber}`
 			})
 		}
 		// get the position of the account to be deleted
-		const index = accounts.indexOf(getacc);
+		const index = accounts.indexOf(getAcc);
 		//delete the account at tha position
 		accounts.splice(index, 1);
 
 		res.json({
 			"status": 204,
-			"message": `Account ${getacc.accountNumber} deleted  Successfully` 
+			"message": `Account ${getAcc.accountNumber} deleted  Successfully` 
 		});
 
 	} else {
@@ -104,18 +104,18 @@ router.delete('/accounts/:accountNumber', jwtStaffVerify, (req, res) => {
 router.patch('/account/:accountNumber', jwtStaffVerify, (req, res) => {
 	let getUser = helper.togetUser(req);
 	if (getUser) {
-		const getacc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
-		if (!getacc){
+		const getAcc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
+		if (!getAcc){
 			res.json({
 				"status":401,
 				"error": `Cannot find a matching account number ${req.params.accountNumber}`
 			})
 		}
-		getacc.status = "dormant";
+		getAcc.status = "dormant";
 		
 		res.json({
 			"status": 201,
-			"data": getacc 
+			"data": getAcc 
 		});
 
 	} else {
@@ -130,7 +130,7 @@ router.patch('/account/:accountNumber', jwtStaffVerify, (req, res) => {
 //Create bank account for existing users 
 router.post('/createbank/accounts', jwtStaffVerify, (req, res) => {
 	const getUser = helper.togetUser(req);
-	const getAllacc = accounts.length + 1;
+	const getAllAcc = accounts.length + 1;
 	if (getUser){
 		getuseremail = req.body['email'] || null
 		if (getuseremail === null){
@@ -148,7 +148,7 @@ router.post('/createbank/accounts', jwtStaffVerify, (req, res) => {
 			} else {
 				getbalance = parseFloat(req.body['openingBalance']) || parseFloat(0.12);
 				let creatBank = {
-			        "id": getAllacc,
+			        "id": getAllAcc,
 			        "accountNumber": helper.uniqueAccNumber(),
 			        "createdOn": new Date().toISOString(),
 			        "owner": chKUser.id,
