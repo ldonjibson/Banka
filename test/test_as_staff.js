@@ -46,7 +46,7 @@ describe('GET / For Staff  and Admin Alone', ()=> {
 
 	it('should get individual transaction record becuase staff ',(done) => {
 		request.get(`${url}/clienttransaction/1/detail/?token=${token}`, (error, response,body) => {
-			let json =JSON.parse(body);
+			let bodyResponse =JSON.parse(body);
 			expect(response.statusCode).to.be.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(bodyResponse).to.be.an('object');
@@ -121,7 +121,6 @@ describe('POST / method With token For Admin and Staff to be credit and debit a 
 			let bodyResponse = JSON.parse(body);
 			expect(response.statusCode).to.be.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.equal(1000);
 			expect(bodyResponse).to.be.an('object');
 			done();
 		});
@@ -132,7 +131,6 @@ describe('POST / method With token For Admin and Staff to be credit and debit a 
 			let bodyResponse = JSON.parse(body);
 			expect(response.statusCode).to.be.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.equal(1000);
 			expect(bodyResponse).to.be.an('object');
 		});
 	});

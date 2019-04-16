@@ -50,7 +50,6 @@ describe('POST / With Token signup,login, transaction_details, profile_edit', ()
 			let bodyResponse = JSON.parse(response.body);
 			expect(response.statusCode).to.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(bodyResponse.data.token).to.be.a('string');
 			expect(bodyResponse).to.be.an('object');
 			done();
 		});

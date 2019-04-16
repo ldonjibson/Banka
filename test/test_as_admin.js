@@ -9,7 +9,7 @@ const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNpbmNlcmVAYXBy
 
 describe('GET / With Token For Admin Alone', ()=> {
 
-	it ('Should contain status code 200 and return 1004', (done) => {
+	it ('Should contain status code 200 and return error', (done) => {
 		request.get(`${url}staff?token=${token}`, (error,response,body) => {
 			let json = JSON.parse(body);
 			expect(response.statusCode).to.equal(200);
