@@ -58,8 +58,8 @@ router.get('/staff', jwtAdminVerify, (req, res) =>{
 	const allStaff = users.filter(usr => usr.type === "staff" );
 	delete allStaff['password']
 	res.json({
-		"status": 200,
-		"data": allstaff
+		"status": 206,
+		"data": allStaff
 	});
 });
 
