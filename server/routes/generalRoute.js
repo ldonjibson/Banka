@@ -8,37 +8,35 @@ let jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 let helper = require('../helpers/helper')
 let upload = require('../helpers/upload')
 //DATA USED
-let users = require('../datastore/user.js')
-let transactions = require('../datastore/transaction.js')
-let accounts = require('../datastore/account.js')
+let users = require('../datastore/user')
+let transactions = require('../datastore/transaction')
+let accounts = require('../datastore/account')
 
 // Middleswares
-const jwtVerify = require('../middleware/verifyuserlogin.js')
-const jwtStaffVerify = require('../middleware/verifyStaff.js')
+const jwtVerify = require('../middleware/verifyuserlogin')
+const jwtStaffVerify = require('../middleware/verifyStaff')
+const paramChecks = requrie('../middleware/paramCheck')
 
 
 let server = express();
 const router = express.Router();
 
-let config = require('../config/config.js')
+let config = require('../config/config')
 
 server.set('superSecret', config.secret);
 
-// router.use();
-// router.use('', jwtverify);
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json({ type: 'application/json'}));
 
 let transporter = require('../helpers/mailer')
 
 // recover password
-
 router.post('/resetpassword', (req, res) => {
 	const email = req.body['email'];
 	const getUser = users.find(usr => usr.email === email);
 	if (!getUser) {
 		res.json({
-			"status": 1101,
+			"status": 401,
 			"error": `User with ${email} does not exist` 
 		});
 	} else {
@@ -54,17 +52,14 @@ router.post('/resetpassword', (req, res) => {
 	    };
 	    transporter.transporter.sendMail(mailOptions, (error, info) =>{
 	    	if (error){
-	    		console.log(error)
 				res.json({
-					"status": 1000,
-					"data": "Password was notsent due to failed emailing system",
-					"mail": error
+					"status": 201,
+					"message": "Password was notsent due to failed emailing system",
 				});
 	    	} else {
 				res.json({
-					"status": 1000,
-					"data": "Password recoverywas successful",
-					"mail": info.response
+					"status": 201,
+					"message": "Password recoverywas successful",
 				});
 	    	}
 	    });

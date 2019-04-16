@@ -8,24 +8,23 @@ let jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 let helper = require('../helpers/helper')
 let upload = require('../helpers/upload')
 //DATA USED
-let users = require('../datastore/user.js')
-let transactions = require('../datastore/transaction.js')
-let accounts = require('../datastore/account.js')
+let users = require('../datastore/user')
+let transactions = require('../datastore/transaction')
+let accounts = require('../datastore/account')
 
 // Middleswares
-const jwtVerify = require('../middleware/verifyuserlogin.js')
-const jwtStaffVerify = require('../middleware/verifyStaff.js')
+const jwtVerify = require('../middleware/verifyuserlogin')
+const jwtStaffVerify = require('../middleware/verifyStaff')
+const paramChecks = requrie('../middleware/paramCheck')
 
 
 let server = express();
 const router = express.Router();
 
-let config = require('../config/config.js')
+let config = require('../config/config')
 
 server.set('superSecret', config.secret);
 
-// router.use();
-// router.use('', jwtverify);
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json({ type: 'application/json'}));
 
@@ -35,12 +34,12 @@ router.get('/me/profile', jwtVerify,  (req, res) => {
 	if (getUser) {
 		delete getUser['password'];
 		res.json({
-			"status": 1000,
+			"status": 200,
 			"data": getUser
 		});		
 	} else {
 		res.json({
-			"status": 1005,
+			"status": 401,
 			"error": "Invalid User Stay Out!"
 		});
 	}
@@ -52,12 +51,12 @@ router.get('/me/account', jwtVerify,  (req, res) => {
 	if (getUser) {
 		const getUseracct = accounts.find(acc => acc.owner === getUser.id);
 		res.json({
-			"status": 1000,
+			"status": 200,
 			"data": getUseracct
 		});		
 	} else {
 		res.json({
-			"status": 1005,
+			"status": 401,
 			"error": "Invalid User Stay Out!"
 		});
 	}
@@ -66,45 +65,42 @@ router.get('/me/account', jwtVerify,  (req, res) => {
 
 router.get('/me/account/transactions', jwtVerify,  (req, res) => {
 	let getUser = helper.togetUser(req);
-	// console.log(getUser);
 	if (getUser) {
 		const getUseracct = accounts.find(acc => acc.owner === getUser.id);
 		const getUsertransactns = transactions.filter(transactn => transactn.accountNumber === getUseracct.accountNumber);
 		res.json({
-			"status": 1000,
+			"status": 200,
 			"data": getUsertransactns
 		});		
 	} else {
 		res.json({
-			"status": 1005,
+			"status": 401,
 			"error": "Invalid User Stay Out!"
 		});
 	}
 
 });
 
-router.get('/me/account/transaction/:id/detail', jwtVerify,  (req, res) => {
+router.get('/me/account/transaction/:id/detail',paramChecks, jwtVerify,  (req, res) => {
 	const getUser = helper.togetUser(req);
 	if (getUser) {
 		const getUseracct = accounts.find(acc => acc.owner === getUser.id);
-		// console.log(getUseracct);
 		const gettheUsertransactns = transactions.find(transactn => transactn.id === Number(req.params.id) && transactn.accountNumber === getUseracct.accountNumber);
-		// console.log(gettheUsertransactns);
 		if (gettheUsertransactns){
 			res.json({
-				"status": 1000,
+				"status": 200,
 				"data": gettheUsertransactns
 		});			
 		} else {
 			res.json({
-				"status":2010,
+				"status":400,
 				"error": "(not your transaction!) Wrong transaction details"
 			})
 		}
 	
 	} else {
 		res.json({
-			"status": 1005,
+			"status": 401,
 			"error": "Invalid User Stay Out!"
 		});
 	}
@@ -127,7 +123,7 @@ router.post('/accounts', jwtVerify, (req, res) => {
 	        "balance": getbalance,
 	    }
 	    res.json({
-	    	"status": 1000,
+	    	"status": 200,
 	    	"data": { 
 	    		"accountNumber": creatBank['accountNumber'],
 	    		"firstName": getUser.firstName,
@@ -139,7 +135,7 @@ router.post('/accounts', jwtVerify, (req, res) => {
 	    });
 	} else {
 		res.json({
-			"status": 1006,
+			"status": 403,
 			"error":"Log in to Create a Bank Account"
 		})
 	}
@@ -165,20 +161,20 @@ router.patch('/me/profile/edit', upload.upload.single('file'), jwtVerify,  (req,
 		}
 		if (!image){
 			res.json({
-				"status": 1000,
+				"status": 200,
 				"data": getUser
 			});	
 		} else {
 			getUser.imageUrl = 'http://localhost:3000/images/'+ req.file.filename
 			res.json({
-				"status": 1000,
+				"status": 200,
 				"data": getUser
 			});
 		}
 	
 	} else {
 		res.json({
-			"status": 1005,
+			"status": 403,
 			"data": "Invalid User Stay Out!"
 		});
 	}
@@ -196,25 +192,25 @@ router.patch('/me/profile/changepassword', upload.upload.single('file'), jwtVeri
 				let hashedPassword = bcrypt.hashSync(password, 8);
 				getUser.password = hashedPassword;
 				res.json({
-					"status": 1000,
+					"status": 200,
 					"message": "Password changed successfully"
 				});
 			} else{
 				res.json({
-					"status": 1007,
+					"status": 401,
 					"error": "Both Passwords doesnot match"
 				});
 			}
 		} else {
 			res.json({
-				"status": 1008,
+				"status": 204,
 				"error": "No Password Change Attempt Made"
 			});
 		}
 	
 	} else {
 		res.json({
-			"status": 1005,
+			"status": 403,
 			"error": "Invalid User Stay Out!"
 		});
 	}

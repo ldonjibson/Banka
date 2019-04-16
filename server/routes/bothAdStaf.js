@@ -7,6 +7,7 @@ let users = require('../datastore/user.js')
 let transactions = require('../datastore/transaction.js')
 let accounts = require('../datastore/account.js')
 const jwtStaffVerify = require('../middleware/verifyStaff.js')
+const paramChecks = requrie('../middleware/paramCheck')
 let upload = require('../helpers/upload')
 let transporter = require('../helpers/mailer')
 
@@ -17,20 +18,16 @@ let url = '/api/v1/';
 
 let config = require('../config/config.js')
 
-// server.set('superSecret', config.secret);
-
-// router.use();
-// router.use('', jwtverify);
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json({ type: 'application/json'}));
 
 
 //credit account
-router.post('/transactions/:accountNumber/credit', jwtStaffVerify, (req, res) => {
+router.post('/transactions/:accountNumber/credit',paramChecks, jwtStaffVerify, (req, res) => {
 	let getUser = helper.togetUser(req);
 	if (!getUser){
 		res.json({
-			"status": 1004,
+			"status": 403,
 			"error": "Invalid User Stay Out!"
 		})
 	} else {
@@ -42,7 +39,7 @@ router.post('/transactions/:accountNumber/credit', jwtStaffVerify, (req, res) =>
 		const getacc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
 		if (!getacc){
 			res.json({
-				"status":2004,
+				"status":401,
 				"error": `Cannot find a matching account number ${req.params.accountNumber}`
 			})
 		} else {
@@ -68,7 +65,6 @@ router.post('/transactions/:accountNumber/credit', jwtStaffVerify, (req, res) =>
 			// push the new transaction to the data
 			transactions.push(newTransaction);
 
-			// console.log(transactions);
 			const getaccowner = users.find(accowner => accowner.id === Number(getacc.owner));
 		    let mailOptions = {
 		        from: '"Krunal Lathiya" <ckagoxozic@gmail.com>', // sender address
@@ -81,7 +77,7 @@ router.post('/transactions/:accountNumber/credit', jwtStaffVerify, (req, res) =>
 		    	if (error){
 		    		console.log(error)
 					res.json({
-						"status": 1000,
+						"status": 201,
 						"data": {
 							"transactionId": newTransaction.id,
 							"accountNumber": newTransaction.accountNumber,
@@ -99,7 +95,7 @@ router.post('/transactions/:accountNumber/credit', jwtStaffVerify, (req, res) =>
 					});
 		    	} else {
 					res.json({
-						"status": 1000,
+						"status": 201,
 						"data": {
 							"transactionId": newTransaction.id,
 							"accountNumber": newTransaction.accountNumber,
@@ -122,11 +118,11 @@ router.post('/transactions/:accountNumber/credit', jwtStaffVerify, (req, res) =>
 });
 
 
-router.post('/transactions/:accountNumber/debit', jwtStaffVerify, (req, res) => {
+router.post('/transactions/:accountNumber/debit',paramChecks, jwtStaffVerify, (req, res) => {
 	let getUser = helper.togetUser(req);
 	if (!getUser){
 		res.json({
-			"status": 1004,
+			"status": 403,
 			"error": "Invalid User Stay Out!"
 		})
 	} else {
@@ -138,7 +134,7 @@ router.post('/transactions/:accountNumber/debit', jwtStaffVerify, (req, res) => 
 		const getacc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
 		if (!getacc){
 			res.json({
-				"status":2004,
+				"status":401,
 				"error": `Cannot find a matching account number ${req.params.accountNumber}`
 			})
 		} else {
@@ -146,7 +142,7 @@ router.post('/transactions/:accountNumber/debit', jwtStaffVerify, (req, res) => 
 			const newAmount = initialAmount - parseFloat(getAmountcredit);
 			if (newAmount < 0){
 				res.json({
-					"status": 2099,
+					"status": 401,
 					"error": "You donot have sufficient Amount to perform this operation"
 				})
 			} else {
@@ -170,7 +166,6 @@ router.post('/transactions/:accountNumber/debit', jwtStaffVerify, (req, res) => 
 				// push the new transaction to the data
 				transactions.push(newTransaction);
 
-				// console.log(transactions); 
 				const getaccowner = users.find(accowner => accowner.id === Number(getacc.owner));
 			    console.log(getaccowner.email)
 			    let mailOptions = {
@@ -184,7 +179,7 @@ router.post('/transactions/:accountNumber/debit', jwtStaffVerify, (req, res) => 
 			    	if (error){
 			    		console.log(error)
 						res.json({
-							"status": 1000,
+							"status": 201,
 							"data": {
 								"transactionId": newTransaction.id,
 								"accountNumber": newTransaction.accountNumber,
@@ -202,7 +197,7 @@ router.post('/transactions/:accountNumber/debit', jwtStaffVerify, (req, res) => 
 						});
 			    	} else {
 						res.json({
-							"status": 1000,
+							"status": 201,
 							"data": {
 								"transactionId": newTransaction.id,
 								"accountNumber": newTransaction.accountNumber,
