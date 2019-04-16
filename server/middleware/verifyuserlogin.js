@@ -21,34 +21,27 @@ server.set('superSecret', config.secret);
 
 const jwtVerify= ((req, res, next) => {
 	// check header or url parameters or post parameteers for token
-	try {
 	let token = req.body.token || req.query.token || req.headers['x-access-token'];
 	//decode token
 	if(token) {
 		//verifies secret and check up
 		jwt.verify(token, server.get('superSecret'), (err, decoded) => {
 			if(err) {
-				return res.json({"status":1002, "error": 'Failed to Authenticate token'});
+				return res.json({"status":403, "error": 'Failed to Authenticate token'});
 			} else {
 				//if authenticatable save to request for other route to use
 				req.decoded = decoded;
-				// console.log(req.decoded);
 				next();
-				// res.status(200).send();
 			}
 		})
 	} else {
 		//if there is no token return an error
 		return res.json({
-			"status": 1004,
+			"status": 401,
 			"error": "No token provided."
 		});
 	}
-	}
-	catch (err){
-		return console.log(err);
-		}
+
 });
 
 module.exports = jwtVerify;
-// server.use('', router);
