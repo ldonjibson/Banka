@@ -15,7 +15,7 @@ let accounts = require('../datastore/account')
 // Middleswares
 const jwtVerify = require('../middleware/verifyuserlogin')
 const jwtStaffVerify = require('../middleware/verifyStaff')
-const paramChecks = requrie('../middleware/paramCheck')
+const paramChecks = require('../middleware/paramCheck')
 
 
 let server = express();
