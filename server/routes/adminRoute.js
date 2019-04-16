@@ -29,7 +29,7 @@ router.get('/allusers', jwtAdminVerify, (req, res) =>{
 		rmPassAllUsers.push(key);
 	}
 	res.json({
-		"status": 200,
+		"status": 206,
 		"data": rmPassAllUsers
 	});
 });

@@ -25,17 +25,17 @@ router.use(bodyParser.json({ type: 'application/json'}));
 //staff For users alone
 router.get('/users', jwtStaffVerify, (req, res) =>{
 	// Allow only client to be shown to staff
-	const allusers = users.filter(usr => usr.isAdmin === false && usr.type === "client" );
-	delete allusers['password'];
-	rmpassallusers = []
-	for (var i = allusers.length - 1; i >= 0; i--) {
-		let key = allusers[i]
+	const allUsers = users.filter(usr => usr.isAdmin === false && usr.type === "client" );
+	rmPassAllUsers = []
+	for (var i = allUsers.length - 1; i >= 0; i--) {
+		let key = allUsers[i]
+>>>>>>> routes
 		delete key['password'];
-		rmpassallusers.push(key);
+		rmPassAllUsers.push(key);
 	}
 	res.json({
-		"status": 1000,
-		"data": rmpassallusers
+		"status": 206,
+		"data": rmPassAllUsers
 	});
 });
 

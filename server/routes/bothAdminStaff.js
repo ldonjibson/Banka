@@ -26,7 +26,7 @@ router.use(bodyParser.json({ type: 'application/json'}));
 router.get('/allclients/transactions', jwtStaffVerify, (req,res) =>{
 	const allTrans = transactions
 	res.json({
-		"status": 200,
+		"status": 206,
 		"data": transactions
 	})
 }); 

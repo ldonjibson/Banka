@@ -161,13 +161,13 @@ router.patch('/me/profile/edit', upload.upload.single('file'), jwtVerify,  (req,
 		}
 		if (!image){
 			res.json({
-				"status": 200,
+				"status": 206,
 				"data": getUser
 			});	
 		} else {
 			getUser.imageUrl = 'http://localhost:3000/images/'+ req.file.filename
 			res.json({
-				"status": 200,
+				"status": 206,
 				"data": getUser
 			});
 		}
