@@ -15,7 +15,6 @@ describe('GET / With Token For Admin Alone', ()=> {
 			let json = JSON.parse(body);
 			expect(response.statusCode).to.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.equal(1000);
 			expect(json).to.be.an('object');
 			done();	
 		});
@@ -26,7 +25,6 @@ describe('GET / With Token For Admin Alone', ()=> {
 			let json = JSON.parse(body);
 			expect(response.statusCode).to.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.equal(1000);
 			expect(json).to.be.an('object');
 			done();
 		});
@@ -38,9 +36,7 @@ describe('GET / With Token For Admin Alone', ()=> {
 			expect(response.statusCode).to.equal(200);
 			let json = JSON.parse(response.body);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.be.equal(1000);
 			expect(json).to.be.an('object');
-			// console.log(response)
 			done();
 		});
 	});
@@ -54,9 +50,7 @@ describe('PATCH / With Token For Admin Alone', ()=> {
 			expect(response.statusCode).to.equal(200);
 			let json = JSON.parse(response.body);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.be.equal(1000);
 			expect(json).to.be.an('object');
-			// console.log(response)
 			done();
 		});
 	});
@@ -71,7 +65,6 @@ describe('PATCH / With Token For Admin Alone', ()=> {
 			expect(response.statusCode).to.equal(200);
 			let json = JSON.parse(response.body);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.be.equal(1000);
 			expect(json).to.be.an('object');
 			done();
 		});

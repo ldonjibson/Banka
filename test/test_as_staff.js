@@ -16,22 +16,20 @@ describe('GET / For Staff  and Admin Alone', ()=> {
 
 	it ('Should return all users except for admin and staffs ', (done) => {
 		request.get(`${url}users?token=${token}`, (error,response,body) => {
-			let json = JSON.parse(body);
+			let bodyResponse = JSON.parse(body);
 			expect(response.statusCode).to.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.equal(1000);
-			expect(json).to.be.an('object');
+			expect(bodyResponse).to.be.an('object');
 			done();	
 		});
 	}); 
 
 	it('should return user id detail', (done) => {
 		request.get(`${url}user/3?token=${token}`, (error,response,body) => {
-			let json = JSON.parse(body);
+			let bodyResponse = JSON.parse(body);
 			expect(response.statusCode).to.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.equal(1000);
-			expect(json).to.be.an('object');
+			expect(bodyResponse).to.be.an('object');
 			done();
 		});
 
@@ -39,11 +37,10 @@ describe('GET / For Staff  and Admin Alone', ()=> {
 
 	it('should get all client transaction', (done) => {
 		request.get(`${url}allclients/transactions?token=${token}`,(error,response,body) => {
-			let json = JSON.parse(body);
+			let bodyResponse = JSON.parse(body);
 			expect(response.statusCode).to.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.equal(1000);
-			expect(json).to.be.an('object');
+			expect(bodyResponse).to.be.an('object');
 			done();
 		});
 	});
@@ -53,19 +50,17 @@ describe('GET / For Staff  and Admin Alone', ()=> {
 			let json =JSON.parse(body);
 			expect(response.statusCode).to.be.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.equal(1000);
-			expect(json).to.be.an('object');
+			expect(bodyResponse).to.be.an('object');
 			done();
 		});
 	});
 
 	it('should all record performed by a specific staff', (done) => {
 		request.get(`${url}mydone/usertransaction/?token=${token}`, (error,response, body) => {
-			let json = JSON.parse(body);
+			let bodyResponse = JSON.parse(body);
 			expect(response.statusCode).to.be.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.equal(1000);
-			expect(json).to.be.an('object');
+			expect(bodyResponse).to.be.an('object');
 			done();
 		});
 	});
@@ -76,11 +71,10 @@ describe('PATCH / method With Token For Admin and Staff to be able to edit user 
 
 	it('should change account status', (done) => {
 		request.patch(`${url}account/1920000034?token=${token}`,  (error, response,body)=> {
-			let json = JSON.parse(body);
+			let bodyResponse = JSON.parse(body);
 			expect(response.statusCode).to.be.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.equal(1000);
-			expect(json).to.be.an('object');
+			expect(bodyResponse).to.be.an('object');
 			done();
 		});
 	});
@@ -88,11 +82,10 @@ describe('PATCH / method With Token For Admin and Staff to be able to edit user 
 	it('should allow Staff to edit user profile', (done) => {
 		request.patch(`${url}user/profile/3/edit?token=${token}`, (error, response, body) => {
 			expect(response.statusCode).to.equal(200);
-			let json = JSON.parse(response.body);
+			let bodyResponse = JSON.parse(response.body);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.be.equal(1000);
-			expect(json).to.be.an('object');
-			// console.log(response)
+			expect(bodyResponse).to.be.an('object');
+
 			done();
 		});
 	});
@@ -106,11 +99,10 @@ describe('PATCH / method With Token For Admin and Staff to be able to edit user 
 			}
 		}, (error, response, body) => {
 			expect(response.statusCode).to.equal(200);
-			let json = JSON.parse(response.body);
+			let bodyResponse = JSON.parse(response.body);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.be.equal(1000);
-			expect(json).to.be.an('object');
-			// console.log(response)
+			expect(bodyResponse).to.be.an('object');
+
 			done();
 		});
 	});
@@ -127,33 +119,32 @@ describe('POST / method With token For Admin and Staff to be credit and debit a 
 				"email": "Since@april.biz"
 			}
 		},  (error, response,body)=> {
-			let json = JSON.parse(body);
+			let bodyResponse = JSON.parse(body);
 			expect(response.statusCode).to.be.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(json.status).to.equal(1000);
-			expect(json).to.be.an('object');
+			expect(bodyResponse).to.be.an('object');
 			done();
 		});
 	})
 
 	it('should allow update and credit account balance', () => {
 		request.post(`${url}transactions/1920000034/credit?token=${token}`,  (error, response,body)=> {
-			let json = JSON.parse(body);
+			let bodyResponse = JSON.parse(body);
 			expect(response.statusCode).to.be.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(json.status).to.equal(1000);
-			expect(json).to.be.an('object');
+			expect(bodyResponse).to.be.an('object');
 		});
 	});
 
 
 	it('should allow update and  debit account balance', () => {
 		request.post(`${url}transactions/1920000034/debit?token=${token}`,  (error, response,body)=> {
-			let json = JSON.parse(body);
+			let bodyResponse = JSON.parse(body);
 			expect(response.statusCode).to.be.equal(200);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(json.status).to.equal(1000);
-			expect(json).to.be.an('object');
+			expect(bodyResponse).to.be.an('object');
 		});
 	});
 
@@ -165,11 +156,10 @@ describe('DELETE / Delete selected user Account ', () => {
 	after('run after all code', () => {
 		it('should deleting the bank account', (done) => {
 			request.delete(`${url}accounts/1920000034/?token=${token}`, (error,response, body) => {
-				let json = JSON.parse(body);
+				let bodyResponse = JSON.parse(body);
 				expect(response.statusCode).to.be.equal(200);
 				expect(response.headers['content-type']).to.contain('application/json');
-				expect(json.status).to.equal(1000);
-				expect(json).to.be.an('object');
+				expect(bodyResponse).to.be.an('object');
 				done();
 			});
 		});
