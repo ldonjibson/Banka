@@ -16,13 +16,13 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json({ type: 'application/json'}));
 
 
-const userRouter = require('./routes/userRoutes.js');
-const AuthController = require('./controllers/authentication.js');
-const staffRouter = require('./routes/staffRoute.js');
-const adminRouter = require('./routes/adminRoute.js');
-const bothAdminStaff = require('./routes/bothAdminStaff.js');
-const bothAdStaf = require('./routes/bothAdStaf.js');
-const generalRoute = require('./routes/generalRoute.js');
+const userRouter = require('./userRoutes.js');
+const AuthController = require('../controllers/authentication.js');
+const staffRouter = require('./staffRoute.js');
+const adminRouter = require('./adminRoute.js');
+const bothAdminStaff = require('./bothAdminStaff.js');
+const bothAdStaf = require('./bothAdStaf.js');
+const generalRoute = require('./generalRoute.js');
 
 
 // All user ROUTES
