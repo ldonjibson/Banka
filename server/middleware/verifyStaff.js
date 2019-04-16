@@ -27,7 +27,7 @@ const jwtStaffVerify= ((req, res, next) => {
 		//verifies secret and check up
 		jwt.verify(token, server.get('superSecret'), (err, decoded) => {
 			if(err) {
-				return res.json({status:1002, error: 'Failed to Authenticate token'});
+				return res.json({"status":1002, "error": 'Failed to Authenticate token'});
 			} else {
 				//if authenticatable save to request for other route to use
 				req.decoded = decoded;
@@ -37,8 +37,8 @@ const jwtStaffVerify= ((req, res, next) => {
 					next();
 				} else {
 					res.json({
-						status:1005,
-						error: "You are not a staff"
+						"status":1005,
+						"error": "You are not a staff"
 					});
 				}
 			}
@@ -46,8 +46,8 @@ const jwtStaffVerify= ((req, res, next) => {
 	} else {
 		//if there is no token return an error
 		return res.json({
-			status: 1004,
-			error: "No token provided."
+			"status": 1004,
+			"error": "No token provided."
 		});
 	}
 });

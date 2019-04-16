@@ -44,6 +44,10 @@ List of endpoints exposed by the service.
 
 ### Endpoints & Routes
 
+### This token was generated to test the endpoint and it will expire in 60days, it can be passed as query, params & header
+
+**"```eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNpbmNlcmVAYXByaWwuYml6IiwiaWQiOjEsImlzQWRtaW4iOnRydWUsImlhdCI6MTU1NDQ0NTMzNCwiZXhwIjoxNTU5NjI5MzM0fQ.bT5An0F30yXAKCADWsGkYROlBZPmpS43w_JCb7ktp-I```"**
+
 **CHEKING IF THE API EXISTS OR IS WORKING**
 ### https://ebanka-api.herokuapp.com/api/v1/
 ```
@@ -366,19 +370,143 @@ field requires password and password1(confirm password)
 ### Staff Only
 
 **POST**
-// TODO
-- `staff/accounts` Create a bank account for user
+- `createbank/accounts` Create a bank account for user
+```
+### Success Response
+{
+	"status": 1000,
+	"data":	{
+		"accountNumber": integer,
+		"firstName": string,
+		"lastName": string,
+		"email": string,
+		"type": string,
+		"openingBalance": Float
+	}
+}
 
+### Error Response
+//The has to be LoggedIn
+{
+	"status": 1006,
+	"error": "Log in to Create a Bank Account"
+}
+
+//User email cannot be found in the database
+{
+	"status": 1002,
+	"error": "User does not exist in the database create the user before a bank account"
+}
+
+//No email was sent/provided
+{
+	"status": 401,
+	"error": "No email was provided"
+}
+
+
+```
 **GET**
 - `users` Allows only Clients(Users) to be shown to Staff
+```
+### Success Repsonse
+{
+    "status": 1000,
+    "data": [
+        {
+            "id": integer,
+            "email": string,
+            "firstName": string,
+            "lastName": string,
+            "phone": string,
+            "dob": string,
+            "registerDate": string,
+            "type": string,
+            "isAdmin": false or true,
+            "imageUrl": string
+        },
+        ...
+    ]
+}
+
+```
+
 
 - `user/<user-id>` single user detail is shown to the staff
 
+```
+### Success Repsonse
+{
+    "status": 1000,
+    "data": 
+        {
+            "id": integer,
+            "email": string,
+            "firstName": string,
+            "lastName": string,
+            "phone": string,
+            "dob": string,
+            "registerDate": string,
+            "type": string,
+            "isAdmin": false or true,
+            "imageUrl": string
+        },
+}
+
+```
+
 - `user/profile/<user-id>/edit`	Allow staff to edit users
+editable fields are: firstName(optional), lastName(optional), phone(optional), image(optional)
+```
+### Success Response
+{
+	"status": 1000,
+	"message": "Profile updated Successfully without Image"
+}
+
+{
+	"status": 1000,
+	"message": "Profile updated Successfully with Image"
+}
+
+//if the user does not exist
+{
+	"status": 1005,
+	"error": "Invalid User Stay Out!"
+}
+```
 
 **PATCH**
-
 - `user/profile/<user-id>/changepassword` Allow staff to change user password
+
+```
+### Success Response
+{
+	"status": 1000,
+	"message": "Password changed successfully"
+}
+
+### Error Response
+
+// if Password doesnot match
+{
+	"status": 1007,
+	"error": "Both Password doesnot match!"
+}
+
+// if password attempt was not made
+{
+	"status": 1008,
+	"error": "No password Attempt made"
+}
+
+// if the user does not exist
+{
+	"status": 1005,
+	"error": "Invalid User Stay Out!"
+}
+```
+
 
 ### Staff & Admin (Debit & Credit)
 
@@ -388,38 +516,384 @@ field requires password and password1(confirm password)
 
 - `transactions/<account-number>/debit` 
 
+```
+### Success Response
+{
+	"status": 1000,
+	"data": {
+		"transactionId": integer,
+		"accountNumber": integer,
+		"amount": Float,
+		"cashier": integer,
+		"transactionType": string,// credit or debit
+		"accountBalance": Float,
+		"oldBalance": Float,
+		"from": string, // only for credit transactiontype
+		"to": "string", // only for debit transactiontype
+		"fromNumber": string, // only for credit transactiontype
+		"toNumber": "string" // only for debit transactiontype
+	},
+	"mail": string // success or error
+}
+}
+
+### Error Response
+// if account number cannot be found
+{
+	"status":2004,
+	"error": "Cannot find a matching account number <accountNumber>"
+}
+
+// if the user does not exist
+{
+	"status": 1004,
+	"error": "Invalid User Stay Out!"
+}
+
+```
+
 ### Staff & Admin
 
 **GET**
 - `allclients/transactions` This display all clients' transactions
+```
+###Success Response
+{
+	"status": 1000,
+	"data": [{
+        "id": integer,
+        "createdOn": string,
+        "transactionType": string, e.g credit, debit
+        "accountNumber": integer,
+        "cashier": integer,
+        "amount": Float,
+        "oldBalance": Float,
+        "newBalance": Float,
+        "from": string, //depends on transaction type
+        "to" : string,//depends on transaction type
+        "fromNumber": string, //depends on transaction type
+        "toNumber": string //depends on transaction type
+		},
+		...
+		]
+}
+```
 
 - `clienttransaction/<transaction-id>/detail` This diplay the details of a particular transaction
 
-- `mydone/usertransaction/` This display only transaction done by a particular Staff or Admin
+```
+###Success Response
+{
+	"status": 1000,
+	"data": {
+        "id": integer,
+        "createdOn": string,
+        "transactionType": string, e.g credit, debit
+        "accountNumber": integer,
+        "cashier": integer,
+        "amount": Float,
+        "oldBalance": Float,
+        "newBalance": Float,
+        "from": string, //depends on transaction type
+        "to" : string,//depends on transaction type
+        "fromNumber": string, //depends on transaction type
+        "toNumber": string //depends on transaction type
+		}
+}
 
+### Error Response
+{
+	"status": 2009,
+	"error": "transaction ID does not exist!"
+}
+```
+
+- `mydone/usertransaction/` This display only transaction done by a particular Staff or Admin
+```
+###Success Response
+{
+	"status": 1000,
+	"data": [{
+        "id": integer,
+        "createdOn": string,
+        "transactionType": string, e.g credit, debit
+        "accountNumber": integer,
+        "cashier": integer,
+        "amount": Float,
+        "oldBalance": Float,
+        "newBalance": Float,
+        "from": string, //depends on transaction type
+        "to" : string,//depends on transaction type
+        "fromNumber": string, //depends on transaction type
+        "toNumber": string //depends on transaction type
+		},
+		...
+		]
+}
+
+###Second success
+{
+	"status": 1000,
+	"data": "You have not made any transaction at all"
+}
+
+### Error Response
+{
+	"status": 1004,
+	"error": "Invalid User Stay Out!"
+}
+```
 **DELETE**
 - `accounts/<account-number>` This Staff and admin can deletes a bank account
+
+```
+###Success Response
+{
+	"status": 1000,
+	"message": "Account <accountNumber> deleted Succesfully"
+}
+
+### Error Response
+// account number doesnnot exist
+{
+	"status": 2004,
+	"error": "Cannot find a matching account number <accountNumber>"
+
+}
+// User doesnot exist
+{
+	"status": 1004,
+	"error": "Invalid User Stay Out!"
+}
+```
 
 **PATCH**
 - `account/<account-number>` This Staff and admin can Deactivate/suspend/dormant a bank account
 
-### Admin Only
-**POST**
-//TODO
-- `admin/accounts` Create a bank account for user
+```
+###Success Response
+{
+	"status": 1000,
+	"data": {
+        "id": integer,
+        "accountNumber": integer,
+        "createdOn": string,
+        "owner": integer,
+        "type": string,
+        "status": string, //Status (dormant/active)
+        "balance": Float
+	}
+}
 
+### Error Response
+// account number doesnnot exist
+{
+	"status": 2004,
+	"error": "Cannot find a matching account number <accountNumber>"
+
+}
+// User doesnot exist
+{
+	"status": 1004,
+	"error": "Invalid User Stay Out!"
+}
+```
+
+### Admin Only
 **GET**
 - `allusers` This list alluser to the admin including the staff & clients
+```
+### Success Repsonse
+{
+    "status": 1000,
+    "data": [
+        {
+            "id": integer,
+            "email": string,
+            "firstName": string,
+            "lastName": string,
+            "phone": string,
+            "dob": string,
+            "registerDate": string,
+            "type": string,
+            "isAdmin": false or true,
+            "imageUrl": string
+        },
+        ...
+    ]
+}
+
+```
 
 - `allusers/<user-id>` get a specific user details
+```
+### Success Repsonse
+{
+    "status": 1000,
+    "data": {
+            "id": integer,
+            "email": string,
+            "firstName": string,
+            "lastName": string,
+            "phone": string,
+            "dob": string,
+            "registerDate": string,
+            "type": string,
+            "isAdmin": false or true,
+            "imageUrl": string
+        }
+}
+
+##Error Response
+
+{
+	"status": 1004,
+	"error": "User with that ID does not exist"
+}
+
+```
 
 - `staff` This list alluser to the admin including the staff
+```
+### Success Repsonse
+{
+    "status": 1000,
+    "data": {
+            "id": integer,
+            "email": string,
+            "firstName": string,
+            "lastName": string,
+            "phone": string,
+            "dob": string,
+            "registerDate": string,
+            "type": staff,
+            "isAdmin": false or true,
+            "imageUrl": string
+        }
+}
+
+##Error Response
+
+{
+	"status": 1004,
+	"error": "User with that ID does not exist"
+}
+
+```
 
 - `staff/<staff-id>` This get a specific staff details.
+```
+### Success Repsonse
+{
+    "status": 1000,
+    "data": {
+            "id": integer,
+            "email": string,
+            "firstName": string,
+            "lastName": string,
+            "phone": string,
+            "dob": string,
+            "registerDate": string,
+            "type": staff,
+            "isAdmin": false or true,
+            "imageUrl": string
+        }
+}
+
+##Error Response
+
+{
+	"status": 1004,
+	"error": "User with that ID does not exist"
+}
+
+```
 
 **PATCH**
-- `allusers/profile/<user-id>/edit` get a specific user + staff details and edit.
+- `allusers/profile/<user-id>/edit` get a specific user + staff details and edit. 
+Field Required are:
+- firstName(optional), lastName(optional), phone(optional), image(optional)
+```
+### Success Repsonse
+{
+    "status": 1000,
+    "message": "Profile updated Successfully without Image"
+}
+
+{
+    "status": 1000,
+    "message": "Profile updated Successfully with Image"
+}
+
+##Error Response
+
+{
+	"status": 1005,
+	"error": "Invalid User Stay Out!"
+}
+
+```
 
 - `allusers/profile/<user-id>/changepassword` get a specific user + staff details and changethe password.
+field requires password and password1(confirm password)
+
+```
+### Success Response
+{
+	"status": 1000,
+	"message": "Password changed successfully"
+}
+
+### Error Response
+
+// if Password doesnot match
+{
+	"status": 1007,
+	"error": "Both Password doesnot match!"
+}
+
+// if password attempt was not made
+{
+	"status": 1008,
+	"error": "No password Attempt made"
+}
+
+// if the user does not exist
+{
+	"status": 1005,
+	"error": "Invalid User Stay Out!"
+}
+```
 
 
+### Permission needed route checks and if it is not meet the response is always the same
+
+
+```
+// For Staff Permission level
+{
+	"status": "1005",
+	"error": "You are not a staff"
+}
+
+// For Admin Permission level
+{
+	"status": 1005,
+	"error": "You are not an Admin"
+}
+
+// For User Level Permission 
+{
+	"status": 1002,
+	"error": "Failed to Authenticate token"
+}
+
+//if no token was provided
+
+{
+	"status": 1004,
+	"error": "No token provided."
+}
+
+
+```
