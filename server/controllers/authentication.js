@@ -115,7 +115,7 @@ router.post('/auth/signin', (req, res) => {
 		const getUser = users.find(usr => usr.email === email);
 		if (!getUser){
 			res.json({
-				"status": 400,
+				"status": 404,
 				"error": "User does not exist!"
 			});
 		} else {
