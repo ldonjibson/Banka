@@ -71,7 +71,6 @@ router.post('/auth/signup', (req, res) => {
 		let usObj = users
 		usObj.push(newUser);
 		const getUser = usObj.find(usr => usr.id === Number(usObj.length));
-		delete getUser['password'];
 		res.json({
 			"status": 201,
 			"data": {
