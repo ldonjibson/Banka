@@ -21,7 +21,7 @@ const paramChecks= ((req, res, next) => {
 	// check header or url parameters or post parameteers for token
 	let number = req.params.id || req.params.accountNumber
 	//decode token
-	if(isNAN(number)) {
+	if(isNaN(number)) {
 		//verifies if the parameter passed is a number
 		return res.json({
 			"status": 400,
