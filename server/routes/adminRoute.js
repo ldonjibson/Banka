@@ -99,13 +99,13 @@ router.patch('/allusers/profile/:id/edit', paramChecks, upload.upload.single('fi
 		}
 		if (!image){
 			res.json({
-				"status": 201,
+				"status": 200,
 				"message": "Profile updated Successfully without Image"
 			});	
 		} else {
 			getUser.imageUrl = 'http://localhost:3000/images/'+ req.file.filename
 			res.json({
-				"status": 201,
+				"status": 200,
 				"message": "Profile updated Successfully with Image"
 			});
 		}
@@ -130,12 +130,12 @@ router.patch('/allusers/profile/:id/changepassword', paramChecks, jwtAdminVerify
 				let hashedPassword = bcrypt.hashSync(password, 8);
 				chKUser.password = hashedPassword
 				res.json({
-					"status": 201,
+					"status": 200,
 					"message": "Password changed successfully"
 				});
 			} else{
 				res.json({
-					"status": 401,
+					"status": 400,
 					"error": "Both Passwords doesnot match"
 				});
 			}
@@ -145,7 +145,6 @@ router.patch('/allusers/profile/:id/changepassword', paramChecks, jwtAdminVerify
 				"error": "No Password Change Attempt Made"
 			});
 		}
-		// console.log(chKUser)	
 	} else {
 		res.json({
 			"status": 403,
