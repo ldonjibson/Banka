@@ -40,7 +40,7 @@ const registerLoad = () => {
 const cretBank = () => {
 	let formBank = document.getElementById('create-bk-acc').value;
 	let cretBnkresult = document.getElementById('createbank');
-	cretBnkresult.innerHTML = `<h3>Account Number <br /><i class="fa fa-university"></i> 010100110</h3><h3>Account Balance <br /><i class="fa fa-money"></i> $50,000</h3><h3>Account Type <br /><i class="fa fa-cc"></i> ${formBank}</h3>`
+	cretBnkresult.innerHTML = `<h3>Account Number <br /><i class="fa fa-university"></i> 010100110</h3><h3>Account Balance <br /><i class="fa fa-money"></i> $0</h3><h3>Account Type <br /><i class="fa fa-cc"></i> ${formBank}</h3>`
 	document.getElementById('create-bk-acc').outerHTML = ""; 
 	document.getElementById('createbnkuser').outerHTML = ""; 
 }
