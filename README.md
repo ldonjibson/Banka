@@ -14,6 +14,8 @@ Banka is a light-weight core banking application that powers banking operations 
 7. Staff can only view clients
 8. Staff and Admin can credit and debit users
 
+### 
+
 **Technologies Used**
 - NodeJS
 - ExpressJs
@@ -44,9 +46,9 @@ List of endpoints exposed by the service.
 
 ### Endpoints & Routes
 
-### This token was generated to test the endpoint and it will expire in 60days, it can be passed as query, params & header
-
-**"```eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNpbmNlcmVAYXByaWwuYml6IiwiaWQiOjEsImlzQWRtaW4iOnRydWUsImlhdCI6MTU1NDQ0NTMzNCwiZXhwIjoxNTU5NjI5MzM0fQ.bT5An0F30yXAKCADWsGkYROlBZPmpS43w_JCb7ktp-I```"**
+### To Run Test 
+- Use POSTMAN to access the `/api/v1/auth/signin`and provide an email and password and get a token in return.
+- pass token into the all test files as variable and run  `npm test`
 
 **CHEKING IF THE API EXISTS OR IS WORKING**
 ### https://ebanka-api.herokuapp.com/api/v1/
