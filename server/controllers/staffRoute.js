@@ -49,8 +49,8 @@ router.get('/user/:id',paramChecks, jwtStaffVerify, (req, res) => {
 		});
 	} else {
 		re.json({
-			"status":401,
-			"error": "User with that ID does not exist"
+			"status":404,
+			"error": "User does not exist"
 		});
 	}
 });

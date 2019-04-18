@@ -54,7 +54,7 @@ List of endpoints exposed by the service.
 ### https://ebanka-api.herokuapp.com/api/v1/
 ```
 {
-	"status": 1000,
+	"status": 200,
 	"message": Connected
 }
 ```
@@ -74,7 +74,7 @@ Use this route to create a new user account. The following fields are required:
 ```
 ### Success Response
 {
-	"status": 1000,
+	"status": 201,
 	"data":	{
 		"token": string,
 		"id": integer,
@@ -104,7 +104,7 @@ Use this route to create a new user account. The following fields are required:
 ```
 ### Success Response
 {
-	"status": 1000,
+	"status": 200,
 	"data":	{
 		"token": string,
 		"id": integer,
@@ -129,13 +129,13 @@ Use this route to create a new user account. The following fields are required:
 
 //The user email doesnot exist
 {
-	"status": 1002,
+	"status": 404,
 	"error": "User does not exist"
 }
 
 //if password doesnot match
 {
-	"status": 1001,
+	"status": 403,
 	"error": "Authentication Failed! password parameter invalid"
 }
 ```
@@ -144,7 +144,7 @@ Use this route to create a new user account. The following fields are required:
 ```
 ### Success Response
 {
-	"status": 1000,
+	"status": 201,
 	"data":	{
 		"accountNumber": integer,
 		"firstName": string,
@@ -158,7 +158,7 @@ Use this route to create a new user account. The following fields are required:
 The has to be LoggedIn
 ### Error Response
 {
-	"status": 1006,
+	"status": 403,
 	"error": "Log in to Create a Bank Account"
 }
 ```
@@ -168,7 +168,7 @@ The has to be LoggedIn
 ```
 ### Success Response
 {
-	"status": 1000,
+	"status": 200,
 	"data":	{
 		"id": integer,
 		"accountNumber": integer,
@@ -182,7 +182,7 @@ The has to be LoggedIn
 
 ### Error Response
 {
-	"status": 1005,
+	"status": 401,
 	"data": "Invalid User Stay Out!"
 }
 ```
@@ -191,7 +191,7 @@ The has to be LoggedIn
 ```
 ### Success Response
 {
-	"status": 1000,
+	"status": 200,
 	"data":	{
 		"id": integer,
 		"firstName": string,
@@ -207,7 +207,7 @@ The has to be LoggedIn
 
 ### Error Response
 {
-	"status": 1005,
+	"status": 401,
 	"data": "Invalid User Stay Out!"
 }
 ```
@@ -216,7 +216,7 @@ The has to be LoggedIn
 ```
 ### Success Response
 {
-	"status": 1000,
+	"status": 200,
 	"data":	[{
         "id": integer,
         "createdOn": string,
@@ -251,7 +251,7 @@ The has to be LoggedIn
 
 ### Error Response
 {
-	"status": 1005,
+	"status": 401,
 	"data": "Invalid User Stay Out!"
 }
 ```
@@ -260,7 +260,7 @@ The has to be LoggedIn
 ```
 ### Success Response
 {
-	"status": 1000,
+	"status": 200,
 	"data":	{
         "id": integer,
         "createdOn": string,
@@ -280,13 +280,13 @@ The has to be LoggedIn
 ### Error Response
 //if a user is trying to access a transaction that doesnot belong to his/her
 {
-	"status": 2010,
-	"error": "(not your transaction!) Wrong transaction details
+	"status": 404,
+	"error": "Transaction Does not Exist"
 }
 
 //if the user does not exist
 {
-	"status": 1005,
+	"status": 401,
 	"data": "Invalid User Stay Out!"
 }
 ```
@@ -298,7 +298,7 @@ editable fields are: firstName(optional), lastName(optional), phone(optional), i
 ```
 ### Success Response
 {
-	"status": 1000,
+	"status": 206,
 	"data":	{
 		"id": integer,
 		"firstName": string,
@@ -314,7 +314,7 @@ editable fields are: firstName(optional), lastName(optional), phone(optional), i
 
 //if the user does not exist
 {
-	"status": 1005,
+	"status": 403,
 	"error": "Invalid User Stay Out!"
 }
 ```
@@ -325,7 +325,7 @@ field requires password and password1(confirm password)
 ```
 ### Success Response
 {
-	"status": 1000,
+	"status": 200,
 	"message": "Password changed successfully"
 }
 
@@ -333,19 +333,19 @@ field requires password and password1(confirm password)
 
 // if Password doesnot match
 {
-	"status": 1007,
+	"status": 401,
 	"error": "Both Password doesnot match!"
 }
 
 // if password attempt was not made
 {
-	"status": 1008,
+	"status": 204,
 	"error": "No password Attempt made"
 }
 
 // if the user does not exist
 {
-	"status": 1005,
+	"status": 403,
 	"error": "Invalid User Stay Out!"
 }
 ```
@@ -357,15 +357,15 @@ field requires password and password1(confirm password)
 ```
 ### Success Response
 {
-	"status": 1000,
+	"status": 200,
 	"data": "Password recovery was successful" or "Password not sent due to failed emailing",
 	"mail": <emailing response status>
 }
 
 ## Error Response
 {
-	"status": 1101,
-	"error": "User with <email string> doest not exist"
+	"status": 404,
+	"error": "User doest not exist"
 }
 ```
 
@@ -376,7 +376,7 @@ field requires password and password1(confirm password)
 ```
 ### Success Response
 {
-	"status": 1000,
+	"status": 201,
 	"data":	{
 		"accountNumber": integer,
 		"firstName": string,
@@ -390,13 +390,13 @@ field requires password and password1(confirm password)
 ### Error Response
 //The has to be LoggedIn
 {
-	"status": 1006,
+	"status": 403,
 	"error": "Log in to Create a Bank Account"
 }
 
 //User email cannot be found in the database
 {
-	"status": 1002,
+	"status": 400,
 	"error": "User does not exist in the database create the user before a bank account"
 }
 
@@ -413,7 +413,7 @@ field requires password and password1(confirm password)
 ```
 ### Success Repsonse
 {
-    "status": 1000,
+    "status": 206,
     "data": [
         {
             "id": integer,
@@ -439,7 +439,7 @@ field requires password and password1(confirm password)
 ```
 ### Success Repsonse
 {
-    "status": 1000,
+    "status": 200,
     "data": 
         {
             "id": integer,
@@ -455,6 +455,12 @@ field requires password and password1(confirm password)
         },
 }
 
+//if the user does not exist
+{
+	"status": 404,
+	"error": "User does not exist"
+}
+
 ```
 
 - `user/profile/<user-id>/edit`	Allow staff to edit users
@@ -462,18 +468,18 @@ editable fields are: firstName(optional), lastName(optional), phone(optional), i
 ```
 ### Success Response
 {
-	"status": 1000,
+	"status": 201,
 	"message": "Profile updated Successfully without Image"
 }
 
 {
-	"status": 1000,
+	"status": 201,
 	"message": "Profile updated Successfully with Image"
 }
 
 //if the user does not exist
 {
-	"status": 1005,
+	"status": 403,
 	"error": "Invalid User Stay Out!"
 }
 ```
@@ -484,7 +490,7 @@ editable fields are: firstName(optional), lastName(optional), phone(optional), i
 ```
 ### Success Response
 {
-	"status": 1000,
+	"status": 200,
 	"message": "Password changed successfully"
 }
 
@@ -492,19 +498,19 @@ editable fields are: firstName(optional), lastName(optional), phone(optional), i
 
 // if Password doesnot match
 {
-	"status": 1007,
+	"status": 401,
 	"error": "Both Password doesnot match!"
 }
 
 // if password attempt was not made
 {
-	"status": 1008,
+	"status": 204,
 	"error": "No password Attempt made"
 }
 
 // if the user does not exist
 {
-	"status": 1005,
+	"status": 403,
 	"error": "Invalid User Stay Out!"
 }
 ```
@@ -521,7 +527,7 @@ editable fields are: firstName(optional), lastName(optional), phone(optional), i
 ```
 ### Success Response
 {
-	"status": 1000,
+	"status": 201,
 	"data": {
 		"transactionId": integer,
 		"accountNumber": integer,
@@ -542,13 +548,13 @@ editable fields are: firstName(optional), lastName(optional), phone(optional), i
 ### Error Response
 // if account number cannot be found
 {
-	"status":2004,
+	"status":401,
 	"error": "Cannot find a matching account number <accountNumber>"
 }
 
 // if the user does not exist
 {
-	"status": 1004,
+	"status": 403,
 	"error": "Invalid User Stay Out!"
 }
 
@@ -561,7 +567,7 @@ editable fields are: firstName(optional), lastName(optional), phone(optional), i
 ```
 ###Success Response
 {
-	"status": 1000,
+	"status": 206,
 	"data": [{
         "id": integer,
         "createdOn": string,
@@ -586,7 +592,7 @@ editable fields are: firstName(optional), lastName(optional), phone(optional), i
 ```
 ###Success Response
 {
-	"status": 1000,
+	"status": 200,
 	"data": {
         "id": integer,
         "createdOn": string,
@@ -605,7 +611,7 @@ editable fields are: firstName(optional), lastName(optional), phone(optional), i
 
 ### Error Response
 {
-	"status": 2009,
+	"status": 404,
 	"error": "transaction ID does not exist!"
 }
 ```
@@ -614,7 +620,7 @@ editable fields are: firstName(optional), lastName(optional), phone(optional), i
 ```
 ###Success Response
 {
-	"status": 1000,
+	"status": 200,
 	"data": [{
         "id": integer,
         "createdOn": string,
@@ -635,13 +641,13 @@ editable fields are: firstName(optional), lastName(optional), phone(optional), i
 
 ###Second success
 {
-	"status": 1000,
+	"status": 204,
 	"data": "You have not made any transaction at all"
 }
 
 ### Error Response
 {
-	"status": 1004,
+	"status": 403,
 	"error": "Invalid User Stay Out!"
 }
 ```
@@ -651,20 +657,20 @@ editable fields are: firstName(optional), lastName(optional), phone(optional), i
 ```
 ###Success Response
 {
-	"status": 1000,
-	"message": "Account <accountNumber> deleted Succesfully"
+	"status": 204,
+	"message": "Account deleted Succesfully"
 }
 
 ### Error Response
 // account number doesnnot exist
 {
-	"status": 2004,
+	"status": 401,
 	"error": "Cannot find a matching account number <accountNumber>"
 
 }
 // User doesnot exist
 {
-	"status": 1004,
+	"status": 403,
 	"error": "Invalid User Stay Out!"
 }
 ```
@@ -675,7 +681,7 @@ editable fields are: firstName(optional), lastName(optional), phone(optional), i
 ```
 ###Success Response
 {
-	"status": 1000,
+	"status": 200,
 	"data": {
         "id": integer,
         "accountNumber": integer,
@@ -690,13 +696,13 @@ editable fields are: firstName(optional), lastName(optional), phone(optional), i
 ### Error Response
 // account number doesnnot exist
 {
-	"status": 2004,
+	"status": 401,
 	"error": "Cannot find a matching account number <accountNumber>"
 
 }
 // User doesnot exist
 {
-	"status": 1004,
+	"status": 403,
 	"error": "Invalid User Stay Out!"
 }
 ```
@@ -707,7 +713,7 @@ editable fields are: firstName(optional), lastName(optional), phone(optional), i
 ```
 ### Success Repsonse
 {
-    "status": 1000,
+    "status": 206,
     "data": [
         {
             "id": integer,
@@ -731,7 +737,7 @@ editable fields are: firstName(optional), lastName(optional), phone(optional), i
 ```
 ### Success Repsonse
 {
-    "status": 1000,
+    "status": 200,
     "data": {
             "id": integer,
             "email": string,
@@ -749,7 +755,7 @@ editable fields are: firstName(optional), lastName(optional), phone(optional), i
 ##Error Response
 
 {
-	"status": 1004,
+	"status": 404,
 	"error": "User with that ID does not exist"
 }
 
@@ -759,7 +765,7 @@ editable fields are: firstName(optional), lastName(optional), phone(optional), i
 ```
 ### Success Repsonse
 {
-    "status": 1000,
+    "status": 206,
     "data": {
             "id": integer,
             "email": string,
@@ -777,7 +783,7 @@ editable fields are: firstName(optional), lastName(optional), phone(optional), i
 ##Error Response
 
 {
-	"status": 1004,
+	"status": 404,
 	"error": "User with that ID does not exist"
 }
 
@@ -787,7 +793,7 @@ editable fields are: firstName(optional), lastName(optional), phone(optional), i
 ```
 ### Success Repsonse
 {
-    "status": 1000,
+    "status": 200,
     "data": {
             "id": integer,
             "email": string,
@@ -805,7 +811,7 @@ editable fields are: firstName(optional), lastName(optional), phone(optional), i
 ##Error Response
 
 {
-	"status": 1004,
+	"status": 404,
 	"error": "User with that ID does not exist"
 }
 
@@ -818,19 +824,19 @@ Field Required are:
 ```
 ### Success Repsonse
 {
-    "status": 1000,
+    "status": 200,
     "message": "Profile updated Successfully without Image"
 }
 
 {
-    "status": 1000,
+    "status": 200,
     "message": "Profile updated Successfully with Image"
 }
 
 ##Error Response
 
 {
-	"status": 1005,
+	"status": 403,
 	"error": "Invalid User Stay Out!"
 }
 
@@ -842,7 +848,7 @@ field requires password and password1(confirm password)
 ```
 ### Success Response
 {
-	"status": 1000,
+	"status": 200,
 	"message": "Password changed successfully"
 }
 
@@ -850,19 +856,19 @@ field requires password and password1(confirm password)
 
 // if Password doesnot match
 {
-	"status": 1007,
+	"status": 400,
 	"error": "Both Password doesnot match!"
 }
 
 // if password attempt was not made
 {
-	"status": 1008,
+	"status": 200,
 	"error": "No password Attempt made"
 }
 
 // if the user does not exist
 {
-	"status": 1005,
+	"status": 403,
 	"error": "Invalid User Stay Out!"
 }
 ```
@@ -874,26 +880,26 @@ field requires password and password1(confirm password)
 ```
 // For Staff Permission level
 {
-	"status": "1005",
+	"status": "401",
 	"error": "You are not a staff"
 }
 
 // For Admin Permission level
 {
-	"status": 1005,
+	"status": 401,
 	"error": "You are not an Admin"
 }
 
 // For User Level Permission 
 {
-	"status": 1002,
+	"status": 403,
 	"error": "Failed to Authenticate token"
 }
 
 //if no token was provided
 
 {
-	"status": 1004,
+	"status": 400,
 	"error": "No token provided."
 }
 

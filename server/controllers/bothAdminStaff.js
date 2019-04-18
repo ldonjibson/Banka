@@ -40,8 +40,8 @@ router.get('/clienttransaction/:id/detail/',paramChecks, jwtStaffVerify, (req,re
 			"data": clientTrans
 		});
 	} else {
-		res.status(401).json({
-			"status":401,
+		res.status(404).json({
+			"status":404,
 			"error": "transaction ID does not exist!"
 		});
 	}
@@ -60,8 +60,8 @@ router.get('/mydone/usertransaction/', jwtStaffVerify, (req, res) =>{
 				"data": gettrans
 			})
 		} else {
-			res.json({
-				"status": 200,
+			res.status(204).json({
+				"status": 204,
 				"error": "You have not made any transaction at all"
 			})
 		}
@@ -90,11 +90,11 @@ router.delete('/accounts/:accountNumber',paramChecks, jwtStaffVerify, (req, res)
 
 		res.status(204).json({
 			"status": 204,
-			"message": `Account ${getAcc.accountNumber} deleted  Successfully` 
+			"message": `Account deleted  Successfully` 
 		});
 
 	} else {
-		res.json({
+		res.status(403).json({
 			"status": 403,
 			"error": "Invalid User Stay Out!"
 		})
