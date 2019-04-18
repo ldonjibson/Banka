@@ -36,6 +36,15 @@ const registerLoad = () => {
 	event.preventDefault();
 }
 
+//user create a bank account 
+const cretBank = () => {
+	let formBank = document.getElementById('create-bk-acc').value;
+	let cretBnkresult = document.getElementById('createbank');
+	cretBnkresult.innerHTML = `<h3>Account Number <br /><i class="fa fa-university"></i> 010100110</h3><h3>Account Balance <br /><i class="fa fa-money"></i> $0</h3><h3>Account Type <br /><i class="fa fa-cc"></i> ${formBank}</h3>`
+	document.getElementById('create-bk-acc').outerHTML = ""; 
+	document.getElementById('createbnkuser').outerHTML = ""; 
+}
+
 //OnSelct the user banking option in the dashboard
 const bankView = () => {
 	let chgbank = document.getElementById('bank-op').value;
@@ -159,12 +168,6 @@ const createUserStaff = () => {
 	}
 	alert(formValu);
 	document.getElementById('createuresponse').innerHTML= "<h5>" + "User Created Successfully (" + formValu + ")</h5>"
-	// setTimeout(() => {
-	// 	document.getElementById('createuresponse').innerHTML = "";
-	// 	// for(i = 0; i < getForm.length; i++){
-	// 	// 	getForm.elements[i].value = "";
-	// 	// }
-	// }, 3000);
 	event.preventDefault();
 }
 
