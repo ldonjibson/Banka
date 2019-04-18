@@ -35,7 +35,7 @@ router.post('/resetpassword', (req, res) => {
 	const email = req.body['email'];
 	const getUser = users.find(usr => usr.email === email);
 	if (!getUser) {
-		res.json({
+		res.status(401).json({
 			"status": 401,
 			"error": `User with ${email} does not exist` 
 		});
@@ -52,12 +52,12 @@ router.post('/resetpassword', (req, res) => {
 	    };
 	    transporter.transporter.sendMail(mailOptions, (error, info) =>{
 	    	if (error){
-				res.json({
+				res.status(201).json({
 					"status": 201,
 					"message": "Password was notsent due to failed emailing system",
 				});
 	    	} else {
-				res.json({
+				res.status(201).json({
 					"status": 201,
 					"message": "Password recoverywas successful",
 				});

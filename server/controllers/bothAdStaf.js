@@ -26,7 +26,7 @@ router.use(bodyParser.json({ type: 'application/json'}));
 router.post('/transactions/:accountNumber/credit',paramChecks, jwtStaffVerify, (req, res) => {
 	let getUser = helper.togetUser(req);
 	if (!getUser){
-		res.json({
+		res.status(403).json({
 			"status": 403,
 			"error": "Invalid User Stay Out!"
 		})
@@ -76,7 +76,7 @@ router.post('/transactions/:accountNumber/credit',paramChecks, jwtStaffVerify, (
 		    transporter.transporter.sendMail(mailOptions, (error, info) =>{
 		    	if (error){
 		    		console.log(error)
-					res.json({
+					res.status(201).json({
 						"status": 201,
 						"data": {
 							"transactionId": newTransaction.id,
@@ -94,7 +94,7 @@ router.post('/transactions/:accountNumber/credit',paramChecks, jwtStaffVerify, (
 						"mail": error
 					});
 		    	} else {
-					res.json({
+					res.status(201).json({
 						"status": 201,
 						"data": {
 							"transactionId": newTransaction.id,
@@ -121,7 +121,7 @@ router.post('/transactions/:accountNumber/credit',paramChecks, jwtStaffVerify, (
 router.post('/transactions/:accountNumber/debit',paramChecks, jwtStaffVerify, (req, res) => {
 	let getUser = helper.togetUser(req);
 	if (!getUser){
-		res.json({
+		res.status(403).json({
 			"status": 403,
 			"error": "Invalid User Stay Out!"
 		})
@@ -133,7 +133,7 @@ router.post('/transactions/:accountNumber/debit',paramChecks, jwtStaffVerify, (r
 		//verify that the account number exist
 		const getAcc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
 		if (!getAcc){
-			res.json({
+			res.status(401).json({
 				"status":401,
 				"error": `Cannot find a matching account number ${req.params.accountNumber}`
 			})
@@ -141,7 +141,7 @@ router.post('/transactions/:accountNumber/debit',paramChecks, jwtStaffVerify, (r
 			let initialAmount = parseFloat(getAcc.balance);
 			const newAmount = initialAmount - parseFloat(getAmountcredit);
 			if (newAmount < 0){
-				res.json({
+				res.status(401).json({
 					"status": 401,
 					"error": "You donot have sufficient Amount to perform this operation"
 				})
@@ -178,7 +178,7 @@ router.post('/transactions/:accountNumber/debit',paramChecks, jwtStaffVerify, (r
 			    transporter.transporter.sendMail(mailOptions, (error, info) =>{
 			    	if (error){
 			    		console.log(error)
-						res.json({
+						res.status(201).json({
 							"status": 201,
 							"data": {
 								"transactionId": newTransaction.id,
@@ -196,7 +196,7 @@ router.post('/transactions/:accountNumber/debit',paramChecks, jwtStaffVerify, (r
 							"mail": error
 						});
 			    	} else {
-						res.json({
+						res.status(201).json({
 							"status": 201,
 							"data": {
 								"transactionId": newTransaction.id,

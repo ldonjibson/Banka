@@ -30,7 +30,7 @@ router.post('/auth/signup', (req, res) => {
 		obj.push(key);
 	}
 	if (obj < chkobj) {
-		res.json({
+		res.status(401).json({
 			"status": 401,
 			"error": "Please Check, A field is missing"
 		});
@@ -71,7 +71,7 @@ router.post('/auth/signup', (req, res) => {
 		let usObj = users
 		usObj.push(newUser);
 		const getUser = usObj.find(usr => usr.id === Number(usObj.length));
-		res.json({
+		res.status(201).json({
 			"status": 201,
 			"data": {
 				"id": getUser['id'],
@@ -103,7 +103,7 @@ router.post('/auth/signin', (req, res) => {
 	//cehck if username or password is missing or both
 	if (!email || !password){
 
-		res.json({
+		res.status(401).json({
 			"status": 401,
 			error: "Please Check, One or More field is empty"
 		});
@@ -114,14 +114,14 @@ router.post('/auth/signin', (req, res) => {
 		//this search through the json(users) to getthe user if it exists
 		const getUser = users.find(usr => usr.email === email);
 		if (!getUser){
-			res.json({
+			res.status(401).json({
 				"status": 404,
 				"error": "User does not exist!"
 			});
 		} else {
 			bcrypt.compare(password, getUser.password).then((response) =>{
 				if (!response){
-					res.json({
+					res.status(401).json({
 						"status": 401,
 						"error": "Authentication Failed! password parameter invalid"
 					});

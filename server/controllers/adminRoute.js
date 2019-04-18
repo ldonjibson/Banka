@@ -28,7 +28,7 @@ router.get('/allusers', jwtAdminVerify, (req, res) =>{
 		delete key['password'];
 		rmPassAllUsers.push(key);
 	}
-	res.json({
+	res.status(206).json({
 		"status": 206,
 		"data": rmPassAllUsers
 	});
@@ -57,7 +57,7 @@ router.get('/staff', jwtAdminVerify, (req, res) =>{
 	// Allow only client to be shown to staff
 	const allStaff = users.filter(usr => usr.type === "staff" );
 	delete allStaff['password']
-	res.json({
+	res.status(206).json({
 		"status": 206,
 		"data": allStaff
 	});
@@ -73,7 +73,7 @@ router.get('/staff/:id',paramChecks, jwtAdminVerify, (req, res) => {
 			"data": getUser
 		});
 	} else {
-		res.json({
+		res.status(400).json({
 			"status":400,
 			"error": "User with that ID does not exist"
 		});
@@ -110,7 +110,7 @@ router.patch('/allusers/profile/:id/edit', paramChecks, upload.upload.single('fi
 			});
 		}
 	} else {
-		res.json({
+		res.status(403).json({
 			"status": 403,
 			"data": "Invalid User Stay Out!"
 		});
@@ -134,7 +134,7 @@ router.patch('/allusers/profile/:id/changepassword', paramChecks, jwtAdminVerify
 					"message": "Password changed successfully"
 				});
 			} else{
-				res.json({
+				res.status(400).json({
 					"status": 400,
 					"error": "Both Passwords doesnot match"
 				});
@@ -146,7 +146,7 @@ router.patch('/allusers/profile/:id/changepassword', paramChecks, jwtAdminVerify
 			});
 		}
 	} else {
-		res.json({
+		res.status(403).json({
 			"status": 403,
 			"error": "Invalid User Stay Out!"
 		});

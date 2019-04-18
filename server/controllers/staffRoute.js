@@ -32,7 +32,7 @@ router.get('/users', jwtStaffVerify, (req, res) =>{
 		delete key['password'];
 		rmPassAllUsers.push(key);
 	}
-	res.json({
+	res.status(206).json({
 		"status": 206,
 		"data": rmPassAllUsers
 	});
@@ -48,7 +48,7 @@ router.get('/user/:id',paramChecks, jwtStaffVerify, (req, res) => {
 			"data": getUser
 		});
 	} else {
-		res.json({
+		re.json({
 			"status":401,
 			"error": "User with that ID does not exist"
 		});
@@ -61,7 +61,7 @@ router.patch('/user/profile/:id/edit',paramChecks, upload.upload.single('file'),
 	if (getUser) {
 		let chKUser = users.find(chkusr => chkusr.id === Number(req.params.id) && chkusr.type === "client");
 		if (!chKUser){
-			res.json({
+			res.status(403).json({
 				status:403,
 				error: "No Permmission, You Cannot edit a Staff/Admin profile"
 			});
@@ -80,20 +80,20 @@ router.patch('/user/profile/:id/edit',paramChecks, upload.upload.single('file'),
 				chKUser.phone = phone;
 			}
 			if (!image){
-				res.json({
+				res.status(201).json({
 					"status": 201,
 					"message": "Profile updated Successfully without Image"
 				});	
 			} else {
 				getUser.imageUrl = 'http://localhost:3000/images/'+ req.file.filename
-				res.json({
+				res.status(201).json({
 					"status": 201,
 					"message": "Profile updated Successfully with Image"
 				});
 			}
 		}
 	} else {
-		res.json({
+		res.status(403).json({
 			"status": 403,
 			"data": "Invalid User Stay Out!"
 		});
@@ -107,7 +107,7 @@ router.patch('/user/profile/:id/changepassword',paramChecks, jwtStaffVerify,  (r
 	if (getUser) {
 		const chKUser = users.find(chkusr => chkusr.id === Number(req.params.id) && chkusr.type === "client");
 		if (!chKUser){
-			res.json({
+			res.status(403).json({
 				status:403,
 				error: "No Permmission, You Cannot edit a Staff/Admin profile"
 			});
@@ -123,20 +123,20 @@ router.patch('/user/profile/:id/changepassword',paramChecks, jwtStaffVerify,  (r
 						"message": "Password changed successfully"
 					});
 				} else{
-					res.json({
+					res.status(401).json({
 						"status": 401,
 						"error": "Both Passwords doesnot match"
 					});
 				}
 			} else {
-				res.json({
+				res.status(204).json({
 					"status": 204,
 					"error": "No Password Change Attempt Made"
 				});
 			}
 		}
 	} else {
-		res.json({
+		res.status(403).json({
 			"status": 403,
 			"error": "Invalid User Stay Out!"
 		});

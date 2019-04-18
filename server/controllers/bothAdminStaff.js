@@ -25,7 +25,7 @@ router.use(bodyParser.json({ type: 'application/json'}));
 //Get all transactions
 router.get('/allclients/transactions', jwtStaffVerify, (req,res) =>{
 	const allTrans = transactions
-	res.json({
+	res.status(206).json({
 		"status": 206,
 		"data": transactions
 	})
@@ -40,7 +40,7 @@ router.get('/clienttransaction/:id/detail/',paramChecks, jwtStaffVerify, (req,re
 			"data": clientTrans
 		});
 	} else {
-		res.json({
+		res.status(401).json({
 			"status":401,
 			"error": "transaction ID does not exist!"
 		});
@@ -55,7 +55,7 @@ router.get('/mydone/usertransaction/', jwtStaffVerify, (req, res) =>{
 		const gettrans = transactions.filter(trans => trans.cashier === getUser.id)
 		// console.log(gettrans)
 		if (gettrans) {
-			res.json({
+			res.status(201).json({
 				"status":201,
 				"data": gettrans
 			})
@@ -66,7 +66,7 @@ router.get('/mydone/usertransaction/', jwtStaffVerify, (req, res) =>{
 			})
 		}
 	} else {
-		res.json({
+		res.status(403).json({
 			"status": 403,
 			"error": "Invalid User Stay Out!"
 		})
@@ -78,7 +78,7 @@ router.delete('/accounts/:accountNumber',paramChecks, jwtStaffVerify, (req, res)
 	if (getUser) {
 		const getAcc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
 		if (!getAcc){
-			res.json({
+			res.status(401).json({
 				"status":401,
 				"error": `Cannot find a matching account number ${req.params.accountNumber}`
 			})
@@ -88,7 +88,7 @@ router.delete('/accounts/:accountNumber',paramChecks, jwtStaffVerify, (req, res)
 		//delete the account at tha position
 		accounts.splice(index, 1);
 
-		res.json({
+		res.status(204).json({
 			"status": 204,
 			"message": `Account ${getAcc.accountNumber} deleted  Successfully` 
 		});
@@ -106,20 +106,20 @@ router.patch('/account/:accountNumber',paramChecks, jwtStaffVerify, (req, res) =
 	if (getUser) {
 		const getAcc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
 		if (!getAcc){
-			res.json({
+			res.status(401).json({
 				"status":401,
 				"error": `Cannot find a matching account number ${req.params.accountNumber}`
 			})
 		}
 		getAcc.status = "dormant";
 		
-		res.json({
+		res.status(201).json({
 			"status": 201,
 			"data": getAcc 
 		});
 
 	} else {
-		res.json({
+		res.status(403).json({
 			"status": 403,
 			"error": "Invalid User Stay Out!"
 		});
@@ -134,14 +134,14 @@ router.post('/createbank/accounts', jwtStaffVerify, (req, res) => {
 	if (getUser){
 		getuseremail = req.body['email'] || null
 		if (getuseremail === null){
-			res.json({
+			res.status(401).json({
 				"status": 401,
 				"error": "No email was provided"
 			})
 		} else {
 			chKUser = users.find(usr=> usr.email === getuseremail)
 			if(!chKUser){
-				res.json({
+				res.status(400).json({
 					"status": 400,
 					"error": "User does not exist in the database create the user before a bank account"
 				})
@@ -156,7 +156,7 @@ router.post('/createbank/accounts', jwtStaffVerify, (req, res) => {
 			        "status": "active",
 			        "balance": getbalance,
 			    }
-			    res.json({
+			    res.status(201).json({
 			    	"status": 201,
 			    	"data": { 
 			    		"accountNumber": creatBank['accountNumber'],

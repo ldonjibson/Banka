@@ -38,7 +38,7 @@ router.get('/me/profile', jwtVerify,  (req, res) => {
 			"data": getUser
 		});		
 	} else {
-		res.json({
+		res.status(401).json({
 			"status": 401,
 			"error": "Invalid User Stay Out!"
 		});
@@ -55,7 +55,7 @@ router.get('/me/account', jwtVerify,  (req, res) => {
 			"data": getUseracct
 		});		
 	} else {
-		res.json({
+		res.status(401).json({
 			"status": 401,
 			"error": "Invalid User Stay Out!"
 		});
@@ -92,14 +92,14 @@ router.get('/me/account/transaction/:id/detail',paramChecks, jwtVerify,  (req, r
 				"data": gettheUsertransactns
 		});			
 		} else {
-			res.json({
+			res.status(400).json({
 				"status":400,
 				"error": "(not your transaction!) Wrong transaction details"
 			})
 		}
 	
 	} else {
-		res.json({
+		res.status(401).json({
 			"status": 401,
 			"error": "Invalid User Stay Out!"
 		});
@@ -134,7 +134,7 @@ router.post('/accounts', jwtVerify, (req, res) => {
 	    	}
 	    });
 	} else {
-		res.json({
+		res.status(403).json({
 			"status": 403,
 			"error":"Log in to Create a Bank Account"
 		})
@@ -160,20 +160,20 @@ router.patch('/me/profile/edit', upload.upload.single('file'), jwtVerify,  (req,
 			getUser.phone = phone;
 		}
 		if (!image){
-			res.json({
+			res.status(206).json({
 				"status": 206,
 				"data": getUser
 			});	
 		} else {
 			getUser.imageUrl = 'http://localhost:3000/images/'+ req.file.filename
-			res.json({
+			res.status(206).json({
 				"status": 206,
 				"data": getUser
 			});
 		}
 	
 	} else {
-		res.json({
+		res.status(403).json({
 			"status": 403,
 			"data": "Invalid User Stay Out!"
 		});
@@ -196,20 +196,20 @@ router.patch('/me/profile/changepassword', upload.upload.single('file'), jwtVeri
 					"message": "Password changed successfully"
 				});
 			} else{
-				res.json({
+				res.status(401).json({
 					"status": 401,
 					"error": "Both Passwords doesnot match"
 				});
 			}
 		} else {
-			res.json({
+			res.status(204).json({
 				"status": 204,
 				"error": "No Password Change Attempt Made"
 			});
 		}
 	
 	} else {
-		res.json({
+		res.status(403).json({
 			"status": 403,
 			"error": "Invalid User Stay Out!"
 		});
