@@ -38,7 +38,7 @@ router.post('/transactions/:accountNumber/credit',paramChecks, jwtStaffVerify, (
 		//verify that the account number exist
 		const getAcc = accounts.find(acc => acc.accountNumber === Number(req.params.accountNumber));
 		if (!getAcc){
-			res.json({
+			res.status(401).json({
 				"status":401,
 				"error": `Cannot find a matching account number ${req.params.accountNumber}`
 			})

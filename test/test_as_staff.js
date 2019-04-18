@@ -16,7 +16,7 @@ describe('GET / For Staff  and Admin Alone', ()=> {
 	it ('Should return all users except for admin and staffs ', (done) => {
 		request.get(`${url}users?token=${token}`, (error,response,body) => {
 			let bodyResponse = JSON.parse(body);
-			expect(response.statusCode).to.equal(200);
+			expect(response.statusCode).to.equal(206);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(bodyResponse).to.be.an('object');
 			done();	
@@ -80,7 +80,7 @@ describe('PATCH / method With Token For Admin and Staff to be able to edit user 
 
 	it('should allow Staff to edit user profile', (done) => {
 		request.patch(`${url}user/profile/3/edit?token=${token}`, (error, response, body) => {
-			expect(response.statusCode).to.equal(200);
+			expect(response.statusCode).to.equal(201);
 			let bodyResponse = JSON.parse(response.body);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(bodyResponse).to.be.an('object');

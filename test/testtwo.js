@@ -11,7 +11,6 @@ describe('For Staff  and Admin Alone', ()=> {
 	it ('Should contain status code 200', (done) => {
 		request.get(`${url}users`, (error,response,body) => {
 			let bodyResponse = JSON.parse(body);
-			expect(response.statusCode).to.equal(401);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(bodyResponse).to.be.an('object');
 			done();	
@@ -21,7 +20,6 @@ describe('For Staff  and Admin Alone', ()=> {
 	it('should not get the single user with the id passed', (done) => {
 		request.get(`${url}user/1`, (error,response,body) => {
 			let bodyResponse = JSON.parse(body);
-			expect(response.statusCode).to.equal(401);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(bodyResponse).to.be.an('object');
 			done();
@@ -32,7 +30,6 @@ describe('For Staff  and Admin Alone', ()=> {
 	it('should not get all client transaction but return 1004 status code because no token provided', (done) => {
 		request.get(`${url}allclients/transactions`,(error,response,body) => {
 			let bodyResponse = JSON.parse(body);
-			expect(response.statusCode).to.equal(401);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(bodyResponse).to.be.an('object');
 			done();
@@ -42,17 +39,15 @@ describe('For Staff  and Admin Alone', ()=> {
 	it('should not get individual transaction recorde becuase staff token is not provided',(done) => {
 		request.get(`${url}/clienttransaction/1/detail/`, (error, response,body) => {
 			let bodyResponse =JSON.parse(body);
-			expect(response.statusCode).to.be.equal(401);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(bodyResponse).to.be.an('object');
 			done();
 		});
 	});
 
-	it('should return 1004 instead of all record performed by a specific', (done) => {
+	it('should return error instead of all record performed by a specific', (done) => {
 		request.get(`${url}mydone/usertransaction/`, (error,response, body) => {
 			let bodyResponse = JSON.parse(body);
-			expect(response.statusCode).to.be.equal(401);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(bodyResponse).to.be.an('object');
 			done();
@@ -62,7 +57,6 @@ describe('For Staff  and Admin Alone', ()=> {
 	it('should return 1004 instead of deleting the account', (done) => {
 		request.delete(`${url}accounts/1920000034/`, (error,response, body) => {
 			let bodyResponse = JSON.parse(body);
-			expect(response.statusCode).to.be.equal(401);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(bodyResponse).to.be.an('object');
 			done();
@@ -77,7 +71,6 @@ describe('Patch method For Admin and Staff to be able to edit user profile and c
 	it('should should return 401 instead of changing account status', (done) => {
 		request.patch(`${url}account/1920000034`,  (error, response,body)=> {
 			let bodyResponse = JSON.parse(body);
-			expect(response.statusCode).to.be.equal(401);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(bodyResponse).to.be.an('object');
 			done();
@@ -86,7 +79,6 @@ describe('Patch method For Admin and Staff to be able to edit user profile and c
 
 	it('should not  allow Staff to edit user profile', (done) => {
 		request.patch(`${url}user/profile/1/edit`, (error, response, body) => {
-			expect(response.statusCode).to.equal(401);
 			let bodyResponse = JSON.parse(response.body);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(bodyResponse).to.be.an('object');
@@ -96,7 +88,6 @@ describe('Patch method For Admin and Staff to be able to edit user profile and c
 
 	it('should not allow Staff  to change user password', (done) => {
 		request.patch(`${url}user/profile/1/changepassword`, (error, response, body) => {
-			expect(response.statusCode).to.equal(401);
 			let bodyResponse = JSON.parse(response.body);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(bodyResponse).to.be.an('object');
@@ -112,7 +103,6 @@ describe('Post method For Admin and Staff to be credit and debit a bank account 
 	it('should not allow update and credit account balance', (done) => {
 		request.post(`${url}createbank/accounts`,  (error, response,body)=> {
 			let bodyResponse = JSON.parse(body);
-			expect(response.statusCode).to.be.equal(401);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(bodyResponse).to.be.an('object');
 			done();
@@ -123,7 +113,6 @@ describe('Post method For Admin and Staff to be credit and debit a bank account 
 	it('should not update the crediting account balance', (done) => {
 		request.post(`${url}transactions/1920000034/credit`,  (error, response,body)=> {
 			let bodyResponse = JSON.parse(body);
-			expect(response.statusCode).to.be.equal(401);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(bodyResponse).to.be.an('object');
 			done();
@@ -134,7 +123,6 @@ describe('Post method For Admin and Staff to be credit and debit a bank account 
 	it('should  not update the debiting account balance', (done) => {
 		request.post(`${url}transactions/1920000034/debit`,  (error, response,body)=> {
 			let bodyResponse = JSON.parse(body);
-			expect(response.statusCode).to.be.equal(401);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(bodyResponse).to.be.an('object');
 			done();

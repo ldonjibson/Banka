@@ -92,9 +92,9 @@ router.get('/me/account/transaction/:id/detail',paramChecks, jwtVerify,  (req, r
 				"data": gettheUsertransactns
 		});			
 		} else {
-			res.status(400).json({
-				"status":400,
-				"error": "(not your transaction!) Wrong transaction details"
+			res.status(404).json({
+				"status":404,
+				"error": "Transaction Does not Exist"
 			})
 		}
 	

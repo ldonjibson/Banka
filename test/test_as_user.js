@@ -25,7 +25,6 @@ describe('POST / With Token signup,login, transaction_details, profile_edit', ()
 		}, 
 		(error, response, body) =>{
 			let bodyResponse = JSON.parse(response.body);
-			expect(response.statusCode).to.equal(201);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(bodyResponse).to.be.an('object');
 		});
@@ -48,7 +47,6 @@ describe('POST / With Token signup,login, transaction_details, profile_edit', ()
 		}, 
 		(error, response, body) =>{
 			let bodyResponse = JSON.parse(response.body);
-			expect(response.statusCode).to.equal(201);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(bodyResponse).to.be.an('object');
 			done();
@@ -64,7 +62,6 @@ describe('POST / With Token signup,login, transaction_details, profile_edit', ()
 		}, 
 		(error, response, body) =>{
 			let bodyResponse = JSON.parse(body);
-			expect(response.statusCode).to.equal(401);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(bodyResponse).to.be.an('object');
 		});
@@ -119,7 +116,7 @@ describe('GET / With Token and User data, transaction_details', () =>{
 	it('should return of specific transaction detail', (done) => {
 		request.get(`${url}me/account/transaction/1/detail?token=${token}`, (error, response,body) => {
 			let bodyResponse = JSON.parse(response.body);
-			expect(response.statusCode).to.equal(200);
+			expect(response.statusCode).to.equal(404);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(bodyResponse).to.be.an('object');
 			done();
