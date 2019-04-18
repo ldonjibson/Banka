@@ -114,15 +114,15 @@ router.post('/auth/signin', (req, res) => {
 		//this search through the json(users) to getthe user if it exists
 		const getUser = users.find(usr => usr.email === email);
 		if (!getUser){
-			res.status(401).json({
+			res.status(404).json({
 				"status": 404,
 				"error": "User does not exist!"
 			});
 		} else {
 			bcrypt.compare(password, getUser.password).then((response) =>{
 				if (!response){
-					res.status(401).json({
-						"status": 401,
+					res.status(403).json({
+						"status": 403,
 						"error": "Authentication Failed! password parameter invalid"
 					});
 				} else {

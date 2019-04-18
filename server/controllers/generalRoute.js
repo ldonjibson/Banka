@@ -35,9 +35,9 @@ router.post('/resetpassword', (req, res) => {
 	const email = req.body['email'];
 	const getUser = users.find(usr => usr.email === email);
 	if (!getUser) {
-		res.status(401).json({
-			"status": 401,
-			"error": `User with ${email} does not exist` 
+		res.status(404).json({
+			"status": 404,
+			"error": `User does not exist` 
 		});
 	} else {
 		const tempPass = Math.random().toString(36).replace('0.', '') 
