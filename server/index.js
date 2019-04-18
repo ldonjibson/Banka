@@ -38,13 +38,21 @@ server.get('/', (req,res)=>{
 	if (req.url === '/'){
 		res.redirect('https://github.com/ldonjibson/Banka/tree/api-one#documentation')
 	} else {
-		res.json({
+		res.status(404).json({
 			"status": 404,
 			"error": "Something is Wrong with this Url"
 		});
 	}
 
 
+});
+
+server.get('*', (req, res) =>{
+	console.log(res)
+	res.status(404).json({
+		"status": 404,
+		"error": "Not Found"
+	});
 });
 
  //end users
