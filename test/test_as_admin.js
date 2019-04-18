@@ -13,7 +13,7 @@ describe('GET / With Token For Admin Alone', ()=> {
 	it ('Should contain status code 200 and return error', (done) => {
 		request.get(`${url}staff?token=${token}`, (error,response,body) => {
 			let bodyResponse = JSON.parse(body);
-			expect(response.statusCode).to.equal(200);
+			expect(response.statusCode).to.equal(206);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(bodyResponse).to.be.an('object');
 			done();	
@@ -33,7 +33,7 @@ describe('GET / With Token For Admin Alone', ()=> {
 
 	it('should allow Admin get all use types', (done) => {
 		request.get(`${url}allusers?token=${token}`, (error, response, body) => {
-			expect(response.statusCode).to.equal(200);
+			expect(response.statusCode).to.equal(206);
 			let bodyResponse = JSON.parse(response.body);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(bodyResponse).to.be.an('object');
