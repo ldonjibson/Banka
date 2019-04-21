@@ -4,20 +4,16 @@ let bcrypt = require('bcrypt-nodejs'); // used to encrypt password
 let jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 
 let helper = require('../helpers/helper')
-let users = require('../datastore/user.js')
+
+const pool = require('../db/index.js')
+const db = pool.pool
 
 let server = express();
 const router = express.Router();
-let url = '/api/v1/';
 
 let config = require('../config/config.js')
 
 server.set('superSecret', config.secret);
-
-// router.use(bodyParser.urlencoded({ extended: false }));
-// router.use(bodyParser.json({ type: 'application/json'}));
-
-//route midleware to verify atoken
 
 const jwtStaffVerify= ((req, res, next) => {
 	// check header or url parameters or post parameteers for token
@@ -32,15 +28,27 @@ const jwtStaffVerify= ((req, res, next) => {
 				//if authenticatable save to request for other route to use
 				req.decoded = decoded;
 				//check if user email has staff property
-				const getUser = users.find(usr => usr.email === decoded.email);
-				if (getUser.type === "staff"){
-					next();
-				} else {
-					res.json({
-						"status":401,
-						"error": "You are not a staff"
-					});
-				}
+				db.query(`SELECT * FROM users WHERE email = $1 AND id = $2`,[decoded.email, decoded.id], (error, response) => {
+					if (error){
+						res.status(400).json({
+							"status": 400,
+							"error": error
+						})
+					} else if (response.rows.length === 0){
+						res.status(404).json({
+							"status": 404,
+							"error": "User does not exist"
+						})
+						
+					} else if(response.rows[0].type !== "staff") {
+						res.status(401).json({
+							"status":401,
+							"error": "You are not a staff"
+						});
+					} else {
+						next();
+					}
+				});
 			}
 		})
 	} else {

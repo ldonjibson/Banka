@@ -20,8 +20,8 @@ const userRouter = require('../controllers/userRoutes.js');
 const AuthController = require('../controllers/authentication.js');
 const staffRouter = require('../controllers/staffRoute.js');
 const adminRouter = require('../controllers/adminRoute.js');
-const bothAdminStaff = require('../controllers/bothAdminStaff.js');
-const bothAdStaf = require('../controllers/bothAdStaf.js');
+// const bothAdminStaff = require('../controllers/bothAdminStaff.js');
+// const bothAdStaf = require('../controllers/bothAdStaf.js');
 const generalRoute = require('../controllers/generalRoute.js');
 
 
@@ -36,10 +36,6 @@ getRoutes.use('/api/v1/', staffRouter);
 
 //All admin only route
 getRoutes.use('/api/v1/', adminRouter);
-
-//Both admin and staff
-getRoutes.use('/api/v1/', bothAdminStaff);
-getRoutes.use('/api/v1/', bothAdStaf);
 
 //General Auth
 getRoutes.use('/api/v1/', generalRoute);

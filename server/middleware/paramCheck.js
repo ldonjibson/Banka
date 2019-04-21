@@ -20,12 +20,11 @@ server.set('superSecret', config.secret);
 const paramChecks= ((req, res, next) => {
 	// check header or url parameters or post parameteers for token
 	let number = req.params.id || req.params.accountNumber
-	//decode token
 	if(isNaN(number)) {
 		//verifies if the parameter passed is a number
 		return res.json({
 			"status": 400,
-			"error": "Invalid Parameters())"
+			"error": "Invalid Parameters"
 		});
 	} else {
 		next();
