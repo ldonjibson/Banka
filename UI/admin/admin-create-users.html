@@ -21,7 +21,6 @@
 				<li><a href="../index.html" title="Home" active><i class="fa fa-home"></i> Home</a></li>
 				<li><a href="../service.html" title="Services"><i class="fa fa-briefcase"></i> Services</a></li>
 				<li><a href="../admin-login.html" title="Logout" class="a-logout"><i class="fa fa-sign-in"></i> Logout</a></li>
-				<!-- <li><a href="./register.html" title="Register" class="a-register"><i class="fa fa-user-plus"></i> Register</a></li> -->
 				<li><a href="tel:2348180000000" title="Call Us"><i class="fa fa-phone-square"></i> Call +2348180000000</a></li>
 			</ul>
 			<a href="#" class="float-right burger" id="burger" onclick="menuToggle();">&#9776; Menu</a>
@@ -32,7 +31,6 @@
 				<li><a href="../index.html" title="Home" active><i class="fa fa-home"></i> Home</a></li>
 				<li><a href="../service.html" title="Services"><i class="fa fa-briefcase"></i> Services</a></li>
 				<li><a href="../admin-login.html" title="Logout" class="a-logout"><i class="fa fa-sign-in"></i> Logout</a></li>
-				<!-- <li><a href="./register.html" title="Register" class="a-register"><i class="fa fa-user-plus"></i> Register</a></li> -->
 				<li><a href="tel:2348180000000" title="Call Us"><i class="fa fa-phone-square"></i> Call +2348180000000</a></li>
 		</ul>
 	</div>
@@ -41,64 +39,65 @@
 	<div class="contains">
 		<div class="sub-container row">
 			<div class="text-left">
-				<div class="cl-3">
+				<div class="cl-3 flex-container">
 					<select id="bank-admin" onchange="bankAdminView();" name="bank-admin" class="mobile-navigation">
 						<option>-- Admin Dashboard Navigations --</option>
 						<option value="main">Main Board</option>
 						<option value="users">Users</option>
 						<option value="staff">Staff</option>
-						<option value="create-user-staff">Create Users/Staff</option>
+						<option value="create-user-staff">Create Admin/Staff</option>
 						<option value="logout">Logout</option>
 					</select>
 					<div class="navigation">
 						<h4 class="text-center tshadow">Admin Dashboard Navigation</h4>
 						<div class="no-style text-center">
-							<div><a class="dlink" href="./admin-dashboard.html"> Main Board</a></div>
-							<div><a class="dlink" href="./admin-profile.html"> Manage Profile</a></div>
-							<div><a class="dlink" href="./admin-dashboard-users.html"> Users List</a></div>
-							<div><a class="dlink" href="./admin-create-users.html"> Create Users/Staff</a></div>
-							<div><a class="dlink" href="./admin-login.html"> Logout</a></div>							
+							<div class="dlink-margin"> 
+								<a class="dlink-btn dlink" href="./admin-dashboard.html"><i class="fa fa-tachometer"></i> Main Board</a>
+							</div>
+							<div class="dlink-margin"> 
+								<a class="dlink-btn dlink" href="./admin-profile.html"><i class="fa fa-user-md"></i> Manage Profile</a>
+							</div>
+							<div class="dlink-margin"> 
+								<a class="dlink-btn dlink" href="./admin-dashboard-users.html"><i class="fa fa-users"></i> Users List</a>
+							</div>
+							<div class="dlink-margin"> 
+								<a class="dlink-btn dlink" href="./admin-create-users.html"><i class="fa fa-user-plus"></i> Create Admin/Staff</a>
+							</div>
+							<div class="dlink-margin"> 
+								<a class="dlink-btn dlink" href="./admin-login.html"><i class="fa fa-sign-in"></i> Logout</a>
+							</div>							
 						</div>
 					</div>
 				</div>
 				<div class="cl-9">
-					<h4 class="text-center tshadow">eBanka Create Users/Staff Account</h4>
+					<h4 class="text-center tshadow">eBanka Create Admin/Staff Account</h4>
 					<div id="" class="cl-12">
 						<div class="cl-12">
-							<div>
-								<button class="btn btn-stretch profile-dema" id="generate" onclick="Generate();">Generate Account Number</button>
-								<div id="account-number-show"></div>
-							</div>
 							<div class="profile-dema text-center">
 								<div class="createuresponse"></div>
 								<div>								
 									<form action="" method="POST" enctype="multipart/form-data" id="create-user-profile" onsubmit="createUserStaff();">
 										<div>
-											<input type="number" max="9999999999" name="account-number" id="account-number" placeholder="Account Number" class="" value="" required="">
+											<input type="text" name="firstname" placeholder="First Name" class="" value="" required="">
 										</div>
 										<div>
-											<input type="text" name="firstname" placeholder="First Name" class="" value="Demo" required="">
+											<input type="text" name="lastname" placeholder="Last Name" class="" value="" required="">
 										</div>
 										<div>
-											<input type="text" name="lastname" placeholder="Last Name" class="" value="Surdemo" required="">
+											<input type="email" name="email" placeholder="Email ..." class="" value="" required="">
 										</div>
 										<div>
-											<input type="email" name="email" placeholder="Email ..." class="" value="demo@gmail.com" required="">
+											<input type="text" name="tel" placeholder="+234818010000" class="" value="" required="">
 										</div>
 										<div>
-											<input type="text" name="tel" placeholder="+234818010000" class="" value="+234818010000" required="">
+											<input type="password" name="password" placeholder="passsword" class="" value="" required="">
 										</div>
 										<div>
-											<input type="date" name="date" placeholder="" class="" required="">
-										</div>
-										<div>
-											<input type="file" name="profile-img" id="uplaod-img" class="admin-photo">
-											<label for="uplaod-img" class="text-left"><i class="fa fa-camera-retro"></i> Click me to upload pics</label>
+											<input type="password" name="password1" placeholder="confirm passsword" class="" value="" required="">
 										</div>
 										<div>
 											<select name="role" id="role">
 												<option>Select User Account Type</option>
-												<option>User Account</option>
 												<option>Staff</option>
 												<option>Admin</option>
 											</select>
