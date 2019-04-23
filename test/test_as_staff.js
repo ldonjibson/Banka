@@ -1,6 +1,5 @@
 let expect = require('chai').expect;
 let request = require('request');
-let users = require('../server/datastore/user')
 
 const PORT = process.env.PORT || 3000;
 
@@ -122,7 +121,7 @@ describe('POST / method With token For Admin and Staff to be credit and debit a 
 
 	it('should allow update and  debit account balance', () => {
 		request.post({
-			url: `${url}transactions/1427875169/credit?token=${token}`,
+			url: `${url}transactions/1427875169/debit?token=${token}`,
 			form: {
 				"debitAmount": 56600.989
 			}

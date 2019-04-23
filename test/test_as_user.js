@@ -4,7 +4,6 @@ Change Port and base url as needed before runing tests
 
 let expect = require('chai').expect;
 let request = require('request');
-let users = require('../server/datastore/user')
 let express = require('express');
 
 const PORT = process.env.PORT || 3000;
