@@ -4,9 +4,9 @@ let server = express();
 let path = require('path');
 let bodyParser = require('body-parser');
 let morgan = require('morgan');
-let users = require('./datastore/user.js');
 const getRoutes = require('./routes/indexroute.js');
-
+let swaggerUi  = require('swagger-ui-express');
+let swaggerDoc = require('../swagger.json');
 
 const PORT = process.env.PORT || 3000;
 
@@ -25,6 +25,8 @@ server.use(express.static('public'));
 //to log request type
 server.use(morgan('combined'));
 
+//Swagger Documentation
+server.use('/api/v1/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 server.get('/api/v1/', (req, res) =>{
 	let content = {

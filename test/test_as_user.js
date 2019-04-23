@@ -98,38 +98,38 @@ describe('PATCH / methods for users ', ()=>{
 
 describe('POST / With Token signup, login, profile_edit', () =>{
 
-	// it('should allow user to sign up and create account on signup', (done) => {
-	// 	request.post({
-	// 		url : `${url}auth/signup`, 
-	// 		form: {
-	// 			'email':'newuser@gmail.com', 
-	// 			'password':'elohim',
-	// 			'password': 'newpass', 
-	// 			}
-	// 	}, 
-	// 	(error, response, body) =>{
-	// 		let bodyResponse = JSON.parse(response.body);
-	// 		expect(response.statusCode).to.equal(201);
-	// 		expect(response.headers['content-type']).to.contain('application/json');
-	// 		expect(bodyResponse.status).to.be.equal(201);
-	// 		expect(bodyResponse).to.be.an('object');
-	// 		done();
-	// 	});
-	// });
+	it('should allow user to sign up and create account on signup', (done) => {
+		request.post({
+			url : `${url}auth/signup`, 
+			form: {
+				'email':'newuser@gmail.com', 
+				'password':'elohim',
+				'password': 'newpass', 
+				}
+		}, 
+		(error, response, body) =>{
+			let bodyResponse = JSON.parse(response.body);
+			expect(response.statusCode).to.equal(406);
+			expect(response.headers['content-type']).to.contain('application/json');
+			expect(bodyResponse.status).to.be.equal(406);
+			expect(bodyResponse).to.be.an('object');
+			done();
+		});
+	});
 
-	// it('should allow user to reset password', () => {
-	// 	request.post({
-	// 		url : `${url}/resetpassword`, 
-	// 		form: {
-	// 			'email':'newuser@gmail.com', 
-	// 		}
-	// 	}, 
-	// 	(error, response, body) =>{
-	// 		let bodyResponse = JSON.parse(response.body);
-	// 		expect(response.headers['content-type']).to.contain('application/json');
-	// 		expect(bodyResponse).to.be.an('object');
-	// 	});
-	// });
+	it('should allow user to reset password', () => {
+		request.post({
+			url : `${url}/resetpassword`, 
+			form: {
+				'email':'shetma@yesenia.net', 
+			}
+		}, 
+		(error, response, body) =>{
+			let bodyResponse = JSON.parse(response.body);
+			expect(response.headers['content-type']).to.contain('application/json');
+			expect(bodyResponse).to.be.an('object');
+		});
+	});
 
 	it('Should allow user to login and generate token', () => {
 		request.post({
@@ -162,10 +162,10 @@ describe('POST / With Token signup, login, profile_edit', () =>{
 				}
 		}, 
 		(error, response, body) =>{
-			let bodyResponse = JSON.parse(body);
-			expect(response.statusCode).to.equal(201);
+			let bodyResponse = JSON.parse(response.body);
+			expect(response.statusCode).to.equal(403);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(bodyResponse.status).to.be.equal(201);
+			expect(bodyResponse.status).to.be.equal(403);
 			expect(bodyResponse).to.be.an('object');
 		});
 		done();

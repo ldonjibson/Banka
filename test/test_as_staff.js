@@ -69,7 +69,7 @@ describe('GET / For Staff  and Admin Alone', ()=> {
 
 
 	it('should return all active bank account with status active', (done) => {
-		request.get(`${url}all/accounts/status=active?token=${token}`, (error,response,body) => {
+		request.get(`${url}all/accounts?status=active&token=${token}`, (error,response,body) => {
 			let bodyResponse = JSON.parse(body);
 			expect(response.statusCode).to.equal(206);
 			expect(response.headers['content-type']).to.contain('application/json');
@@ -79,10 +79,10 @@ describe('GET / For Staff  and Admin Alone', ()=> {
 
 	});
 
-	it('should return all active bank account with status dormant', (done) => {
-		request.get(`${url}all/accounts/status=dormant?token=${token}`, (error,response,body) => {
+	it('should return bank account with status dormant', (done) => {
+		request.get(`${url}all/accounts?status=dormant?token=${token}`, (error,response,body) => {
 			let bodyResponse = JSON.parse(body);
-			expect(response.statusCode).to.equal(206);
+			expect(response.statusCode).to.equal(400);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(bodyResponse).to.be.an('object');
 			done();
@@ -113,6 +113,7 @@ describe('POST / method With token For Admin and Staff to be credit and debit a 
 		},(error, response,body)=> {
 			let bodyResponse = JSON.parse(body);
 			expect(response.statusCode).to.be.equal(201);
+			console.log(bodyResponse.error)
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(bodyResponse).to.be.an('object');
 		});

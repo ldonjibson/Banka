@@ -18,6 +18,8 @@ let config = require('../config/config')
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json({ type: 'application/json'}));
 
+
+router.post('/admin/createstaff', jwtAdminVerify, adminQueries.createStaffAdmin)
 //All Staff
 router.get('/staff', jwtAdminVerify, adminQueries.getStaffUsers)
 

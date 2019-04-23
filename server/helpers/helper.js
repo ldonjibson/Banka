@@ -11,25 +11,17 @@ const ranDom = () => {
 	return accNum;
 }
 
-
 const uniqueAccNumber = () => {
-	accNum = ranDom();
-	const chkIfAccount = accounts.find(acc => acc.accountNumber === accNum);
-	if (chkIfAccount){
-		return ranDom() - Math.floor((Math.random() * 50000));
-	} else {
-		return accNum
-	}
-
+	const accNum = ranDom() - Math.floor((Math.random() * 50000) + Math.random() * 30000);
+	return accNum
 }
 
 //tally the code token from decode and check if the email exists
 const togetUser = (req) =>{
-	// let rows = ''
 	db.query(`SELECT * FROM users WHERE email = $1`, [req.decoded.email])
 	.then(response =>{
 		if(!response.rows[0]){
-			res.json({
+			res.status(404).json({
 					"status":404,
 					"error":"User does not exist"
 				});
@@ -39,9 +31,19 @@ const togetUser = (req) =>{
 	});
 }
 
+const authHelper = (error, res) =>{
+	if (error.array()[0].param = 'email' || 'password') {
+		res.status(422).json({
+			"status":422,
+			"error": `${error.array()[0].msg} for email or password not up to 5 characters`		
+		})
+	}
+}
+
 //exports
 module.exports = {
 	ranDom,
 	togetUser,
 	uniqueAccNumber,
+	authHelper,
 }

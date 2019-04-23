@@ -11,6 +11,7 @@
     "eslint": "^5.15.3",
     "eslint-config-airbnb": "^17.1.0",
     "express": "^4.16.4",
+    "express-validator": "^5.3.1",
     "expressjs": "^1.0.1",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.9.1",
@@ -18,7 +19,8 @@
     "nodemailer": "^6.1.0",
     "nodemon": "^1.18.10",
     "nyc": "^13.3.0",
-    "pg": "^7.10.0"
+    "pg": "^7.10.0",
+    "swagger-ui-express": "^4.0.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

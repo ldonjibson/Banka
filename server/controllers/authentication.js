@@ -3,16 +3,15 @@ let bodyParser = require('body-parser');
 let bcrypt = require('bcryptjs'); // used to encrypt password
 let jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 let helper = require('../helpers/helper')
-let users = require('../datastore/user.js')
 const jwtVerify = require('../middleware/verifyuserlogin.js')
 
+const {check, validationResult} = require('express-validator/check')
 // const db = require('../db')
 const pool = require('../db/index.js')
 let db = pool.pool
 
 let server = express();
 const router = express.Router();
-let url = '/api/v1/';
 
 let config = require('../config/config.js')
 
@@ -22,45 +21,36 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json({ type: 'application/json'}));
 
 //sign up 
-router.post('/auth/signup', (req, res) => {
+router.post('/auth/signup', [
+	check('email').isEmail(),
+	check('password').isLength({min:5})
+	], (req, res) => {
 	let data = Object.keys(req.body);
-	db.connect((err,client,done)=>{
-		if (err){
-			console.log("not able to connect" + err);
-			res.json({
-				"status":400,
-				"error":err
-			})
-		}
-		client.query(`SELECT * FROM users WHERE email = $1`, [req.body['email']])
-		.then(response =>{
-			const results = response.rows[0]
-			if(results){
+	const error = validationResult(req);
+	if (!error.isEmpty()){
+		helper.authHelper(error, res)
+	} else if(req.body['password'] !== req.body['password1']){
+		res.status(406).json({
+			"status": 406,
+			"error": "Password does not match"
+		});
+	} else {
+		db.connect((err,client,done)=>{
+			if (err){
 				res.status(400).json({
-						"status":400,
-						"error":"User all ready exist with email address"
-					})
- 			} else{
-					//checkif a all the fields are present by checking the length agains the expected length
-					let chkobj = [ 'email', 'password', 'password1']
-					obj = []
-					for (let i = 0; i<data.length; i++){
-						let key = data[i];
-						obj.push(key);
-					}
-					if (obj < chkobj) {
-						res.status(401).json({
-							"status": 401,
-							"error": "Please Check, A field is missing"
-						});
-
-					} else if(req.body['password'] !== req.body['password1']){
-						res.status(401).json({
-							"status": 401,
-							"error": "Password does not match"
-						});
-					} else {
-							//This pushes the adds the new id
+					"status":400,
+					"error":err
+				})
+			}
+			client.query(`SELECT * FROM users WHERE email = $1`, [req.body['email']])
+			.then(response =>{
+				const results = response.rows[0]
+				if(results){
+					res.status(401).json({
+							"status":401,
+							"error":"User already exist with email address"
+						})
+	 			} else{
 					const payload = {email: req.body['email']}
 					let token = jwt.sign(payload, server.get('superSecret'), {
 						expiresIn: '24h' // expire in 24 hours
@@ -69,28 +59,12 @@ router.post('/auth/signup', (req, res) => {
 					let hashedPassword = bcrypt.hashSync(req.body['password'], 5);
 					let newUser = {
 						"token": token,
-						"firstName":req.body['firstName'], 
-						"lastName":req.body['lastName'],
 						"email":req.body['email'],
-						"password": hashedPassword, 
-						"dob":req.body['dob'],
-						"phone":req.body['phone'],
-					}
-					//This checks if the user was created by an admin/staff
-					if (!req.body['type']){
-						newUser['type'] = 'client';
-					} else {
-						newUser['type'] = req.body['type'];
-					}
-					if(!req.body['isAdmin']){
-						newUser['isAdmin'] = false;
-					} else if(req.body['isAdmin'] === false){
-						newUser['isAdmin'] = false;
-					} else {
-						newUser['isAdmin'] = true
+						"password": hashedPassword,
+						"type": "client" 
 					}
 				    const pass = newUser.password
-				    client.query(`INSERT INTO users("email", "firstname", "lastname", "phone", "password", "dob", "type", "isadmin") values($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,[newUser.email, newUser.firstName, newUser.lastName, newUser.phone, pass, newUser.dob, newUser.type, newUser.isAdmin])
+				    client.query(`INSERT INTO users("email", "password", "type") values($1, $2, $3) RETURNING *`,[newUser.email, pass, newUser.type])
 				    .then(response=>{
 				    	const results = response.rows
 				    	if (results.length !== 0){
@@ -111,40 +85,35 @@ router.post('/auth/signup', (req, res) => {
 								}
 							});				    			
 				    	}
-				    }).catch (error => 
-						res.status(400).json({
-							"status": 400,
-							"error": error
-						}) 
-					)
+				    })
 
-				}
-
- 			}
+	 			}
+			})
 		})
-	})
+	}
 
 });
 
 
 //login
-router.post('/auth/signin', (req, res) => {
-	let x = req.body;
-	let email = req.body.email
-	let password = req.body.password
+router.post('/auth/signin',[
+	check('email').isEmail()
+	], (req, res) => {
+	let email = req.body['email']
+	let password = req.body['password']
 	//cehck if username or password is missing or both
-	if (!email || !password){
-
-		res.status(401).json({
-			"status": 401,
-			error: "Please Check, One or More field is empty"
+	const error = validationResult(req);
+	if (!error.isEmpty()){
+		helper.authHelper(error, res)
+	} else if (!password){
+		res.status(400).json({
+			"status":400,
+			"error": "Password is required"
 		});
-
-	} else if (email && password){
 		//verify that usr exist or not
+	} else {
 		db.connect((err,client,done)=>{
 			if (err){
-				console.log("not able to connect" + err);
 				res.status(400).json({
 					"status":400,
 					"error":err
@@ -198,7 +167,6 @@ router.post('/auth/signin', (req, res) => {
 				}) 
 			)
 		});
-
 	}
 
 });

@@ -25,7 +25,7 @@ const jwtAdminVerify= ((req, res, next) => {
 		//verifies secret and check up
 		jwt.verify(token, server.get('superSecret'), (err, decoded) => {
 			if(err) {
-				return res.json({"status":403, "error": 'Failed to Authenticate token'});
+				return res.status(403).json({"status":403, "error": 'Failed to Authenticate token'});
 			} else {
 				//if authenticatable save to request for other route to use
 				req.decoded = decoded;

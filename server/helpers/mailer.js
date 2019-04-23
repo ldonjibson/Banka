@@ -22,9 +22,9 @@ const sendNotificationMail = (to, subject, text, html) =>{
 
 	transporter.sendMail(mailOptions, (error, info)=>{
 		if(error){
-			console.log(error)
+			return error
 		} else {
-			console.log(info);
+			return info;
 		}
 	})
 }

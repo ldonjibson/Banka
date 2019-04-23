@@ -53,7 +53,7 @@ const jwtStaffVerify= ((req, res, next) => {
 		})
 	} else {
 		//if there is no token return an error
-		return res.json({
+		return res.status(400).json({
 			"status": 400,
 			"error": "No token provided."
 		});
