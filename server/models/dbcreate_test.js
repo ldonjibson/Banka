@@ -52,88 +52,67 @@ const createTransactionTable = `
 
 //TO GENERATE DATABSE Using Async / await
 const genUserTable = () =>{
-	return new Promise((resolve, reject) =>{
-		clienty.query(createUsersTable, (err, res) => {
-				if (err){
-					console.log(err);
-				}else {
-					genAccountTable();
-					console.log('created the user table successfully');
-			}
-		});
+	clienty.query(createUsersTable, (err, res) => {
+		if (err){
+			console.log(err);
+		}else {
+			genAccountTable();
+			console.log('created the user table successfully');
+		}
 	});
 }
 
 const genAccountTable = () =>{
-	new Promise((resolve, reject) =>{	
-			clienty.query(createAccountTable, (err, res) => {
-					if (err){
-						console.log(err);
-						reject(err)
-					}else {
-						genTransactionTable();
-						console.log('created the account table successfully');
-				}
-			});
+	clienty.query(createAccountTable, (err, res) => {
+		if (err){
+			console.log(err);
+			reject(err)
+		}else {
+			genTransactionTable();
+			console.log('created the account table successfully');
 		}
-	)
+	})
 }
 
 const genTransactionTable = ()=>{
-	new Promise((resolve, reject) =>{
-			clienty.query(createTransactionTable, (err, res) => {
-					if (err){
-						console.log(err);
-						reject(err)
-					}else {
-						toInsertUsers();
-						console.log('created the transaction table successfully');
-				}
-			});
-		}	
-	)
+	clienty.query(createTransactionTable, (err, res) => {
+		if (err){
+			console.log(err);
+			reject(err)
+		}else {
+			toInsertUsers();
+		}
+	})
 }
 
 const toInsertUsers = ()=>{
-	console.log("welcome")
-	new Promise((resolve, reject) =>{
-			clienty.query(insertUsers, (err, res) => {
-					if (err){
-						console.log(err);
-					}else {
-						toInsertBankAccounts();
-						console.log('populated');
-				}
-			});
-		}	
-	)
+	clienty.query(insertUsers, (err, res) => {
+		if (err){
+			console.log(err);
+		}else {
+			toInsertBankAccounts();
+		}
+	})
 }
 
 const toInsertBankAccounts = ()=>{
-	new Promise((resolve, reject) =>{
-			clienty.query(insertBankAccounts, (err, res) => {
-					if (err){
-						console.log(err);
-					}else {
-						toInsertTransaction();
-						console.log('populated');
-				}
-			});
-		}	
-	)
+	clienty.query(insertBankAccounts, (err, res) => {
+		if (err){
+			console.log(err);
+		}else {
+			toInsertTransaction();
+		}
+	})
 }
 
 const toInsertTransaction = ()=>{
-	new Promise((resolve, reject) =>{
-			clienty.query(insertTransactions, (err, res) => {
-					if (err){
-						console.log(err);
-					}else {
-						console.log('populated');
-				}
-			});
-		}	
-	)
+	clienty.query(insertTransactions, (err, res) => {
+		if (err){
+			console.log(err);
+		}else {
+			console.log('populated');
+		}
+	})
 }
 
 //INSERTING DEMO DATABASE
@@ -184,20 +163,10 @@ const insertTransactions =
 		toNumber) VALUES %L`, transactiondata);
 
 
-
-const tableInit = async () => {
-	genUserTable().then( async(res) => {
-		await genAccountTable().then(async(response) =>{
-			await genTransactionTable();
-		});
-	});
-}
-
 genUserTable();
 
 export default {
 	genUserTable,
-	dropTables,
 }
 
 

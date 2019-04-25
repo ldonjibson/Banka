@@ -61,42 +61,33 @@ const genUserTable = () =>{
 }
 
 const genAccountTable = () =>{
-	return new Promise((resolve, reject) =>{	
-			clienty.query(createAccountTable, (err, res) => {
-					if (err){
-						console.log(err);
-					}else {
-						genTransactionTable();
-				}
-			});
+	clienty.query(createAccountTable, (err, res) => {
+		if (err){
+			console.log(err);
+		}else {
+			genTransactionTable();
 		}
-	)
+	})
 }
 
 const genTransactionTable = ()=>{
-	return new Promise((resolve, reject) =>{
-			clienty.query(createTransactionTable, (err, res) => {
-					if (err){
-						console.log(err);
-					}else {
-						console.log('created the transaction table successfully');
-				}
-			});
-		}	
-	)
+	clienty.query(createTransactionTable, (err, res) => {
+		if (err){
+			console.log(err);
+		}else {
+			console.log('created the transaction table successfully');
+		}
+	})
 }
 
 const genTransactionTable = ()=>{
-	return new Promise((resolve, reject) =>{
-			clienty.query(insertUsers, (err, res) => {
-					if (err){
-						console.log(err);
-					}else {
-						console.log('populated');
-				}
-			});
-		}	
-	)
+	clienty.query(insertUsers, (err, res) => {
+		if (err){
+			console.log(err);
+		}else {
+			console.log('populated');
+		}
+	})
 }
 
  const tableInit = async () => {
