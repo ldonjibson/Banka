@@ -6,7 +6,31 @@ import bcrypt from 'bcryptjs';
 import {pool} from './index.js'
 import {sendNotificationMail} from '../helpers/mailer';
 
+const db = pool
 
+//Staff get all client type user alone
+const getAllUsers = (req, res) => {
+	db.query(`SELECT users.id, email, firstname, lastname, phone, dob, imageurl FROM users`)
+	.then(response => {
+		const result = response.rows;
+		if (response.rows.length == 0){
+			res.status(400).json({
+			"status":400,
+			"message": "You have no client yet"
+			});
+		} else {
+			res.status(200).json({
+			"status":200,
+			"data": response.rows
+			});
+		}
+	}).catch (error => 
+		res.status(400).json({
+			"status": 400,
+			"error": error
+		}) 
+	) 	
+}
 
 //Staff can debit and credit user account
 //ADD WHERE ACCOUNT IS NOT = "active"

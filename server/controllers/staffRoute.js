@@ -17,6 +17,8 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json({ type: 'application/json'}));
 
 
+//Get all users alone
+router.get('/users', jwtStaffVerify, staffQueries.getAllUsers)
 
 
 
