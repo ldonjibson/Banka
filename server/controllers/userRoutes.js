@@ -23,7 +23,6 @@ server.set('superSecret', config.secret);
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json({ type: 'application/json'}));
 
-router.post('/accounts', jwtVerify, userQueries.createBankAcc)
 
 // Get the User Profile
 router.get('/me/profile', jwtVerify, userQueries.getUserProfile)
@@ -35,3 +34,10 @@ router.get('/me/account/:accountNumber/transactions', jwtVerify, userQueries.get
 router.get('/me/account/:accountNumber/transaction/:id/detail',paramChecks, jwtVerify, userQueries.getSpecificTransactionAccById)
 
 router.patch('/me/profile/edit', xUpload.single('file'), jwtVerify,  userQueries.userEditProfile)
+
+router.patch('/me/profile/changepassword', jwtVerify,userQueries.userChangePassword)
+
+router.post('/accounts', jwtVerify, userQueries.createBankAcc)
+
+let userRouter = router;
+export {userRouter}

@@ -76,6 +76,29 @@ const createBankAcc = (req, res) => {
 	}
 }
 
+//Display All User acount
+const getUserAccounts = (req, res) => {
+	    db.query(`SELECT * FROM bankaccount WHERE owner = $1`, [req.decoded.id]) 
+	    .then(response =>{
+    		const result = response.rows;
+			if (result.length == 0){
+			    res.status(206).json({
+			    	"status": 206,
+			    	"message": "You have no account created yet"
+			    });
+			} else {
+			    res.status(200).json({
+			    	"status": 200,
+			    	"data": result
+			    });
+			}    	
+    }).catch (error => 
+		res.status(400).json({
+			"status": 400,
+			"error": error || "database error"
+		})
+	)
+}
 
 //Display UserProfile 
 const getUserProfile = (req, res) => {
@@ -147,27 +170,37 @@ const userEditProfile = (req, res) => {
 	)
 }
 
-const getUserAccounts = (req, res) => {
-	    db.query(`SELECT * FROM bankaccount WHERE owner = $1`, [req.decoded.id]) 
-	    .then(response =>{
-    		const result = response.rows;
-			if (result.length == 0){
-			    res.status(206).json({
-			    	"status": 206,
-			    	"message": "You have no account created yet"
-			    });
-			} else {
-			    res.status(200).json({
-			    	"status": 200,
-			    	"data": result
-			    });
-			}    	
-    }).catch (error =>
-	 	res.status(400).json({
-			"status": 400,
-			"error": error || "database error"
-		})
-	)
+//All User to change Password
+const userChangePassword = (req, res) => {
+	const password = req.body['password'] || null;
+	const password1 = req.body['password1'] || null;
+	if (password && password1){
+		if (password === password1){
+			let hashedPassword = bcrypt.hashSync(password, 8);
+		    db.query(`UPDATE users SET password = $1 WHERE email = $2`, [hashedPassword, req.decoded.email])
+		    .then(response =>{
+				res.status(206).json({
+					"status": 206,
+					"message": 'Password changed Succesfully'
+				});
+			}).catch (error => 
+				res.status(400).json({
+					"status": 400,
+					"error": error
+				})
+			)
+		} else {
+			res.status(401).json({
+				"status": 401,
+				"error": "Both Passwords doesnot match"
+			});
+		}
+	} else {
+		res.status(200).json({
+			"status": 200,
+			"error": "No Password Change Attempt Made"
+		});
+	}
 }
 
 //Get All Transactions of a particular Account number
@@ -221,4 +254,14 @@ const getSpecificTransactionAccById = (req, res) => {
 			"error": error
 		})
 	)
+}
+
+export {
+	getUserProfile,
+	getUserAccounts,
+	createBankAcc,
+	userEditProfile,
+	userChangePassword,
+	getTransactionByAccNo,
+	getSpecificTransactionAccById,
 }
