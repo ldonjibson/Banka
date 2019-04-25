@@ -52,67 +52,41 @@ const createTransactionTable = `
 
 //TO GENERATE DATABSE Using Async / await
 const genUserTable = () =>{
-	clienty.query(createUsersTable, (err, res) => {
-		if (err){
-			console.log(err);
-		}else {
-			genAccountTable();
-			console.log('created the user table successfully');
-		}
-	});
+	clienty.query(createUsersTable).then(res =>{
+		genAccountTable();
+	}).catch(error=>{ console.log(error)})
 }
 
+
 const genAccountTable = () =>{
-	clienty.query(createAccountTable, (err, res) => {
-		if (err){
-			console.log(err);
-			reject(err)
-		}else {
+	clienty.query(createAccountTable).then(res => {
 			genTransactionTable();
-			console.log('created the account table successfully');
-		}
-	})
+	}).catch(error=>{ console.log(error)})
 }
 
 const genTransactionTable = ()=>{
-	clienty.query(createTransactionTable, (err, res) => {
-		if (err){
-			console.log(err);
-			reject(err)
-		}else {
-			toInsertUsers();
-		}
-	})
+	clienty.query(createTransactionTable).then(res =>{
+		toInsertUsers();
+	}).catch(error => {console.log(error)})
 }
 
 const toInsertUsers = ()=>{
-	clienty.query(insertUsers, (err, res) => {
-		if (err){
-			console.log(err);
-		}else {
+	clienty.query(insertUsers).then(res => {
 			toInsertBankAccounts();
 		}
-	})
+	}).catch(error => {console.log(error)})
 }
 
 const toInsertBankAccounts = ()=>{
-	clienty.query(insertBankAccounts, (err, res) => {
-		if (err){
-			console.log(err);
-		}else {
+	clienty.query(insertBankAccounts).then(res => {
 			toInsertTransaction();
-		}
-	})
+		}).catch(error => {console.log(error)})
 }
 
 const toInsertTransaction = ()=>{
-	clienty.query(insertTransactions, (err, res) => {
-		if (err){
-			console.log(err);
-		}else {
-			console.log('populated');
-		}
-	})
+	clienty.query(insertTransactions).then(res => {
+			console.log('Done populating');
+		}).catch(error => {console.log(error)})
 }
 
 //INSERTING DEMO DATABASE
@@ -165,7 +139,7 @@ const insertTransactions =
 
 genUserTable();
 
-export default {
+export {
 	genUserTable,
 }
 
