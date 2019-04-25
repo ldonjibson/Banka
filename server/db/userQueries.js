@@ -104,3 +104,27 @@ const getUserProfile = (req, res) => {
 		})
 	)
 } 
+
+
+const getUserAccounts = (req, res) => {
+	    db.query(`SELECT * FROM bankaccount WHERE owner = $1`, [req.decoded.id]) 
+	    .then(response =>{
+    		const result = response.rows;
+			if (result.length == 0){
+			    res.status(206).json({
+			    	"status": 206,
+			    	"message": "You have no account created yet"
+			    });
+			} else {
+			    res.status(200).json({
+			    	"status": 200,
+			    	"data": result
+			    });
+			}    	
+    }).catch (error => 
+		res.status(400).json({
+			"status": 400,
+			"error": error || "database error"
+		})
+	)
+}
