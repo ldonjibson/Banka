@@ -32,6 +32,32 @@ const getAllUsers = (req, res) => {
 	) 	
 }
 
+//From the list of client type user above get a one client type user + bank accounts
+const getOneClientTypeUser = (req, res) => {
+	const userId = parseInt(req.params.id)
+    db.query(`SELECT users.id, email, firstname, lastname, phone, dob, imageurl, accountnumber, accountname, accountphone, accounttype, balance FROM users LEFT JOIN bankaccount as bkacc on bkacc.owner = users.id WHERE users.id = $1`, [userId])
+    .then(response =>{
+		const result = response.rows;
+		if (result.length == 0){
+		    res.status(404).json({
+		    	"status": 404,
+		    	"message": "Not Found"
+		    });
+		} else {
+		    res.status(200).json({
+		    	"status": 200,
+		    	"data": result
+		    });
+		}
+    }).catch (error => 
+	    res.status(400).json({
+			"status": 400,
+			"error": error
+		}) 
+	)
+}
+
+
 //Staff can debit and credit user account
 //ADD WHERE ACCOUNT IS NOT = "active"
 const staffCanDebitAcc = (req, res) =>{

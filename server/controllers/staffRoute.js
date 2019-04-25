@@ -20,6 +20,9 @@ router.use(bodyParser.json({ type: 'application/json'}));
 //Get all users alone
 router.get('/users', jwtStaffVerify, staffQueries.getAllUsers)
 
+// Get a specific User
+router.get('/user/:id',paramChecks, jwtStaffVerify, staffQueries.getOneClientTypeUser)
+
 
 
 // //Staff credit and debit users
