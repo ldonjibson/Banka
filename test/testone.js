@@ -2,12 +2,12 @@
 Change Port and base url as needed before runing tests 
 */
 
-let expect = require('chai').expect;
-let request = require('request');
-let users = require('../server/datastore/user')
-let express = require('express');
-
+import chai, { expect } from 'chai';
+import request from 'request';
+import dotenv from 'dotenv'
+dotenv.config();
 const PORT = process.env.PORT || 3000;
+console.log(PORT)
 
 let url = `http://localhost:${PORT}/api/v1/`
 
