@@ -82,6 +82,81 @@ const getSpecificClientBkAcc = (req, res) => {
 	)
 }
 
+//All Account Transactions of a Specific Account Number
+const getAllTransactionsofSpecificBkAcc = (req, res) => {
+	const accountNumber = req.params.accountNumber
+    db.query(`SELECT bk.accountname, accountphone, bk.accountnumber, bk.accounttype, bk.accountphone, bk.status, bk.balance,  t.transactionid, t.createdOn, t.transactiontype, t.cashier, oldBalance, newBalance, sender, recipient, fromnumber, tonumber, u.firstname, u.lastname, u.phone, u.email FROM bankaccount as bk LEFT JOIN transaction as t ON bk.accountnumber = t.accountnumber LEFT JOIN users as u ON bk.owner = u.id WHERE bk.accountnumber = $1`, [accountNumber])
+    .then(response => {
+		const result = response.rows;
+		if (result.length == 0){
+		    res.status(404).json({
+		    	"status": 404,
+		    	"message": "Not Found"
+		    });
+		} else {
+		    res.status(200).json({
+		    	"status": 200,
+		    	"data": result
+		    });
+		}
+    }).catch (error => 
+	    res.status(400).json({
+			"status": 400,
+			"error": error
+		})
+	)
+}
+
+//TODO
+//Get view all bank accounts
+const getAllBankAccs = (req, res) => {
+	const status = req.query.status || null
+	if(status === null){
+	    db.query(`SELECT bk.id, bk.accountname, accountphone, bk.accountnumber, bk.accounttype, bk.accountphone, bk.status, bk.balance, firstname, lastname, dob, email, u.phone, registerdate, imageurl FROM bankaccount as bk INNER JOIN users as u ON bk.owner = u.id`)
+	    .then(response =>{
+			const result = response.rows;
+			if (result.length == 0){
+			    res.status(404).json({
+			    	"status": 404,
+			    	"message": "Not Found"
+			    });
+			} else {
+			    res.status(200).json({
+			    	"status": 200,
+			    	"data": result
+			    });
+			}
+	    }).catch (error => 
+		    res.status(400).json({
+				"status": 400,
+				"error": error
+			})
+		)		
+	}else {
+	    db.query(`SELECT bk.id, bk.accountname, accountphone, bk.accountnumber, bk.accounttype, bk.accountphone, bk.status, bk.balance, firstname, lastname, dob, email, u.phone, registerdate, imageurl FROM bankaccount as bk INNER JOIN users as u ON bk.owner = u.id WHERE bk.status = $1`,[status])
+	    .then(response =>{
+			const result = response.rows;
+			if(result.length == 0){
+				res.status(206).json({
+					"status": 206,
+					"message": `No ${status} account found`
+				})
+			} else {
+			    res.status(200).json({
+			    	"status": 200,
+			    	"data": result
+			    });
+			}
+	    }).catch (error => 
+		    res.status(400).json({
+				"status": 400,
+				"error": error
+			})
+		)
+	}
+
+}
+
 //Get specific transaction
 const getSpecificAccTransactionDetail = (req, res) => {
 	const accountNumber = req.params.accountNumber
@@ -108,31 +183,6 @@ const getSpecificAccTransactionDetail = (req, res) => {
 	)
 }
 
-//All Account Transactions of a Specific Account Number
-const getAllTransactionsofSpecificBkAcc = (req, res) => {
-	const accountNumber = req.params.accountNumber
-    db.query(`SELECT bk.accountname, accountphone, bk.accountnumber, bk.accounttype, bk.accountphone, bk.status, bk.balance,  t.transactionid, t.createdOn, t.transactiontype, t.cashier, oldBalance, newBalance, sender, recipient, fromnumber, tonumber, u.firstname, u.lastname, u.phone, u.email FROM bankaccount as bk LEFT JOIN transaction as t ON bk.accountnumber = t.accountnumber LEFT JOIN users as u ON bk.owner = u.id WHERE bk.accountnumber = $1`, [accountNumber])
-    .then(response => {
-		const result = response.rows;
-		if (result.length == 0){
-		    res.status(404).json({
-		    	"status": 404,
-		    	"message": "Not Found"
-		    });
-		} else {
-		    res.status(200).json({
-		    	"status": 200,
-		    	"data": result
-		    });
-		}
-    }).catch (error => 
-	    res.status(400).json({
-			"status": 400,
-			"error": error
-		})
-	)
-}
-
 //Staff can debit and credit user account
 //ADD WHERE ACCOUNT IS NOT = "active"
 const staffCanDebitAcc = (req, res) =>{
@@ -151,7 +201,7 @@ const staffCanDebitAcc = (req, res) =>{
 		    	"status": 404,
 		    	"message": "Account not found"
 		    });
-		} else if (debitAmount !== undefined && debitAmount > 0){
+		} else if (debitAmount !== undefined){
 			if (parseFloat(debitAmount) < parseFloat(result.balance)){
 				let subtractAmount = parseFloat(result.balance) - parseFloat(debitAmount)
 			    db.query(`INSERT INTO transaction(accountname, accountnumber, transactiontype, cashier, oldbalance, newbalance, recipient, tonumber) values($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id`, [result.accountname, result.accountnumber, "debit", staffId, result.balance, subtractAmount, to, toNumber]) 
@@ -198,6 +248,7 @@ const staffCanDebitAcc = (req, res) =>{
 	)
 }
 
+//TODO ADD WHERE ACCOUNT IS NOT = "active"
 const staffCanCreditAcc = (req, res) =>{
 	const staffId = req.decoded.id
 	const accountNumber = req.params.accountNumber
@@ -252,4 +303,15 @@ const staffCanCreditAcc = (req, res) =>{
 			"error": error
 		})
 	)
+}
+
+export {
+	getAllUsers,
+	getOneClientTypeUser,
+	getSpecificClientBkAcc,
+	getAllTransactionsofSpecificBkAcc,
+	getAllBankAccs,
+	getSpecificAccTransactionDetail,
+	staffCanCreditAcc,
+	staffCanDebitAcc,
 }
