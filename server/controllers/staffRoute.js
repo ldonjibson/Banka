@@ -17,5 +17,14 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json({ type: 'application/json'}));
 
 
+
+
+
 // //Staff credit and debit users
+router.post('/transactions/:accountNumber/credit',paramChecks, jwtStaffVerify, staffQueries.staffCanCreditAcc)
+
 router.post('/transactions/:accountNumber/debit',paramChecks, jwtStaffVerify, staffQueries.staffCanDebitAcc)
+
+let staffRouter = router;
+export {staffRouter}
+
