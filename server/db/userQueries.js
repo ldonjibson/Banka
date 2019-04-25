@@ -105,6 +105,47 @@ const getUserProfile = (req, res) => {
 	)
 } 
 
+//Allow User to Edit Profile
+const userEditProfile = (req, res) => {
+    db.query(`SELECT * FROM users WHERE email = $1`, [req.decoded.email]) 
+    .then((response) =>{
+		result = response.rows[0]
+		let firstName = req.body['firstName'] || null;
+		let lastName = req.body['lastName'] || null;
+		let phone = req.body['phone'] || null;
+		let dob = req.body['dob'] || null;
+		let image = req.file || null ;
+		let imageurl = "http://localhost:3000/images/'+ req.file.filename"
+
+		if (firstName){
+			result.firstname = firstName 
+		}
+		if (lastName){
+			result.lastname = lastName
+		}
+		if (phone){
+			result.phone = phone;
+		}
+		if (dob){
+			result.phone = dob
+		}
+		if (image){
+			result.imageurl = 'http://localhost:3000/images/'+ req.file.filename
+		}
+	    db.query(`UPDATE users SET firstname = $1, lastname = $2, phone = $3, dob=$4, imageurl = $5  WHERE email = $6`, [result.firstname, result.lastname, result.phone, result.dob, result.imageurl, req.decoded.email])
+	    .then(response =>{
+			res.status(206).json({
+				"status": 206,
+				"message": 'Profile Updated Succesfully'
+			});			 
+		})
+	}).catch (error => 
+		res.status(400).json({
+			"status": 400,
+			"error": error || "database error"
+		})
+	)
+}
 
 const getUserAccounts = (req, res) => {
 	    db.query(`SELECT * FROM bankaccount WHERE owner = $1`, [req.decoded.id]) 
