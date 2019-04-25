@@ -138,11 +138,21 @@ const toInsertTransaction = ()=>{
 
 //INSERTING DEMO DATABASE
 let userdata = [
-	["admin@gmail.com", "Admin", "Tom", "08023464732", "$2a$05$lMHQB2U2nrw92yOO1mpcLumpxo6z3cLGTuxLFxO6uVi8OjpstC6Im", "1991-05-05", "staff", true, ""],
-	["johndoe@gmail.com", "John", "Doe", "08023423732", "$2a$05$lMHQB2U2nrw92yOO1mpcLumpxo6z3cLGTuxLFxO6uVi8OjpstC6Im", "1988-10-15", "staff", false, ""],
-	["m.tatcher@gmail.com", "Mary", "Tatcher", "08034464732", "$2a$05$lMHQB2U2nrw92yOO1mpcLumpxo6z3cLGTuxLFxO6uVi8OjpstC6Im", "1990-01-05", "staff", false, ""],
-	["tmarvin@gmail.com", "Tochukwu", "Marvin", "080343464732", "$2a$05$lMHQB2U2nrw92yOO1mpcLumpxo6z3cLGTuxLFxO6uVi8OjpstC6Im", "1991-5-05", "client", false, ""],
-	["goddey004@gmail.com", "Goddey", "Ajebo", "08000464732", "$2a$05$lMHQB2U2nrw92yOO1mpcLumpxo6z3cLGTuxLFxO6uVi8OjpstC6Im", "1985-03-05", "client", false, ""]
+	["admin@gmail.com", "Admin", "Tom", "08023464732", 
+	"$2a$05$lMHQB2U2nrw92yOO1mpcLumpxo6z3cLGTuxLFxO6uVi8OjpstC6Im", 
+	"1991-05-05", "staff", true, ""],
+	["johndoe@gmail.com", "John", "Doe", "08023423732", 
+	"$2a$05$lMHQB2U2nrw92yOO1mpcLumpxo6z3cLGTuxLFxO6uVi8OjpstC6Im", 
+	"1988-10-15", "staff", false, ""],
+	["m.tatcher@gmail.com", "Mary", "Tatcher", "08034464732", 
+	"$2a$05$lMHQB2U2nrw92yOO1mpcLumpxo6z3cLGTuxLFxO6uVi8OjpstC6Im", 
+	"1990-01-05", "staff", false, ""],
+	["tmarvin@gmail.com", "Tochukwu", "Marvin", "080343464732", 
+	"$2a$05$lMHQB2U2nrw92yOO1mpcLumpxo6z3cLGTuxLFxO6uVi8OjpstC6Im", 
+	"1991-5-05", "client", false, ""],
+	["goddey004@gmail.com", "Goddey", "Ajebo", "08000464732", 
+	"$2a$05$lMHQB2U2nrw92yOO1mpcLumpxo6z3cLGTuxLFxO6uVi8OjpstC6Im", 
+	"1985-03-05", "client", false, ""]
 ]
 
 let bankaccountdata = [
@@ -152,17 +162,26 @@ let bankaccountdata = [
 ]
 
 let transactiondata = [
-	["Felix and Sons", "credit", "1427875169", "2", "39090.00", "139093.00", "Tmobiles", "", "00834332424", ""],
-	["Tochukwu Marvin", "debit", "1427875169", "3", "50003.00", "40003.00", "", "self", "", "080343464732"]
+	["Felix and Sons", "credit", "1427875169", "2", "39090.00", 
+	"139093.00", "Tmobiles", "", "00834332424", ""],
+	["Tochukwu Marvin", "debit", "1427875169", "3", "50003.00", 
+	"40003.00", "", "self", "", "080343464732"]
 ]
 const insertUsers = 
-	format(`INSERT INTO users (email, firstname, lastname, phone, password, dob, type, isadmin, imageurl) VALUES %L`, userdata);
+	format(`INSERT INTO users 
+		(email, firstname, lastname, phone, password, dob, 
+		type, isadmin, imageurl) VALUES %L`, userdata);
 
 const insertBankAccounts = 
-	format('INSERT INTO bankaccount (accountname, accountphone, accounttype, accountnumber, status, owner, balance) VALUES %L', bankaccountdata)
+	format(`INSERT INTO bankaccount 
+		(accountname, accountphone, accounttype, accountnumber, 
+		status, owner, balance) VALUES %L`, bankaccountdata)
 
 const insertTransactions = 
-	format('INSERT INTO transaction (accountname, transactiontype, accountnumber, cashier, oldbalance, newbalance, sender, recipient, fromNumber, toNumber) VALUES %L', transactiondata);
+	format(`INSERT INTO transaction 
+		(accountname, transactiontype, accountnumber, cashier, 
+		oldbalance, newbalance, sender, recipient, fromNumber, 
+		toNumber) VALUES %L`, transactiondata);
 
 
 
@@ -175,20 +194,6 @@ const tableInit = async () => {
 }
 
 genUserTable();
-//drop tables
-const dropTables = () =>{
-	return new Promise((resolve, reject) =>{
-			clienty.query(`DROP IF EXISTS TABLE users, bankaccount, transaction CASCADE`, (err, res) => {
-					if (err){
-						console.log(err);
-					}else {
-						console.log('tables dropped');
-				}
-			});
-		}	
-	)
-}
-
 
 export default {
 	genUserTable,

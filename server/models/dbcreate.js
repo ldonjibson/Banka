@@ -99,15 +99,6 @@ const genTransactionTable = ()=>{
 	)
 }
 
-//INSERTING DEMO DATAS
-const insertUsers = `
-	INSERT INTO users ("email", "firstname", "lastName", "phone", "password", "dob", "type", "isAdmin", "imageUrl")
-	VALUES("admin@gmail.com", "Admin", "Tom", "08023464732", "$2a$05$lMHQB2U2nrw92yOO1mpcLumpxo6z3cLGTuxLFxO6uVi8OjpstC6Im", "1991-25-05", "client", false),
-	("johndoe@gmail.com", "John", "Doe", "08023423732", "$2a$05$lMHQB2U2nrw92yOO1mpcLumpxo6z3cLGTuxLFxO6uVi8OjpstC6Im", "1988-25-15", "staff", false),
-	("m.tatcher@gmail.com", "Mary", "Tatcher", "08034464732", "$2a$05$lMHQB2U2nrw92yOO1mpcLumpxo6z3cLGTuxLFxO6uVi8OjpstC6Im", "1990-01-05", "staff", false),
-	("tmarvin@gmail.com", "Tochukwu", "Marvin", "080343464732", "$2a$05$lMHQB2U2nrw92yOO1mpcLumpxo6z3cLGTuxLFxO6uVi8OjpstC6Im", "1991-25-05", "client", false);
-	("goddey004@gmail.com", "Goddey", "Ajebo", "08000464732", "$2a$05$lMHQB2U2nrw92yOO1mpcLumpxo6z3cLGTuxLFxO6uVi8OjpstC6Im", "1985-03-05", "client", false);`
-
  const tableInit = async () => {
 	await genUserTable();
 	await genAccountTable(); 
