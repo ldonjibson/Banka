@@ -32,6 +32,10 @@ router.get('/user/account/:accountNumber/transactions',paramChecks, jwtStaffVeri
 // //Get detailed transaction of a specific transaction of a bankaccount
 router.get('/user/account/:accountNumber/transaction/:transactionId/detail',paramChecks, jwtStaffVerify, staffQueries.getSpecificAccTransactionDetail)
 
+// //Get All Bank Accounts including active and dormant
+router.get('/all/accounts/', jwtStaffVerify, staffQueries.getAllBankAccs)
+
+
 // //Staff credit and debit users
 router.post('/transactions/:accountNumber/credit',paramChecks, jwtStaffVerify, staffQueries.staffCanCreditAcc)
 
