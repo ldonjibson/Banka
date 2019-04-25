@@ -57,6 +57,31 @@ const getOneClientTypeUser = (req, res) => {
 	)
 }
 
+//Get specific bank account of a specific user + number of transactions
+const getSpecificClientBkAcc = (req, res) => {
+	const accountNumber = req.params.accountNumber
+    db.query(`SELECT bk.id, bk.accountname, accountphone, bk.accountnumber, bk.accounttype, bk.createdOn, bk.status, bk.balance FROM bankaccount as bk WHERE bk.accountnumber = $1`, [accountNumber])
+    .then(response => {
+		const result = response.rows;
+		if (result.length == 0){
+		    res.status(404).json({
+		    	"status": 404,
+		    	"message": "Not Found"
+		    });
+		} else {
+		    res.status(200).json({
+		    	"status": 200,
+		    	"data": result
+		    });
+		}
+    }).catch (error => 
+	    res.status(400).json({
+			"status": 400,
+			"error": error
+		})
+	)
+}
+
 
 //Staff can debit and credit user account
 //ADD WHERE ACCOUNT IS NOT = "active"

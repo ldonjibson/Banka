@@ -23,6 +23,8 @@ router.get('/users', jwtStaffVerify, staffQueries.getAllUsers)
 // Get a specific User
 router.get('/user/:id',paramChecks, jwtStaffVerify, staffQueries.getOneClientTypeUser)
 
+// //Get Specific user bank account
+router.get('/user/account/:accountNumber',paramChecks, jwtStaffVerify, staffQueries.getSpecificClientBkAcc)
 
 
 // //Staff credit and debit users
