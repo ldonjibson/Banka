@@ -92,65 +92,72 @@ router.post('/auth/signup', [
 
 
 //login
-router.post('/auth/signin', (req, res) => {
-	let x = req.body;
-	console.log(x)
-	let email = req.body.email
-	let password = req.body.password
-
+router.post('/auth/signin',[
+	check('email').isEmail()
+	], (req, res) => {
+	let email = req.body['email']
+	let password = req.body['password']
 	//cehck if username or password is missing or both
-	if (!email || !password){
-
-		res.status(401).json({
-			"status": 401,
-			error: "Please Check, One or More field is empty"
+	const error = validationResult(req);
+	if (!error.isEmpty()){
+		helper.authHelper(error, res)
+	} else if (!password){
+		res.status(400).json({
+			"status":400,
+			"error": "Password is required"
 		});
-
-	} else if ( email && password){
 		//verify that usr exist or not
-
-		//this search through the json(users) to getthe user if it exists
-		const getUser = users.find(usr => usr.email === email);
-		if (!getUser){
-			res.status(401).json({
-				"status": 404,
-				"error": "User does not exist!"
-			});
-		} else {
-			bcrypt.compare(password, getUser.password).then((response) =>{
-				if (!response){
-					res.status(401).json({
-						"status": 401,
-						"error": "Authentication Failed! password parameter invalid"
+	} else {
+		db.query(`SELECT * FROM users WHERE email = $1`, [email]) 
+		.then((response) => {
+			let results = response.rows[0]
+ 			if(!results){
+				res.status(404).json({
+						"status":404,
+						"error":"User does not exist with email"
 					});
-				} else {
-					const payload = {email: getUser.email, id: getUser.id, isAdmin: getUser.isAdmin}
-					let token = jwt.sign(payload, server.get('superSecret'), {
-						expiresIn: '60 days' //'24h' // expire in 24 hours
-					});
-					//add token to response
-					getUser['token'] = token;
-					res.json({
-						"status": 200,
-						"data": {
-							"id": getUser['id'],
-					        "email": getUser['email'],
-					        "firstName": getUser['firstName'],
-					        "lastName": getUser['lastName'],
-					        "phone": getUser['phone'],
-					        "dob": getUser['dob'],
-					        "registerDate": getUser['registerDate'],
-					        "type": getUser['type'],
-					        "isAdmin": getUser['isAdmin'],
-					        "imageUrl": getUser['imageUrl']
-						}
-					});
-				}
-			});				
-		}
-
+ 			} else {
+				bcrypt.compare(password, results.password).then((response) =>{
+					if (!response){
+						res.status(401).json({
+							"status": 401,
+							"error": "Authentication Failed! password parameter invalid"
+						});
+					} else {
+						const payload = {email: results.email, id: results.id, isAdmin: results.isAdmin}
+						let token = jwt.sign(payload, server.get('superSecret'), {
+							expiresIn: '24h'//'60 days' //'24h' // expire in 24 hours
+						});
+						//add token to response
+						results['token'] = token;
+						res.json({
+							"status": 200,
+							"data": {
+								"token": results.token,
+								"id": results.id,
+						        "email": results.email,
+						        "firstName": results.firsnName,
+						        "lastName": results.lastname,
+						        "phone": results.phone,
+						        "dob": results.dob,
+						        "registerDate": results.registerdate,
+						        "type": results.type,
+						        "isAdmin": results.isadmin,
+						        "imageUrl": results.imageurl
+							}
+						});
+					}
+				});				
+			}
+ 		}).catch (error => 
+			res.status(400).json({
+				"status": 400,
+				"error": error
+			}) 
+		)
 	}
 
 });
 
-module.exports = router;
+let AuthController = router;
+export {AuthController};
