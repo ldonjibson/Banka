@@ -1,93 +1,91 @@
-const express = require('express')
-let bodyParser = require('body-parser');
-let bcrypt = require('bcryptjs'); // used to encrypt password
-let jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
-let helper = require('../helpers/helper')
-let users = require('../datastore/user.js')
-const jwtVerify = require('../middleware/verifyuserlogin.js')
+import dotenv from 'dotenv'
+dotenv.config()
+import express from 'express'
+import bodyParser from 'body-parser';
+import bcrypt from 'bcryptjs'; // used to encrypt password
+import jwt from 'jsonwebtoken'; // used to create, sign, and verify tokens
+import * as helper from '../helpers/helper';
+import {jwtVerify} from '../middleware/verifyuserlogin.js'
+import {sendNotificationMail} from '../helpers/mailer';
 
+const {check, validationResult} = require('express-validator/check')
+// const db = require('../db')
+import {pool} from '../db/index'
+let db = pool
 
 let server = express();
 const router = express.Router();
-let url = '/api/v1/';
 
-let config = require('../config/config.js')
+import {secret} from '../config/config'
 
-server.set('superSecret', config.secret);
-
+server.set('superSecret', secret);
 
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json({ type: 'application/json'}));
 
 //sign up 
-router.post('/auth/signup', (req, res) => {
+router.post('/auth/signup', [
+	check('email').isEmail(),
+	check('password').isLength({min:5})
+	], (req, res) => {
 	let data = Object.keys(req.body);
-	//checkif a all the fields are present by checking the length agains the expected length
-	let chkobj = [ 'email', 'firstName', 'lastName', 'phone', 'password', 'dob' ]
-	obj = []
-	for (let i = 0; i<data.length; i++){
-		let key = data[i];
-		obj.push(key);
-	}
-	if (obj < chkobj) {
-		res.status(401).json({
-			"status": 401,
-			"error": "Please Check, A field is missing"
+	const error = validationResult(req);
+	if (!error.isEmpty()){
+		helper.authHelper(error, res)
+	} else if(req.body['password'] !== req.body['password1']){
+		res.status(406).json({
+			"status": 406,
+			"error": "Password does not match"
 		});
-
 	} else {
-		//This pushes the adds the new id
-		const payload = {email: req.body['email']}
-		let token = jwt.sign(payload, server.get('superSecret'), {
-			expiresIn: '24h' // expire in 24 hours
-		});
-		//Create Hash Password
-		let hashedPassword = bcrypt.hashSync(req.body['password'], 8);
-		let newUser = {
-			"token": token,
-			"id": users.length + 1,
-			"firstName":req.body['firstName'], 
-			"lastName":req.body['lastName'],
-			"email":req.body['email'],
-			"password": hashedPassword, 
-			"dob":req.body['dob'],
-			"phone":req.body['phone'],
-			"registerDate": new Date().toISOString(),
-		}
-		//This checks if the user was created by an admin/staff
-		if (!req.body['type']){
-			newUser['type'] = 'client';
-		} else {
-			newUser['type'] = req.body['type'];
-			delete newUser['token'];
-		}
-		if(!req.body['isAdmin']){
-			newUser['isAdmin'] = false;
-		} else {
-			newUser ['isAdmin'] = true;
-		}
+		db.query(`SELECT * FROM users WHERE email = $1`, [req.body['email']])
+		.then(response =>{
+			const results = response.rows
+			if(results.length !== 0){
+				res.status(401).json({
+						"status":401,
+						"error":"User already exist with email address"
+					})
+ 			} else{
+				const payload = {email: req.body['email']}
+				let token = jwt.sign(payload, server.get('superSecret'), {
+					expiresIn: '24h' // expire in 24 hours
+				});
+				//Create Hash Password
+				let hashedPassword = bcrypt.hashSync(req.body['password'], 8);
+				let newUser = {
+					"token": token,
+					"email":req.body['email'],
+					"password": hashedPassword,
+					"type": "client" 
+				}
+			    const pass = newUser.password
+			    db.query(`INSERT INTO users("email", "password", "type") values($1, $2, $3) RETURNING *`,[newUser.email, pass, newUser.type])
+			    .then(response=>{
+			    	const results = response.rows
+			    	if (results.length !== 0){
+			    		sendNotificationMail(results[0].email, "Account Successfully  Created", `Welcome to Ebanka, Login to Complete your profile`, `<b><h3>Welcome to Ebanka!<h3><br> Login to Complete your profile<br/></b>`)
+						.then((response) =>{
+							res.status(201).json({
+								"status": 201,
+								"data": {
+									"token": newUser['token'],
+							        "email": results[0].email,
+							        "registerDate": results[0].registerDate,
+								}
+							});	
 
-		//This pushes the newly gotten value to the data
-		let usObj = users
-		usObj.push(newUser);
-		const getUser = usObj.find(usr => usr.id === Number(usObj.length));
-		res.status(201).json({
-			"status": 201,
-			"data": {
-				"id": getUser['id'],
-		        "email": getUser['email'],
-		        "firstName": getUser['firstName'],
-		        "lastName": getUser['lastName'],
-		        "phone": getUser['phone'],
-		        "dob": getUser['dob'],
-		        "registerDate": getUser['registerDate'],
-		        "type": getUser['type'],
-		        "isAdmin": getUser['isAdmin'],
-		        "imageUrl": getUser['imageUrl']
+						})			    			
+			    	}
+			    })
 
-			}
-		});
-
+ 			}
+		}).catch (error => 
+			res.status(400).json({
+				"status": 400,
+				"error": error
+			}) 
+		) 
 	}
 
 });
