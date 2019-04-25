@@ -24,11 +24,6 @@ div{
 	/*margin:10px;*/
 }
 
-.main-c {
-	height: 90vh!important;
-	margin: 0px!important;
-}
-
 h3 {
   text-align:center;
 }
@@ -53,17 +48,17 @@ div a:hover {
 }
 
 .tshadow{
-	color:#fff;
-	text-shadow: 1px 1px 2px black, 0 0 5px blue, 0 0 5px darkblue;
+	color:#33658a!important;
+	/*text-shadow: 1px 1px 2px black, 0 0 5px blue, 0 0 5px darkblue;*/
 }
 
 .tshadow2{
-	color:#fff;
-	text-shadow: 1px 1px 2px, 0 0 5px #f6ae2d, 0 0 5px darkblue;
+	color:#2f4858!important;
+	/*text-shadow: 1px 1px 2px, 0 0 5px #f6ae2d, 0 0 5px darkblue;*/
 	text-decoration: none;
 }
 a.tshadow2:hover{
-	color:#ffffff!important;
+	color:#2f4858!important;
 	text-decoration: underline;
 }
 
