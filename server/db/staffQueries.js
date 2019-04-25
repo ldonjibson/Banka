@@ -82,6 +82,32 @@ const getSpecificClientBkAcc = (req, res) => {
 	)
 }
 
+//Get specific transaction
+const getSpecificAccTransactionDetail = (req, res) => {
+	const accountNumber = req.params.accountNumber
+	const transactionId = req.params.transactionId
+    db.query(`SELECT t.id, t.accountnumber, t.createdOn, t.transactiontype, t.transactionid, t.cashier, t.oldBalance, t.newBalance, t.sender, t.recipient, t.fromnumber, t.tonumber, bk.accounttype, bk.accountphone, bk.balance, bk.accountname, bk.status, u.firstname, u.lastname, u.email, u.phone, u.imageurl FROM transaction as t LEFT JOIN bankaccount as bk ON t.accountnumber = bk.accountnumber LEFT JOIN users as u ON bk.owner = u.id  WHERE t.accountnumber = $1 AND t.transactionid = $2`, [accountNumber, transactionId])
+    .then(response => {
+		const result = response.rows;
+			if (result.length == 0){
+			    res.status(404).json({
+			    	"status": 404,
+			    	"message": "No transactions to display"
+			    });
+			} else {
+			    res.status(200).json({
+			    	"status": 200,
+			    	"data": result
+			    });
+			}
+    }).catch (error => 
+	    res.status(400).json({
+			"status": 400,
+			"error": error
+		})
+	)
+}
+
 //All Account Transactions of a Specific Account Number
 const getAllTransactionsofSpecificBkAcc = (req, res) => {
 	const accountNumber = req.params.accountNumber
