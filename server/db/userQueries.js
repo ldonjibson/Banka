@@ -128,3 +128,28 @@ const getUserAccounts = (req, res) => {
 		})
 	)
 }
+
+//Get All Transactions of a particular Account number
+const getTransactionByAccNo = (req, res) => {
+	let accountnumber = parseInt(req.params.accountNumber)
+    db.query(`SELECT * FROM transaction WHERE accountnumber = $1`, [accountnumber])
+    .then(response =>{
+		const result = response.rows;
+		if (result.length == 0){
+			res.status(206).json({
+				"status": 206,
+    			"message": "No transaction yet"
+    			}); 
+		} else {
+    		res.status(200).json({
+    			"status":200,
+    			"data": result
+    		})
+		}
+    }).catch (error => 
+		res.status(400).json({
+			"status": 400,
+			"error": error || "database error"
+		})
+	)	
+}

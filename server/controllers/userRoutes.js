@@ -29,3 +29,5 @@ router.post('/accounts', jwtVerify, userQueries.createBankAcc)
 router.get('/me/profile', jwtVerify, userQueries.getUserProfile)
 
 router.get('/me/account', jwtVerify, userQueries.getUserAccounts)
+
+router.get('/me/account/:accountNumber/transactions', jwtVerify, userQueries.getTransactionByAccNo)
