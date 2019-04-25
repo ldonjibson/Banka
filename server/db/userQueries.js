@@ -75,3 +75,32 @@ const createBankAcc = (req, res) => {
 		)
 	}
 }
+
+
+//Display UserProfile 
+const getUserProfile = (req, res) => {
+    db.query(`SELECT * FROM users WHERE email = $1`, [req.decoded.email]) 
+    .then((response) => {
+    		const result = response.rows[0];
+		    res.status(200).json({
+		    	"status": 200,
+		    	"data": {
+			    	"id": result['id'],
+		    		"email": result['email'],
+		    		"firstName": result['firstname'],
+		    		"lastName": result['lastname'],
+		    		"phone": result['phone'],
+		    		"dob": result['dob'],
+		    		"type": result['type'],
+		    		"imageUrl": result['imageurl'],
+		    		"isAdmin": result['isadmin'],
+		    		"resgisterDate": result['registerdate']
+		    	}
+		    });
+    }).catch (error => 
+		res.status(400).json({
+			"status": 400,
+			"error": error || "database error"
+		})
+	)
+} 
