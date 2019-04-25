@@ -1,0 +1,120 @@
+import {pool} from '../db/index'
+let clienty = pool.pool
+
+const createUsersTable = `
+	CREATE TABLE users(
+	id SERIAL PRIMARY KEY, 
+	email VARCHAR(40) NOT NULL UNIQUE, 
+	firstname VARCHAR(40) NULL, 
+	lastName VARCHAR(40) NULL,
+	phone VARCHAR(40) NULL,
+	password VARCHAR(225) NOT NULL,
+	dob DATE NULL,
+	registerDate TIMESTAMP NOT NULL DEFAULT CURRENT_DATE,
+	type VARCHAR NOT NULL DEFAULT 'client',
+	isAdmin BOOLEAN NOT NULL DEFAULT FALSE,
+	imageUrl VARCHAR NULL
+	);`
+
+const createAccountTable = `
+	CREATE TABLE bankAccount(
+	id SERIAL,
+	accountName VARCHAR NOT NULL, 
+	accountphone VARCHAR(40) NOT NULL,
+	createdOn TIMESTAMP NOT NULL DEFAULT CURRENT_DATE,
+	accounttype VARCHAR(40) NOT NULL,
+	accountNumber INT NOT NULL CHECK (accountNumber > 0) UNIQUE,
+	status VARCHAR(40) NOT NULL,
+	owner INT references users(id) ON DELETE CASCADE,
+	balance DECIMAL DEFAULT 0.0,
+	CONSTRAINT pk_account PRIMARY KEY (id, accountNumber)
+	);`
+
+const createTransactionTable = `
+	CREATE TABLE transaction(
+	id SERIAL PRIMARY KEY,
+	accountName VARCHAR(100) NOT NULL, 
+	createdOn TIMESTAMP NOT NULL DEFAULT CURRENT_DATE,
+	transactionType VARCHAR(40),
+	transactionId SERIAL,
+	accountNumber INT references bankAccount(accountNumber) ON DELETE CASCADE,
+	cashier INT references users(id),
+	oldBalance DECIMAL DEFAULT '0',
+	newBalance DECIMAL ,
+	sender VARCHAR(100), 
+	recipient VARCHAR(100), 
+	fromNumber VARCHAR(40),
+	toNumber VARCHAR(40) 
+	);`
+
+
+const genUserTable = () =>{
+	return new Promise((resolve, reject) =>{
+		clienty.query(createUsersTable, (err, res) => {
+				if (err){
+					console.log(err);
+				}else {
+					genAccountTable();
+			}
+		});
+	});
+}
+
+const genAccountTable = () =>{
+	return new Promise((resolve, reject) =>{	
+			clienty.query(createAccountTable, (err, res) => {
+					if (err){
+						console.log(err);
+					}else {
+						genTransactionTable();
+				}
+			});
+		}
+	)
+}
+
+const genTransactionTable = ()=>{
+	return new Promise((resolve, reject) =>{
+			clienty.query(createTransactionTable, (err, res) => {
+					if (err){
+						console.log(err);
+					}else {
+						console.log('created the transaction table successfully');
+				}
+			});
+		}	
+	)
+}
+
+const genTransactionTable = ()=>{
+	return new Promise((resolve, reject) =>{
+			clienty.query(insertUsers, (err, res) => {
+					if (err){
+						console.log(err);
+					}else {
+						console.log('populated');
+				}
+			});
+		}	
+	)
+}
+
+//INSERTING DEMO DATAS
+const insertUsers = `
+	INSERT INTO users ("email", "firstname", "lastName", "phone", "password", "dob", "type", "isAdmin", "imageUrl")
+	VALUES("admin@gmail.com", "Admin", "Tom", "08023464732", "$2a$05$lMHQB2U2nrw92yOO1mpcLumpxo6z3cLGTuxLFxO6uVi8OjpstC6Im", "1991-25-05", "client", false),
+	("johndoe@gmail.com", "John", "Doe", "08023423732", "$2a$05$lMHQB2U2nrw92yOO1mpcLumpxo6z3cLGTuxLFxO6uVi8OjpstC6Im", "1988-25-15", "staff", false),
+	("m.tatcher@gmail.com", "Mary", "Tatcher", "08034464732", "$2a$05$lMHQB2U2nrw92yOO1mpcLumpxo6z3cLGTuxLFxO6uVi8OjpstC6Im", "1990-01-05", "staff", false),
+	("tmarvin@gmail.com", "Tochukwu", "Marvin", "080343464732", "$2a$05$lMHQB2U2nrw92yOO1mpcLumpxo6z3cLGTuxLFxO6uVi8OjpstC6Im", "1991-25-05", "client", false);
+	("goddey004@gmail.com", "Goddey", "Ajebo", "08000464732", "$2a$05$lMHQB2U2nrw92yOO1mpcLumpxo6z3cLGTuxLFxO6uVi8OjpstC6Im", "1985-03-05", "client", false);`
+
+ const tableInit = async () => {
+	await genUserTable();
+	await genAccountTable(); 
+	await genTransactionTable();
+}
+
+
+
+
+
