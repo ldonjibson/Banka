@@ -31,3 +31,5 @@ router.get('/me/profile', jwtVerify, userQueries.getUserProfile)
 router.get('/me/account', jwtVerify, userQueries.getUserAccounts)
 
 router.get('/me/account/:accountNumber/transactions', jwtVerify, userQueries.getTransactionByAccNo)
+
+router.get('/me/account/:accountNumber/transaction/:id/detail',paramChecks, jwtVerify, userQueries.getSpecificTransactionAccById)

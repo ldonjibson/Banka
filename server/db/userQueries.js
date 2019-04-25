@@ -121,8 +121,8 @@ const getUserAccounts = (req, res) => {
 			    	"data": result
 			    });
 			}    	
-    }).catch (error => 
-		res.status(400).json({
+    }).catch (error =>
+	 	res.status(400).json({
 			"status": 400,
 			"error": error || "database error"
 		})
@@ -152,4 +152,32 @@ const getTransactionByAccNo = (req, res) => {
 			"error": error || "database error"
 		})
 	)	
+}
+
+//Get detail transaction of specific account using transaction id
+const getSpecificTransactionAccById = (req, res) => {
+	let id = parseInt(req.params.id)
+	let accountNumber = parseInt(req.params.accountNumber)
+	//return all details including the account details
+	db.query(`SELECT * FROM transaction INNER JOIN bankaccount ON bankaccount.accountnumber = transaction.accountnumber WHERE transaction.id = $1`, [id])
+	.then(response =>{
+		const result = response.rows;
+		if (result.length == 0){
+			res.status(404).json({
+				"status": 404,
+    			"message": "Transaction Not Found"
+    			});
+		} else {
+    		res.status(200).json({
+    			"status":200,
+    			"data": result
+    		})
+
+		}
+	}).catch (error => 
+		res.status(400).json({
+			"status": 400,
+			"error": error
+		})
+	)
 }
