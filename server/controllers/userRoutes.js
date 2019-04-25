@@ -24,3 +24,6 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json({ type: 'application/json'}));
 
 router.post('/accounts', jwtVerify, userQueries.createBankAcc)
+
+// Get the User Profile
+router.get('/me/profile', jwtVerify, userQueries.getUserProfile)
