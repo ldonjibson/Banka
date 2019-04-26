@@ -31,3 +31,6 @@ router.get('/staff/:id',paramChecks, jwtAdminVerify, adminQueries.getSingleStaff
 
 //Edit single User
 router.patch('/singleuser/profile/:id/edit', paramChecks, xUpload.single('file'), jwtAdminVerify, adminQueries.editUserProfile)
+
+// deactivateAccount
+router.patch('/account/:accountNumber',paramChecks, jwtAdminVerify, adminQueries.deactivateAccount)
