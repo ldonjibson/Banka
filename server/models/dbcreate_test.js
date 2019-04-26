@@ -73,8 +73,7 @@ const genTransactionTable = ()=>{
 const toInsertUsers = ()=>{
 	clienty.query(insertUsers).then(res => {
 			toInsertBankAccounts();
-		}
-	}).catch(error => {console.log(error)})
+		}).catch(error => {console.log(error)})
 }
 
 const toInsertBankAccounts = ()=>{
