@@ -16,7 +16,6 @@ env:
 
 before_script:
   - psql -c 'CREATE DATABASE ebanka;' -U postgres
-  - psql -c "CREATE USER root WITH PASSWORD 'nollywood10';" -U postgres
   - npm install yarn@latest
   - yarn global add nyc
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
