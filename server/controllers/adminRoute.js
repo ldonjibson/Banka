@@ -37,3 +37,6 @@ router.patch('/account/:accountNumber',paramChecks, jwtAdminVerify, adminQueries
 
 // deleteAccount
 router.delete('/accounts/:accountNumber',paramChecks, jwtAdminVerify, adminQueries.deleteAccount)
+
+let adminRouter = router;
+export {adminRouter}
