@@ -222,7 +222,8 @@ const getAllTransactionsPerfomedByOneStaff = (req, res) =>{
 //Delete and Deactivate Accounts
 const deactivateAccount = (req, res) => {
 	const accountNumber = parseInt(req.params.accountNumber)
-	db.query(`UPDATE bankaccount SET status = $1 WHERE accountnumber = $2 RETURNING id`, ['dormant', accountNumber])
+	const status = req.query.status || null
+	db.query(`UPDATE bankaccount SET status = $1 WHERE accountnumber = $2 RETURNING id`, [status, accountNumber])
 	.then(response => {
 		if (!response.rows[0]){
 			res.status(404).json({
@@ -232,7 +233,7 @@ const deactivateAccount = (req, res) => {
 		} else {
 			res.status(200).json({
 			"status":200,
-			"message": `Account deactivated Successfully`
+			"message": `Account ${status} Successfully`
 			});
 		}
 	}).catch (error => 
