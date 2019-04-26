@@ -1,12 +1,15 @@
 //Load express module with 'require' directive
-let express = require('express');
+// let express = require('express');
+import dotenv from 'dotenv'
+dotenv.config()
+import express from 'express'
+import path from 'path';
+import bodyParser from 'body-parser';
+import morgan from 'morgan';
+import {getRoutes} from './routes/indexroute';
+import * as swaggerUi from 'swagger-ui-express';
+import * as swaggerDoc from '../swagger.json';
 let server = express();
-let path = require('path');
-let bodyParser = require('body-parser');
-let morgan = require('morgan');
-let users = require('./datastore/user.js');
-const getRoutes = require('./routes/indexroute.js');
-
 
 const PORT = process.env.PORT || 3000;
 
@@ -25,6 +28,8 @@ server.use(express.static('public'));
 //to log request type
 server.use(morgan('combined'));
 
+//Swagger Documentation
+server.use('/api/v1/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 server.get('/api/v1/', (req, res) =>{
 	let content = {
@@ -62,6 +67,4 @@ server.listen(PORT, () =>{
 	console.log(`App started on port ${PORT}`)
 });
 
-module.exports = {
-	server,
-}
+export default server;
