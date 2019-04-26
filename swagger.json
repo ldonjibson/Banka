@@ -1,0 +1,1258 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "eBanka",
+        "description": "A light weight Online banking App",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "contact":{
+            "email": "ajibolaolayanju@gmail.com"
+        }
+    },
+    "servers": [
+        {
+            "url": "/api/v1/",
+            "description": "Local Devevlopment"
+        },
+        {
+            "url": "https://ebanka-api.herokuapp.com/api/v1/",
+            "description": "From herokuapp"
+        }
+    ],
+    "tags": [
+        {
+            "name": "End Points",
+            "description": "APIs"
+        }
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/auth/signup": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "create a new user",
+                "requestBody": {
+                    "description": "user object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/usersignup"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "created",
+                        "schema": {
+                            "$ref": "#/definitions/usersignup"
+                        }
+                    },
+                    "401": {
+                        "description": "User already exists"
+                    },
+                    "400": {
+                        "description": "database error"
+                    },
+                    "406": {
+                        "description": "Password does not match"
+                    },
+                    "422": {
+                        "description": "invalid value for email or password not up to 5 characters"
+                    }
+                }
+            }
+        },
+        "/auth/signin": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "user login",
+                "requestBody": {
+                    "description": "user object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/usersignin"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/userprofile"
+                        }
+                    },
+                    "400": {
+                        "description": "database error"
+                    },
+                    "401": {
+                        "description": "Authentication Failed! password parameter invalid OR Please Check, One or More field(s) is empty"
+                    },
+                    "404": {
+                        "description": "User does not exist with email"
+                    }
+                }
+            }
+        },
+        "/accounts": {
+            "post": {
+                "tags": [
+                    "User bank account"
+                ],
+                "summary": "User create a bank account",
+                "requestBody": {
+                    "description": "bank object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/allaccounts"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "created",
+                        "schema": {
+                            "$ref": "#/definitions/allaccounts"
+                        }
+                    },
+                    "400": {
+                        "description": "database error"
+                    },
+                    "401": {
+                        "description": "Please Check, One or More field(s) is empty"
+                    }
+                }
+            }
+        },
+        "/me/account": {
+            "get": {
+                "tags": [
+                    "User bank account"
+                ],
+                "summary": "User can see bank accounts he/she owns",
+                "requestBody": {
+                    "description": "object"
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/allaccounts"
+                        }
+                    },
+                    "400": {
+                        "description": "database error"
+                    }
+                }
+            }
+        },  
+        "/me/account/{accountNumber}/transactions": {
+            "get": {
+                "tags": [
+                    "User bank account transactions"
+                ],
+                "summary": "Get transactions of the given account number",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "accountNumber",
+                        "required": true,
+                        "description": "accountNumber to view it transactions",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/alltransactions"
+                        }
+                    },
+                    "206": {
+                        "description": "No transactions yet for this bank account"
+                    },
+                    "400": {
+                        "description": "database error"
+                    }
+                }
+            }
+        }, 
+        "/me/account/{accountNumber}/transaction/{id}/detail": {
+            "get": {
+                "tags": [
+                    "User bank account transactions"
+                ],
+                "summary": "Get a detail transaction of a specific bank account number",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "accountNumber",
+                        "required": true,
+                        "description": "accountNumber to view it transactions",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "id of the transaction to view",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }                    
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/singletransactions"
+                        }
+                    },
+                    "206": {
+                        "description": "No transactions yet for this bank account"
+                    },
+                    "400": {
+                        "description": "database error"
+                    }
+                }
+            }
+        }, 
+        "/me/profile": {
+            "get": {
+                "tags": [
+                    "User profile"
+                ],
+                "summary": "Get user profile",
+                "requestBody": {
+                    "description": "user object"
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/userprofile"
+                        }
+                    }
+                }
+            }
+        }, 
+        "/me/profile/edit": {
+            "patch": {
+                "tags": [
+                    "User profile"
+                ],
+                "summary": "Route for user to edit profile",
+                "requestBody": {
+                    "description": "user object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/editprofile"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "206": {
+                        "description": "Profile Updated Succesfully",
+                        "schema": {
+                            "$ref": "#/definitions/editprofile"
+                        }
+                    },
+                    "400": {
+                        "description": "database error"
+                    }
+                }
+            }
+        },
+        "/me/profile/changepassword": {
+            "patch": {
+                "tags": [
+                    "User profile"
+                ],
+                "summary": "Route for user tochange password",
+                "requestBody": {
+                    "description": "user object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/profilepassword"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "206": {
+                        "description": "Profile Updated Succesfully",
+                        "schema": {
+                            "$ref": "#/definitions/profilepassword"
+                        }
+                    },
+                    "401": {
+                        "description": "Both Passwords doesnot match"
+                    }
+                }
+            }
+        },
+        "/resetpassword": {
+            "post": {
+                "tags": [
+                    "User profile"
+                ],
+                "summary": "Any User can reset his/her password",
+                "requestBody": {
+                    "description": "user object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/email"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "new password created",
+                        "schema": {
+                            "$ref": "#/definitions/signin"
+                        }
+                    },
+                    "400": {
+                        "description": "database error"
+                    },
+                    "404": {
+                        "description": "User doesnot exist"
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "tags": [
+                    "Staff/Admin get users"
+                ],
+                "summary": "list all users profiles",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/allusers"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{id}": {
+            "get": {
+                "tags": [
+                    "Staff/Admin get users"
+                ],
+                "summary": "Get ID of user to view",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "ID of user to view",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/signin"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found."
+                    },
+                    "400":{
+                        "description": "database error"
+                    }
+                }
+            }
+        },
+        "/user/account/{accountNumber}": {
+            "get": {
+                "tags": [
+                    "Staff/Admin get bank accounts"
+                ],
+                "summary": "Get accountNumber to view",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "accountNumber",
+                        "required": true,
+                        "description": "accountNumber to view it transactions",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/singleaccount"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found."
+                    },
+                    "400":{
+                        "description": "database error"
+                    }
+                }
+            }
+        },
+        "/user/account/{accountNumber}/transactions": {
+            "get": {
+                "tags": [
+                    "Staff/Admin get bank accounts"
+                ],
+                "summary": "Get transactions of the given account number",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "accountNumber",
+                        "required": true,
+                        "description": "accountNumber to view it transactions",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/alltransactions"
+                        }
+                    },
+                    "206": {
+                        "description": "No transactions yet for this bank account"
+                    },
+                    "400": {
+                        "description": "database error"
+                    }
+                }
+            }
+        },
+        "/user/account/{accountNumber}/transaction/{transactionId}/detail": {
+            "get": {
+                "tags": [
+                    "Staff/Admin get bank accounts"
+                ],
+                "summary": "Get a detail transaction of a specific bank account number",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "accountNumber",
+                        "required": true,
+                        "description": "accountNumber to view it transactions",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "transactionId",
+                        "required": true,
+                        "description": "id of the transaction to view",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }                    
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/singletransactions"
+                        }
+                    },
+                    "206": {
+                        "description": "No transactions yet for this bank account"
+                    },
+                    "400": {
+                        "description": "database error"
+                    }
+                }
+            }
+        },
+        "/all/accounts": {
+            "get": {
+                "tags": [
+                    "Staff/Admin get bank accounts"
+                ],
+                "summary": "list all bank accounts",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/allaccounts"
+                        }
+                    }
+                }
+            }
+        },
+        "/all/accounts/?status=dormant": {
+            "get": {
+                "tags": [
+                    "Staff/Admin get bank accounts"
+                ],
+                "summary": "list all bank dormant accounts",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/allaccounts"
+                        }
+                    }
+                }
+            }
+        },
+        "/all/accounts/?status=active": {
+            "get": {
+                "tags": [
+                    "Staff/Admin get bank accounts"
+                ],
+                "summary": "list all bank active accounts",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/allaccounts"
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions/{accountNumber}/credit": {
+            "post": {
+                "tags": [
+                    "Staff can debit and credit"
+                ],
+                "summary": "Staff can credit bank accounts",
+                "requestBody": {
+                    "description": "bank object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/creditAmount"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Account credited Succesfully",
+                        "schema": {
+                            "$ref": "#/definitions/msg"
+                        }
+                    },
+                    "400": {
+                        "description": "database error"
+                    },
+                    "422": {
+                        "description": "Invalid value provided"
+                    },
+                    "404": {
+                        "description": "Account doesnot exist"
+                    }
+                }
+            }
+        },
+        "/transactions/{accountNumber}/debit": {
+            "post": {
+                "tags": [
+                    "Staff can debit and credit"
+                ],
+                "summary": "Staff can debit bank accounts",
+                "requestBody": {
+                    "description": "transaction object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/debitAmount"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Account debited Succesfully",
+                        "schema": {
+                            "$ref": "#/definitions/msg"
+                        }
+                    },
+                    "400": {
+                        "description": "database error"
+                    },
+                    "401": {
+                        "description": "Not enough fund to perform this operation"
+                    },
+                    "422": {
+                        "description": "Invalid value provided"
+                    },
+                    "404": {
+                        "description": "Account doesnot exist"
+                    }
+                }
+            }
+        },
+        "/staff": {
+            "get": {
+                "tags": [
+                    "Admin get staff"
+                ],
+                "summary": "list all staff profiles",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/allusers"
+                        }
+                    }
+                }
+            }
+        },
+        "/staff/{id}": {
+            "get": {
+                "tags": [
+                    "Admin get staff"
+                ],
+                "summary": "Get ID of staff to view",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "ID of staff to view",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/userprofile"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found."
+                    },
+                    "400":{
+                        "description": "database error"
+                    }
+                }
+            }
+        },
+        "/staff/{id}/transactions": {
+            "get": {
+                "tags": [
+                    "Admin get staff"
+                ],
+                "summary": "Get ID of staff to view transactions carried out by him/her",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": " ID of staff to view transactions made by him/her",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/alltransactions"
+                        }
+                    },
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/alltransactions"
+                        }
+                    },
+                    "400":{
+                        "description": "database error"
+                    }
+                }
+            }
+        },
+        "/singleuser/profile/{id}/edit": {
+            "patch": {
+                "tags": [
+                    "Admin create and Edit users"
+                ],
+                "summary": "Route for user to edit profile",
+                "requestBody": {
+                    "description": "user object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/adminedituserprofile"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "206": {
+                        "description": "Profile Updated Succesfully",
+                        "schema": {
+                            "$ref": "#/definitions/msg"
+                        }
+                    },
+                    "400": {
+                        "description": "database error"
+                    }
+                }
+            }
+        },  
+        "/admin/createstaff": {
+            "post": {
+                "tags": [
+                    "Admin create and Edit users"
+                ],
+                "summary": "Route for user to edit profile",
+                "requestBody": {
+                    "description": "user object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/adminedituserprofile"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "206": {
+                        "description": "User Profile Updated Succesfully",
+                        "schema": {
+                            "$ref": "#/definitions/msg"
+                        }
+                    },
+                    "400": {
+                        "description": "database error"
+                    }
+                }
+            }
+        },
+        "/account/{accountNumber}": {
+            "patch": {
+                "tags": [
+                    "Admin deactive and delete bank accounts"
+                ],
+                "summary": "Deactive a bank account",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "accountNumber",
+                        "required": true,
+                        "description": "accountNumber deactive",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }                  
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/msg"
+                        }
+                    },
+                    "404": {
+                        "description": "Cannot find matching account number"
+                    },
+                    "400": {
+                        "description": "database error"
+                    }
+                }
+            }
+        },
+        "/accounts/{accountNumber}": {
+            "delete": {
+                "tags": [
+                    "Admin deactive and delete bank accounts"
+                ],
+                "summary": "Delete a bank account",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "accountNumber",
+                        "required": true,
+                        "description": "accountNumber deactive",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }                  
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/msg"
+                        }
+                    },
+                    "404": {
+                        "description": "Cannot find matching account number"
+                    },
+                    "400": {
+                        "description": "database error"
+                    }
+                }
+            }
+        }
+    },
+
+    "definitions": {
+        "id": {
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "usersignup": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "password1": {
+                    "type": "string"
+                }
+            }
+        },
+        "usersignin": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "userprofile": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "dob": {
+                    "type": "string"
+                },
+                "registerDate": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "type": {
+                    "isAdmin": "string"
+                },
+                "imaegurl": {
+                    "type": "string"
+                }
+            }
+        },
+        "createbankaccount": {
+            "type": "object",
+            "properties": {
+                "accountName": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string" 
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "editprofile": {
+            "type": "object",
+            "properties": {
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "dob": {
+                    "type": "string"
+                },
+                "image":{
+                    "type": "string"
+                }
+            }
+        },
+        "profilepassword":{
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "password1": {
+                    "type": "string"
+                }
+            }
+        },
+        "allusers": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "dob": {
+                        "type": "string"
+                    },
+                    "registerDate": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "isAdmin": "string"
+                    },
+                    "imaegurl": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "singleaccount": {
+            "type": "object",
+            "properties": {
+                "accountName": {
+                    "type": "string"
+                },
+                "accountphone": {
+                    "type": "string"
+                },
+                "accounttype": {
+                    "type": "string"
+                },
+                "accountNumber": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "owner": {
+                    "type": "integer"
+                },
+                "balance": {
+                    "type": "float"
+                },
+                "createdon": {
+                    "type": "string"
+                }
+            }
+        },
+        "allaccounts": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "accountName": {
+                        "type": "string"
+                    },
+                    "accountphone": {
+                        "type": "string"
+                    },
+                    "accounttype": {
+                        "type": "string"
+                    },
+                    "accountNumber": {
+                        "type": "integer"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "owner": {
+                        "type": "integer"
+                    },
+                    "balance": {
+                        "type": "float"
+                    },
+                    "createdon": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "singletransaction": {
+            "type": "object",
+            "properties": {
+                "accountName": {
+                    "type": "string"
+                },
+                "accountNumber": {
+                    "type": "integer"
+                },
+                "cashier": {
+                    "type": "integer"
+                },
+                "transactionType": {
+                    "type": "string"
+                },
+                "transactionId": {
+                    "type": "integer"
+                },
+                "owner": {
+                    "type": "integer"
+                },
+                "oldBalance": {
+                    "type": "float"
+                },
+                "newBalance": {
+                    "type": "float"
+                },
+                "sender": {
+                    "type": "string"
+                },             
+                 "recipient": {
+                    "type": "string"
+                },
+                "fromNumber": {
+                    "type": "string"
+                },             
+                 "toNumber": {
+                    "type": "string"
+                },  
+                "createdon": {
+                    "type": "string"
+                }
+            }
+        },
+        "alltransactions": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "accountName": {
+                        "type": "string"
+                    },
+                    "accountNumber": {
+                        "type": "integer"
+                    },
+                    "cashier": {
+                        "type": "integer"
+                    },
+                    "transactionType": {
+                        "type": "string"
+                    },
+                    "transactionId": {
+                        "type": "integer"
+                    },
+                    "owner": {
+                        "type": "integer"
+                    },
+                    "oldBalance": {
+                        "type": "float"
+                    },
+                    "newBalance": {
+                        "type": "float"
+                    },
+                    "sender": {
+                        "type": "string"
+                    },             
+                     "recipient": {
+                        "type": "string"
+                    },
+                    "fromNumber": {
+                        "type": "string"
+                    },             
+                     "toNumber": {
+                        "type": "string"
+                    },  
+                    "createdon": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "email": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                }
+            }
+        },
+        "creditAmount": {
+            "type": "object",
+            "properties": {
+                "creditAmount": {
+                    "type": "string"
+                }
+            }
+        },
+        "debitAmount": {
+            "type": "object",
+            "properties": {
+                "debitAmount": {
+                    "type": "string"
+                }
+            }
+        },
+        "msg": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "adminedituserprofile": {
+            "type": "object",
+            "properties": {
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "dob": {
+                    "type": "string"
+                },
+                "image": {
+                    "type": "string"
+                },
+                "type": {
+                    "type":"string"
+                },
+                "isAdmin": {
+                    "type": "boolean"
+                }
+            }
+        }
+    }
+}

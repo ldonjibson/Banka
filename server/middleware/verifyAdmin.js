@@ -1,21 +1,19 @@
-const express = require('express')
-let bodyParser = require('body-parser');
-let bcrypt = require('bcrypt-nodejs'); // used to encrypt password
-let jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
+import express from 'express';
+import bodyParser from 'body-parser';
+import bcrypt from 'bcryptjs'; // used to encrypt password
+import jwt from 'jsonwebtoken';// used to create, sign, and verify tokens
 
 let helper = require('../helpers/helper')
-let users = require('../datastore/user.js')
+
+import {pool} from '../db/index'
+const db = pool
 
 let server = express();
 const router = express.Router();
-let url = '/api/v1/';
 
-let config = require('../config/config.js')
+import * as config from '../config/config'
 
 server.set('superSecret', config.secret);
-
-// router.use(bodyParser.urlencoded({ extended: false }));
-// router.use(bodyParser.json({ type: 'application/json'}));
 
 //route midleware to verify atoken
 
@@ -27,20 +25,34 @@ const jwtAdminVerify= ((req, res, next) => {
 		//verifies secret and check up
 		jwt.verify(token, server.get('superSecret'), (err, decoded) => {
 			if(err) {
-				return res.json({"status":403, "error": 'Failed to Authenticate token'});
+				return res.status(403).json({"status":403, "error": 'Failed to Authenticate token'});
 			} else {
 				//if authenticatable save to request for other route to use
 				req.decoded = decoded;
 				//check if user email has staff property
-				const getUser = users.find(usr => usr.email === decoded.email);
-				if (getUser.type === "staff" && getUser.isAdmin === true ){
-					next();
-				} else {
-					res.json({
-						"status":401,
-						"error": "You are not an Admin"
-					});
-				}
+				db.query(`SELECT * FROM users WHERE email = $1 AND id = $2`,[decoded.email, decoded.id], (error, response) => {
+					if (error){
+						res.status(400).json({
+							"status": 400,
+							"error": error
+						})
+					} else {
+						const result = response.rows
+						if (result.length === 0){
+							res.status(404).json({
+								"status": 404,
+								"error": "User does not exist"
+							})
+						} else if(result[0]['type'] != 'staff' || result[0]['isadmin'] != decoded.isAdmin) {
+							res.status(401).json({
+								"status":401,
+								"error": "You are not an Admin"
+							});
+						} else if(result[0]['type'] === 'staff' && result[0]['isadmin'] === decoded.isAdmin){
+							next();
+						}
+					} 
+				});
 			}
 		})
 	} else {
@@ -52,4 +64,5 @@ const jwtAdminVerify= ((req, res, next) => {
 	}
 });
 
-module.exports = jwtAdminVerify;
+
+export {jwtAdminVerify};
