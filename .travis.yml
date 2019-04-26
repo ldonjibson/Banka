@@ -2,15 +2,11 @@ language: node_js
 node_js:
   - "10"
 
-services:
-  - postgresql
-
 cache:
   directories:
     - "node_modules"
 
 env:
-  - NODE_ENV=test
   global:
     - CC_TEST_REPORTER_ID=b0768df2763f29fdbb69b1e9117d1003e8859c3946214e343107e0b7755c4cc1
 
@@ -24,12 +20,8 @@ before_script:
 
 script:
   # - nyc --reporter=lcov
-  #create and populate database
   #start server in background and continue with test
-  # - nodemon server/index.js & //for production
-  # - npm run drop_testdb
-  # - npm run create_testdb
-  - nyc npm run dev &
+  - npm run dev &
   - nyc npm test
   - nyc report --reporter=lcov
 
@@ -44,11 +36,9 @@ notification:
 # blocklist
 branches:
   except:
-  - api-two-db
+  - api-one
+
 # safelist
 branches:
   only:
   - develop
-
-
-  
