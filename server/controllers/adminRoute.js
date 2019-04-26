@@ -23,3 +23,7 @@ router.post('/admin/createstaff', jwtAdminVerify, adminQueries.createStaffAdmin)
 
 //All Staff
 router.get('/staff', jwtAdminVerify, adminQueries.getStaffUsers)
+
+// Get a specific Staff User
+router.get('/staff/:id',paramChecks, jwtAdminVerify, adminQueries.getSingleStaffUser)
+

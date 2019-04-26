@@ -7,6 +7,56 @@ import {pool} from './index.js'
 import {sendNotificationMail} from '../helpers/mailer';
 const db = pool
 
+
+//Staff get all client type user alone
+const getStaffUsers = (req, res) => {
+	db.query(`SELECT users.id, email, firstname, lastname, phone, dob, imageurl FROM users WHERE users.type = $1`, ['staff'])
+	.then(response => {
+		const result = response.rows;
+		if (response.rows.length == 0){
+			res.status(206).json({
+			"status":206,
+			"message": "You have no staff yet"
+			});
+		} else {
+			res.status(200).json({
+			"status":200,
+			"data": result
+			});
+		}
+	}).catch (error => 
+		res.status(400).json({
+			"status": 400,
+			"error": error
+		}) 
+	) 	
+}
+
+const getSingleStaffUser = (req, res) => {
+	const staffId = parseInt(req.params.id)
+	db.query(`SELECT users.id, email, firstname, lastname, phone, dob, imageurl, type, isAdmin,registerdate FROM users WHERE users.id = $1 AND users.type=$2`, [staffId, 'staff'])
+	.then(response => {
+		const result = response.rows;
+		if (result.length == 0){
+			res.status(404).json({
+			"status":404,
+			"error": "User with that ID does not exist"
+			});
+		} else {
+			res.status(200).json({
+			"status":200,
+			"data": result[0]
+			});
+		}
+	}).catch (error => 
+		res.status(400).json({
+			"status": 400,
+			"error": error
+		}) 
+	) 	
+}
+
+
 //Staff get all client type user alone
 //create staff and admin users 
 const createStaffAdmin = (req, res) => {
