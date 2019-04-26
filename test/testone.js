@@ -7,7 +7,6 @@ import request from 'request';
 import dotenv from 'dotenv'
 dotenv.config();
 const PORT = process.env.PORT || 3000;
-console.log(PORT)
 
 let url = `http://localhost:${PORT}/api/v1/`
 
@@ -31,8 +30,8 @@ describe('User signup,login, transaction_details, profile_edit', () =>{
 		request.post(`${url}auth/signup`,(error, response, body) => {
 			let bodyResponse = JSON.parse(response.body);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(bodyResponse.status).to.be.equal(401);
-			expect(bodyResponse.error).to.be.equal("Please Check, A field is missing");
+			expect(bodyResponse.status).to.be.equal(422);
+			expect(bodyResponse).to.be.an('object');
 			done();
 		});
 	});
@@ -41,15 +40,15 @@ describe('User signup,login, transaction_details, profile_edit', () =>{
 		request.post(`${url}auth/signin`, (error, response, body) => {
 			let bodyResponse = JSON.parse(response.body);
 			expect(response.headers['content-type']).to.contain('application/json');
-			expect(bodyResponse.status).to.be.equal(401);
+			expect(bodyResponse.status).to.be.equal(422);
 			expect(bodyResponse).to.be.an('object');
 			done();
 		});
 	});
 
-	it('should allow user to change there profile details except for the account number', (done) => {
+	it('should allow user to view their profile', (done) => {
 		request.get(`${url}me/profile`, (error, response, body) => {
-			expect(response.statusCode).to.equal(200);
+			expect(response.statusCode).to.equal(401);
 			let bodyResponse = JSON.parse(response.body);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(bodyResponse).to.be.an('object');

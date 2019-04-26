@@ -33,4 +33,4 @@ const sendNotificationMail = (to, subject, text, html) =>{
 
 
 //exports
-export default sendNotificationMail
+export {sendNotificationMail}

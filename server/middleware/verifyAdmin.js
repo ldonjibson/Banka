@@ -30,29 +30,28 @@ const jwtAdminVerify= ((req, res, next) => {
 				//if authenticatable save to request for other route to use
 				req.decoded = decoded;
 				//check if user email has staff property
-				db.query(`SELECT * FROM users WHERE email = $1 AND id = $2`,[decoded.email, decoded.id], (error, response) => {
-					if (error){
-						res.status(400).json({
-							"status": 400,
-							"error": error
+				db.query(`SELECT * FROM users WHERE email = $1 AND id = $2`,[decoded.email, decoded.id])
+				.then((response) => {
+					const result = response.rows
+					if (result.length === 0){
+						res.status(404).json({
+							"status": 404,
+							"error": "User does not exist"
 						})
-					} else {
-						const result = response.rows
-						if (result.length === 0){
-							res.status(404).json({
-								"status": 404,
-								"error": "User does not exist"
-							})
-						} else if(result[0]['type'] != 'staff' || result[0]['isadmin'] != decoded.isAdmin) {
-							res.status(401).json({
-								"status":401,
-								"error": "You are not an Admin"
-							});
-						} else if(result[0]['type'] === 'staff' && result[0]['isadmin'] === decoded.isAdmin){
-							next();
-						}
-					} 
-				});
+					} else if(result[0]['type'] != 'staff' || result[0]['isadmin'] != true) {
+						res.status(401).json({
+							"status":401,
+							"error": "You are not an Admin"
+						});
+					} else if(result[0]['type'] === 'staff' && result[0]['isadmin'] === true){
+						next();
+					}
+				}).catch(error =>{
+					res.status(400).json({
+						"status": 404,
+						"error": error
+					})
+				})
 			}
 		})
 	} else {

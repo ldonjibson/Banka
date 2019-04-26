@@ -3,7 +3,6 @@ import request from 'request';
 import dotenv from 'dotenv'
 dotenv.config();
 const PORT = process.env.PORT || 3000;
-console.log(PORT)
 
 let url = `http://localhost:${PORT}/api/v1/`
 
@@ -33,21 +32,11 @@ describe('GET / For Admin Alone', ()=> {
 describe('PATCH / For Admin Alone', ()=> {
 
 	it('should not allow Admin to edit user profile (No token)', (done) => {
-		request.patch(`${url}allusers/profile/1/edit`, (error, response, body) => {
+		request.patch(`${url}singleuser/profile/1/edit`, (error, response, body) => {
 			let bodyResponse = JSON.parse(response.body);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(bodyResponse).to.be.an('object');
 			done();
 		});
 	});
-
-	it('should not allow Admin to change user password (No token)', (done) => {
-		request.patch(`${url}allusers/profile/1/changepassword`, (error, response, body) => {
-			let bodyResponse = JSON.parse(response.body);
-			expect(response.headers['content-type']).to.contain('application/json');
-			expect(bodyResponse).to.be.an('object');
-			done();
-		});
-	});
-
 });
