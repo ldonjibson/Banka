@@ -1,21 +1,19 @@
-const express = require('express')
-let bodyParser = require('body-parser');
-let bcrypt = require('bcrypt-nodejs'); // used to encrypt password
-let jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
+import express from 'express';
+import bodyParser from 'body-parser';
+import bcrypt from 'bcryptjs'; // used to encrypt password
+import jwt from 'jsonwebtoken';// used to create, sign, and verify tokens
 
 let helper = require('../helpers/helper')
-let users = require('../datastore/user.js')
+
+import {pool} from '../db/index'
+const db = pool
 
 let server = express();
 const router = express.Router();
-let url = '/api/v1/';
 
-let config = require('../config/config.js')
+import * as config from '../config/config'
 
 server.set('superSecret', config.secret);
-
-// router.use(bodyParser.urlencoded({ extended: false }));
-// router.use(bodyParser.json({ type: 'application/json'}));
 
 //route midleware to verify atoken
 
@@ -31,12 +29,27 @@ const jwtVerify= ((req, res, next) => {
 			} else {
 				//if authenticatable save to request for other route to use
 				req.decoded = decoded;
-				next();
+				db.query(`SELECT * FROM users WHERE email = $1 AND id = $2`,[decoded.email, decoded.id], (error, response) => {
+					if (error){
+						res.status(400).json({
+							"status": 400,
+							"error": error
+						})
+					} else if (response.rows.length === 0){
+						res.status(404).json({
+							"status": 404,
+							"error": "User does not exist"
+						})
+						
+					} else {
+						next();
+					}
+				});
 			}
 		})
 	} else {
 		//if there is no token return an error
-		return res.json({
+		return res.status(401).json({
 			"status": 401,
 			"error": "No token provided."
 		});
@@ -44,4 +57,4 @@ const jwtVerify= ((req, res, next) => {
 
 });
 
-module.exports = jwtVerify;
+export {jwtVerify};

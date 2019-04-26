@@ -1,12 +1,11 @@
-const express = require('express')
-let bodyParser = require('body-parser');
+import express from 'express';
+import bodyParser from 'body-parser';
 
 
 
 let getRoutes = express();
 const router = express.Router();
 
-let config = require('../config/config.js')
 
 // server.set('superSecret', config.secret);
 
@@ -16,13 +15,11 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json({ type: 'application/json'}));
 
 
-const userRouter = require('../controllers/userRoutes.js');
-const AuthController = require('../controllers/authentication.js');
-const staffRouter = require('../controllers/staffRoute.js');
-const adminRouter = require('../controllers/adminRoute.js');
-const bothAdminStaff = require('../controllers/bothAdminStaff.js');
-const bothAdStaf = require('../controllers/bothAdStaf.js');
-const generalRoute = require('../controllers/generalRoute.js');
+import {userRouter} from '../controllers/userRoutes';
+import {AuthController} from '../controllers/authentication';
+import {staffRouter} from '../controllers/staffRoute';
+import  {adminRouter} from '../controllers/adminRoute';
+import {generalRoute} from '../controllers/generalRoute.js';
 
 
 // All user ROUTES
@@ -37,11 +34,7 @@ getRoutes.use('/api/v1/', staffRouter);
 //All admin only route
 getRoutes.use('/api/v1/', adminRouter);
 
-//Both admin and staff
-getRoutes.use('/api/v1/', bothAdminStaff);
-getRoutes.use('/api/v1/', bothAdStaf);
-
 //General Auth
 getRoutes.use('/api/v1/', generalRoute);
 
-module.exports = getRoutes;
+export {getRoutes}

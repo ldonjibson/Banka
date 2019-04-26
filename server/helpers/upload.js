@@ -1,13 +1,12 @@
 /*
 This an helper function to allow image upload through patch
 */
-const multer  = require('multer');
+import multer from 'multer';
 let storage = multer.diskStorage({
     destination: (req, file, cb) => {
       cb(null, './public/images');
     },
     filename: (req, file, cb) => {
-      console.log(file);
       var filetype = '';
       if(file.mimetype === 'image/gif') {
         filetype = 'gif';
@@ -21,8 +20,6 @@ let storage = multer.diskStorage({
       cb(null, 'image-' + Date.now() + '.' + filetype);
     }
 });
-let upload = multer({storage: storage});
 
-module.exports = {
-  upload,
-}
+
+export let upload = multer({storage: storage});
