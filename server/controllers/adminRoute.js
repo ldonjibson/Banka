@@ -27,3 +27,5 @@ router.get('/staff', jwtAdminVerify, adminQueries.getStaffUsers)
 // Get a specific Staff User
 router.get('/staff/:id',paramChecks, jwtAdminVerify, adminQueries.getSingleStaffUser)
 
+//Edit single User
+router.patch('/singleuser/profile/:id/edit', paramChecks, xUpload.single('file'), jwtAdminVerify, adminQueries.editUserProfile)
