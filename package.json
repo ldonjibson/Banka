@@ -49,7 +49,8 @@
     "drop_testdb": "babel-node drop_testdb.js",
     "lint": "eslint ./ --fix",
     "test": "cross-env NODE_ENV=test nyc mocha --timeout 10000 --require babel-register test --exit",
-    "coverage": "nyc --all report --reporter=text-lcov --reporter=lcov | coveralls"
+    "coverage": "nyc --all report --reporter=text-lcov --reporter=lcov | coveralls",
+    "coveralls": "npm run coverage -- --report lcovonly && cat coverage/lcov.info | coveralls"
   },
   "nyc": {
     "require": [
