@@ -2,12 +2,12 @@ language: node_js
 node_js:
   - "10"
 
+services:
+  - postgresql
+
 cache:
   directories:
     - "node_modules"
-
-services:
-  - postgresql
 
 env:
   - NODE_ENV=test
@@ -49,14 +49,6 @@ branches:
 branches:
   only:
   - develop
-
-# deploy:
-#   provider: heroku
-#   api_key:
-#     secure: "YOUR ENCRYPTED API KEY"
-#   app: ebanka-api
-#   on: api-one
-
 
 
   
