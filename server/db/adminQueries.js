@@ -195,3 +195,26 @@ const editUserProfile = (req, res) =>{
 		})
 	)
 }
+
+const getAllTransactionsPerfomedByOneStaff = (req, res) =>{
+	db.query(`SELECT * FROM transaction WHERE cashier = $1`, [parseInt(req.params.id)])
+	.then(response => {
+		const result = response.rows
+		if(result.length == 0){
+		    res.status(200).json({
+		    	"status": 200,
+		    	"message": "Staff has yet to perform a transaction"
+		    });
+		} else {
+		    res.status(200).json({
+		    	"status": 200,
+		    	"data": result
+		    });
+		}
+	}).catch (error => 
+	    res.status(400).json({
+			"status": 400,
+			"error": error
+		})
+	)
+}
