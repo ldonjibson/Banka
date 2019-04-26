@@ -242,3 +242,26 @@ const deactivateAccount = (req, res) => {
 		}) 
 	) 	
 }
+
+const deleteAccount = (req, res) => {
+	const accountNumber = parseInt(req.params.accountNumber)
+	db.query(`DELETE FROM bankaccount WHERE accountnumber = $1`, [accountNumber])
+	.then(response => {
+		if (response.rowCount === 0){
+			res.status(404).json({
+			"status":404,
+			"error": "Cannot find a matching account number"
+			});
+		} else {
+			res.status(200).json({
+			"status":200,
+			"message": `Account deleted Successfully`
+			});
+		}
+	}).catch (error => 
+		res.status(400).json({
+			"status": 400,
+			"error": error || "dataabase error"
+		}) 
+	) 	
+}

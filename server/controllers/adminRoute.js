@@ -34,3 +34,6 @@ router.patch('/singleuser/profile/:id/edit', paramChecks, xUpload.single('file')
 
 // deactivateAccount
 router.patch('/account/:accountNumber',paramChecks, jwtAdminVerify, adminQueries.deactivateAccount)
+
+// deleteAccount
+router.delete('/accounts/:accountNumber',paramChecks, jwtAdminVerify, adminQueries.deleteAccount)
