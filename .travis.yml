@@ -27,8 +27,8 @@ script:
   #create and populate database
   #start server in background and continue with test
   # - nodemon server/index.js & //for production
-  - npm run drop_testdb
-  - npm run create_testdb
+  # - npm run drop_testdb
+  # - npm run create_testdb
   - nyc npm run dev &
   - nyc npm test
   - nyc report --reporter=lcov
