@@ -266,3 +266,13 @@ const deleteAccount = (req, res) => {
 		}) 
 	) 	
 }
+
+export {
+	getStaffUsers,
+	getSingleStaffUser,
+	editUserProfile,
+	deactivateAccount,
+	deleteAccount,
+	getAllTransactionsPerfomedByOneStaff,
+	createStaffAdmin,
+}
