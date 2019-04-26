@@ -31,13 +31,11 @@ const passwordReset = (req, res) => {
 					})
 				} else {
 					//TODO
-		    		sendNotificationMail(email,'Password Request', `You requested to change your password, your temporary password is ${tempPass}, login to change it`, `<b>You requested to change your password, your temporary password is <br>${tempPass}<br> , login to change it</b>`)
-					.then((response)=>{
-						res.status(201).json({
-							"status": 201,
-							"message": `Password recovery was successful, Check your mail to change your password`,
-						});
-					})
+		    	sendNotificationMail(email,'Password Request', `You requested to change your password, your temporary password is ${tempPass}, login to change it`, `<b>You requested to change your password, your temporary password is <br>${tempPass}<br> , login to change it</b>`)
+					res.status(201).json({
+						"status": 201,
+						"message": `Password recovery was successful, Check your mail to change your password`,
+					});
 				}
 			});
 		}

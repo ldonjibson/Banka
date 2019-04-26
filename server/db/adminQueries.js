@@ -239,7 +239,7 @@ const deactivateAccount = (req, res) => {
 	}).catch (error => 
 		res.status(400).json({
 			"status": 400,
-			"error": error || "dataabase error"
+			"error": error || "database error"
 		}) 
 	) 	
 }
@@ -262,7 +262,7 @@ const deleteAccount = (req, res) => {
 	}).catch (error => 
 		res.status(400).json({
 			"status": 400,
-			"error": error || "dataabase error"
+			"error": error || "database error"
 		}) 
 	) 	
 }

@@ -3,7 +3,6 @@ import request from 'request';
 import dotenv from 'dotenv'
 dotenv.config();
 const PORT = process.env.PORT || 3000;
-console.log(PORT)
 
 let url = `http://localhost:${PORT}/api/v1/`
 
@@ -78,31 +77,13 @@ describe('Patch method For Admin and Staff to be able to edit user profile and c
 		});
 	});
 
-	it('should not  allow Staff to edit user profile', (done) => {
-		request.patch(`${url}user/profile/1/edit`, (error, response, body) => {
-			let bodyResponse = JSON.parse(response.body);
-			expect(response.headers['content-type']).to.contain('application/json');
-			expect(bodyResponse).to.be.an('object');
-			done();
-		});
-	});
-
-	it('should not allow Staff  to change user password', (done) => {
-		request.patch(`${url}user/profile/1/changepassword`, (error, response, body) => {
-			let bodyResponse = JSON.parse(response.body);
-			expect(response.headers['content-type']).to.contain('application/json');
-			expect(bodyResponse).to.be.an('object');
-			done();
-		});
-	});
-
 });
 
 
 describe('Post method For Admin and Staff to be credit and debit a bank account and then send notification for it', () => {
 
 	it('should not allow update and credit account balance', (done) => {
-		request.post(`${url}createbank/accounts`,  (error, response,body)=> {
+		request.post(`${url}accounts`,  (error, response,body)=> {
 			let bodyResponse = JSON.parse(body);
 			expect(response.headers['content-type']).to.contain('application/json');
 			expect(bodyResponse).to.be.an('object');
