@@ -4,7 +4,6 @@
   "description": "A light weight onlibe applciation\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[\u001b[\u001b[C\u001b[Cc",
   "main": "index.js",
   "dependencies": {
-    "babel": "^6.23.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
@@ -45,8 +44,8 @@
   "scripts": {
     "start": "babel-node ./server/index.js",
     "dev": "nodemon server/index.js --exec babel-node",
-    "create_testdb": "babel-node dbcreate_test.js",
-    "drop_testdb": "babel-node drop_testdb.js",
+    "create_testdb": "babel-node ./server/models/dbcreate_test.js",
+    "drop_testdb": "babel-node ./server/models/drop_testdb.js",
     "lint": "eslint ./ --fix",
     "test": "cross-env NODE_ENV=test npm run create_testdb & nyc mocha --timeout 10000 --require babel-register test --exit",
     "coverage": "nyc --all report --reporter=text-lcov --reporter=lcov | coveralls",
