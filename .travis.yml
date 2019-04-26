@@ -45,12 +45,11 @@ notification:
 # blocklist
 branches:
   except:
-  - develop
-
+  - api-two-db
 # safelist
 branches:
   only:
-  - api-two-db
+  - develop
 
 # deploy:
 #   provider: heroku
