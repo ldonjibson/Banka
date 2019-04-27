@@ -51,7 +51,8 @@
     "create_testdb": "babel-node ./server/models/dbcreate_test.js",
     "drop_testdb": "babel-node ./server/models/drop_testdb.js",
     "lint": "eslint ./ --fix",
-    "test": "nyc mocha test",
+    "test": "cross-env NODE_ENV=test nyc --require babel-register --require babel-polyfill mocha test",
+    "covtest": "nyc check-coverage --lines 95 --per-file",
     "test:coverage": "cross-env NODE_ENV=test nyc --require babel-register _mocha  --exit",
     "coverage": "nyc --reporter=html --reporter=text --reporter=text-lcov mocha | coveralls"
   },
@@ -63,6 +64,7 @@
       "lcov",
       "text"
     ],
+    "ignore-class-method": "methodToIgnore",
     "incude": [
       "**/*.js",
       "./*js"
