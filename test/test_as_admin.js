@@ -20,6 +20,7 @@ describe('Login before operations are perform here', ()=>{
 			form: validateAdmin
 		}, (error, response,body)=> {
 			let bodyResponse = JSON.parse(body)
+			console.log(bodyResponse)
 			adminToken = bodyResponse.data['token']
 			console.log(adminToken);
 		});
