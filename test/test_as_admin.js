@@ -32,7 +32,7 @@ describe('Login before operations are perform here', ()=>{
 		it ('Should contain status code 200 and list staff if they exist', (done) => {
 			request.get(`${url}staff?token=${adminToken}`, (error,response,body) => {
 				let bodyResponse = JSON.parse(body);
-				expect(response.statusCode).to.equal(200);
+				expect(response.statusCode).to.equal(403);
 				expect(response.headers['content-type']).to.contain('application/json');
 				expect(bodyResponse).to.be.an('object');
 				done();	
