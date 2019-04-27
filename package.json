@@ -51,7 +51,7 @@
     "drop_testdb": "babel-node ./server/models/drop_testdb.js",
     "lint": "eslint ./ --fix",
     "test": "nyc --reporter=text mocha",
-    "test:coverage": "cross-env NODE_ENV=test & npm run create_testdb nyc --reporter=text _mocha  --require babel-register --exit",
+    "test:coverage": "npm run create_testdb && cross-env NODE_ENV=test nyc --reporter=text --require babel-register _mocha  --exit",
     "coverage": "nyc report --reporter=text | coveralls"
   },
   "nyc": {
@@ -76,5 +76,16 @@
     "instrument": false
   },
   "author": "ldonjibson",
-  "license": "ISC"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ldonjibson/banka.git"
+  },
+  "keywords": [
+    "banking",
+    "endpoints",
+  ],
+  "bugs": {
+    "url": "https://github.com/ldonjibson/banka/issues"
+  }
 }
