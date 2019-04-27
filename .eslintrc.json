@@ -22,27 +22,10 @@
             "error",
             "windows"
         ],
-        "quotes": [
-            "error",
-            "single"
-        ],
         "semi": [
             "error",
             "always"
         ],
-        "max-len": [1, 80, 2],
-        "preferType": {
-             "Boolean": "boolean", 
-             "Number": "number", 
-             "object": "Object", 
-             "String": "string" 
-        },
-        "requireReturn": false,
-        "requireReturnType": false,
-        "requireParamType": false,
-        "matchDescription": ".+",
-        "requireParamDescription": false,
-        "requireReturnDescription": false
-
+        "max-len": [1, 80, 2]
     }
 }
