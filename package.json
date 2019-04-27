@@ -51,7 +51,7 @@
     "create_testdb": "babel-node ./server/models/dbcreate_test.js",
     "drop_testdb": "babel-node ./server/models/drop_testdb.js",
     "lint": "eslint ./ --fix",
-    "test": "nyc mocha -r babel-register test/*.js",
+    "test": "nyc mocha test",
     "test:coverage": "cross-env NODE_ENV=test nyc --require babel-register _mocha  --exit",
     "coverage": "nyc --reporter=html --reporter=text --reporter=text-lcov mocha | coveralls"
   },
