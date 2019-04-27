@@ -8,7 +8,7 @@ let url = `http://localhost:${PORT}/api/v1/`
 
 describe('GET / For Admin Alone', ()=> {
 
-	it ('Should contain status code 200 and return 1004', (done) => {
+	it ('Should contain status code 400', (done) => {
 		request.get(`${url}staff`, (error,response,body) => {
 			let bodyResponse = JSON.parse(body);
 			expect(response.headers['content-type']).to.contain('application/json');

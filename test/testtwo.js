@@ -8,7 +8,7 @@ let url = `http://localhost:${PORT}/api/v1/`
 
 describe('For Staff  and Admin Alone', ()=> {
 
-	it ('Should contain status code 200', (done) => {
+	it ('Should contain status code 400', (done) => {
 		request.get(`${url}users`, (error,response,body) => {
 			let bodyResponse = JSON.parse(body);
 			expect(response.headers['content-type']).to.contain('application/json');
@@ -25,33 +25,6 @@ describe('For Staff  and Admin Alone', ()=> {
 			done();
 		});
 
-	});
-
-	it('should not get all client transaction but return 1004 status code because no token provided', (done) => {
-		request.get(`${url}allclients/transactions`,(error,response,body) => {
-			let bodyResponse = JSON.parse(body);
-			expect(response.headers['content-type']).to.contain('application/json');
-			expect(bodyResponse).to.be.an('object');
-			done();
-		});
-	});
-
-	it('should not get individual transaction recorde becuase staff token is not provided',(done) => {
-		request.get(`${url}/clienttransaction/1/detail/`, (error, response,body) => {
-			let bodyResponse =JSON.parse(body);
-			expect(response.headers['content-type']).to.contain('application/json');
-			expect(bodyResponse).to.be.an('object');
-			done();
-		});
-	});
-
-	it('should return error instead of all record performed by a specific', (done) => {
-		request.get(`${url}mydone/usertransaction/`, (error,response, body) => {
-			let bodyResponse = JSON.parse(body);
-			expect(response.headers['content-type']).to.contain('application/json');
-			expect(bodyResponse).to.be.an('object');
-			done();
-		});
 	});
 
 	it('should return 1004 instead of deleting the account', (done) => {

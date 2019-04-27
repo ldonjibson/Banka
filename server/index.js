@@ -1,70 +1,100 @@
-//Load express module with 'require' directive
+// Load express module with 'require' directive
 // let express = require('express');
-import dotenv from 'dotenv'
-dotenv.config()
-import express from 'express'
+import dotenv from 'dotenv';
+import express from 'express';
 import path from 'path';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
-import {getRoutes} from './routes/indexroute';
 import * as swaggerUi from 'swagger-ui-express';
+import { getRoutes } from './routes/indexroute';
 import * as swaggerDoc from '../swagger.json';
-let server = express();
+
+dotenv.config();
+const server = express();
 
 const PORT = process.env.PORT || 3000;
 
-//All ROUTES
+// All ROUTES
 server.use(getRoutes);
 
 
 // Define request response in root URL(/)
 server.use(bodyParser.urlencoded({ extended: false }));
 
-server.use(bodyParser.json({ type: 'application/json'}));
+// server.use(bodyParser.json({ type: 'application/json' }));
 server.use(express.json());
-//TO show uploaed image
+// TO show uploaed image
 server.use(express.static('public'));
 
-//to log request type
+// to log request type
 server.use(morgan('combined'));
 
-//Swagger Documentation
+// Swagger Documentation
 server.use('/api/v1/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
-server.get('/api/v1/', (req, res) =>{
-	let content = {
-		status: 200,
-		message: "Connected"
-	}
-	res.json(content);
+server.get('/api/v1/', (req, res) => {
+  const content = {
+    status: 200,
+    message: 'Connected',
+  };
+  res.json(content);
 });
 
-server.get('/', (req,res)=>{
-	if (req.url === '/'){
-		res.redirect('https://github.com/ldonjibson/Banka/tree/api-one#documentation')
-	} else {
-		res.status(404).json({
-			"status": 404,
-			"error": "Something is Wrong with this Url"
-		});
-	}
-
-
+server.get('/', (req, res) => {
+  if (req.url === '/') {
+    res.redirect('https://github.com/ldonjibson/Banka/tree/api-one#documentation');
+  } else {
+    res.status(404).json({
+      status: 404,
+      error: 'Something is Wrong with this Url',
+    });
+  }
 });
 
-server.get('*', (req, res) =>{
-	console.log(res)
-	res.status(404).json({
-		"status": 404,
-		"error": "Not Found"
-	});
+server.get('*', (req, res) => {
+  console.log(res);
+  res.status(404).json({
+    status: 404,
+    error: 'Not Found',
+  });
 });
 
- //end users
+server.post('*', (req, res) => {
+  console.log(res);
+  res.status(404).json({
+    status: 404,
+    error: 'Not Found',
+  });
+});
 
-//Launching listening server on port 3000
-server.listen(PORT, () =>{
-	console.log(`App started on port ${PORT}`)
+server.patch('*', (req, res) => {
+  console.log(res);
+  res.status(404).json({
+    status: 404,
+    error: 'Not Found',
+  });
+});
+
+server.delete('*', (req, res) => {
+  console.log(res);
+  res.status(404).json({
+    status: 404,
+    error: 'Not Found',
+  });
+});
+
+server.put('*', (req, res) => {
+  console.log(res);
+  res.status(404).json({
+    status: 404,
+    error: 'Not Found',
+  });
+});
+// end users
+
+// Launching listening server on port 3000
+server.listen(PORT, () => {
+  console.log(`App started on port ${PORT}`);
 });
 
 export default server;
