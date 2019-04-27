@@ -8,7 +8,7 @@ let url = `http://localhost:${PORT}/api/v1/`
 // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNpbmNlcmVAYXByaWwuYml6IiwiaWQiOjEsImlzQWRtaW4iOnRydWUsImlhdCI6MTU1NDQ0NTMzNCwiZXhwIjoxNTU5NjI5MzM0fQ.bT5An0F30yXAKCADWsGkYROlBZPmpS43w_JCb7ktp-I'
 
 
-describe('Login before operations are perform here', ()=>{
+describe('Admin/ Login before operations are perform here', ()=>{
 	const validateAdmin = {
 		email: 'admin@gmail.com',
 		password: 'nollywood'
@@ -28,7 +28,6 @@ describe('Login before operations are perform here', ()=>{
 		
 
 	describe('GET / With Token For Admin Alone', ()=> {
-
 		it ('Should contain status code 200 and list staff if they exist', (done) => {
 			request.get(`${url}staff?token=${adminToken}`, (error,response,body) => {
 				let bodyResponse = JSON.parse(body);

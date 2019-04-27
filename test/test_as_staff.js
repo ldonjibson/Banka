@@ -8,7 +8,7 @@ console.log(PORT)
 let url = `http://localhost:${PORT}/api/v1/`
 // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlNpbmNlQGFwcmlsLmJpeiIsImlkIjoyLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTU0NDcwOTE3LCJleHAiOjE1NTk2NTQ5MTd9.-j_h2OUe1PH4Ptb1siOORyxle9rzeD85Zh2mbJA5S0I'
 
-describe('Login before operations are perform here', ()=>{
+describe('Staff/ Login before operations are perform here', ()=>{
 	const validateAdmin = {
 		email: 'admin@gmail.com',
 		password: 'nollywood'

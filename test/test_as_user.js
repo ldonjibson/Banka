@@ -11,7 +11,7 @@ console.log(PORT)
 
 let url = `http://localhost:${PORT}/api/v1/`
 
-describe('Login before operations are perform here', ()=>{
+describe('Students/ Login before operations are perform here', ()=>{
 	const validateAdmin = {
 		email: 'admin@gmail.com',
 		password: 'nollywood'
