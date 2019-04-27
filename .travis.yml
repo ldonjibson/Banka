@@ -11,7 +11,7 @@ env:
     - CC_TEST_REPORTER_ID=b0768df2763f29fdbb69b1e9117d1003e8859c3946214e343107e0b7755c4cc1
 
 before_script:
-  - psql -c 'CREATE DATABASE ebanka;' -U postgres
+  - psql -c 'create database travis_ci_test;' -U postgres
   - npm install yarn@latest
   - yarn global add nyc
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
