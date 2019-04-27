@@ -25,8 +25,8 @@ describe('Login before operations are perform here', ()=>{
 			let bodyResponse = JSON.parse(body)
 			clientToken = bodyResponse.data['token']
 			console.log(clientToken);
-			done();
 		});
+	done();
 	});
 
 	describe('GET / With Token and User data, transaction_details', () =>{

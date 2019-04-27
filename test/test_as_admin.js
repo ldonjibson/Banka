@@ -22,8 +22,8 @@ describe('Login before operations are perform here', ()=>{
 			let bodyResponse = JSON.parse(body)
 			adminToken = bodyResponse.data['token']
 			console.log(adminToken);
-			done();
 		});
+	done();
 	});
 		
 
