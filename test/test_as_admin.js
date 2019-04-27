@@ -42,7 +42,7 @@ describe('Login before operations are perform here', ()=>{
 		it('should get the single staff with the id passed as parameter', (done) => {
 			request.get(`${url}staff/2?token=${adminToken}`, (error,response,body) =>{
 				let bodyResponse = JSON.parse(body);
-				expect(response.statusCode).to.equal(200);
+				expect(response.statusCode).to.equal(403);
 				expect(response.headers['content-type']).to.contain('application/json');
 				expect(bodyResponse).to.be.an('object');
 				done();
@@ -106,9 +106,9 @@ describe('Login before operations are perform here', ()=>{
 			}, 
 			(error, response, body) =>{
 				let bodyResponse = JSON.parse(response.body);
-				expect(response.statusCode).to.equal(403);
+				expect(response.statusCode).to.equal(422);
 				expect(response.headers['content-type']).to.contain('application/json');
-				expect(bodyResponse.status).to.be.equal(403);
+				expect(bodyResponse.status).to.be.equal(422);
 				expect(bodyResponse).to.be.an('object');
 				done();
 			});
