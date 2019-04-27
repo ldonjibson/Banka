@@ -31,13 +31,6 @@
             "always"
         ],
         "max-len": [1, 80, 2],
-        "prefer": { 
-            "arg": "param",
-            "argument": "param", 
-            "class": "constructor", 
-            "return": "returns", 
-            "virtual": "abstract" 
-        },
         "preferType": {
              "Boolean": "boolean", 
              "Number": "number", 
