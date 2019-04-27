@@ -10,7 +10,7 @@ let url = `http://localhost:${PORT}/api/v1/`
 
 describe('Login before operations are perform here', ()=>{
 	const validateAdmin = {
-		email: 'Sincere@april.biz',
+		email: 'admin@gmail.com',
 		password: 'nollywood'
 	};
 	let adminToken;
@@ -77,7 +77,7 @@ describe('Login before operations are perform here', ()=>{
 
 		it('should allow Admin to deactivate an account', (done) => {
 			request.patch(`${url}account/1363072976?token=${adminToken}`, (error, response, body) => {
-				expect(response.statusCode).to.equal(400);
+				expect(response.statusCode).to.equal(404);
 				let bodyResponse = JSON.parse(response.body);
 				expect(response.headers['content-type']).to.contain('application/json');
 				expect(bodyResponse).to.be.an('object');

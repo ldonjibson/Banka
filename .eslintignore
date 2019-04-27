@@ -1,0 +1,7 @@
+node_modules/
+test
+UI
+.nyc_output
+coverage
+models
+public

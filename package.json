@@ -15,7 +15,9 @@
     "express": "^4.16.4",
     "express-validator": "^5.3.1",
     "expressjs": "^1.0.1",
+    "iconv-lite": "^0.4.7",
     "jsonwebtoken": "^8.5.1",
+    "lcov-parse": "^1.0.0",
     "morgan": "^1.9.1",
     "multer": "^1.4.1",
     "nodemailer": "^6.1.0",
@@ -27,6 +29,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-plugin-istanbul": "^5.1.3",
     "babel-preset-es2015": "^6.24.1",
     "chai": "^4.2.0",
     "coveralls": "^3.0.3",
@@ -47,14 +50,30 @@
     "create_testdb": "babel-node ./server/models/dbcreate_test.js",
     "drop_testdb": "babel-node ./server/models/drop_testdb.js",
     "lint": "eslint ./ --fix",
-    "test": "cross-env NODE_ENV=test npm run create_testdb & nyc mocha --timeout 10000 --require babel-register test --exit",
-    "coverage": "nyc --all report --reporter=text-lcov --reporter=lcov | coveralls",
-    "coveralls": "npm run coverage -- --report lcovonly && cat coverage/lcov.info | coveralls"
+    "test": "nyc --reporter=text mocha",
+    "test:coverage": "cross-env NODE_ENV=test nyc --reporter=text _mocha  --require babel-register --exit",
+    "coverage": "nyc report --reporter=text | coveralls"
   },
   "nyc": {
     "require": [
       "babel-register"
-    ]
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "incude": [
+      "**/*.js",
+      "./*js"
+    ],
+    "exclude": [
+      "**/node_modules/**",
+      "**/test/**",
+      "**/coverage/**"
+    ],
+    "all": true,
+    "sourceMap": false,
+    "instrument": false
   },
   "author": "ldonjibson",
   "license": "ISC"

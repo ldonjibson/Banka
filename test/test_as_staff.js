@@ -10,7 +10,7 @@ let url = `http://localhost:${PORT}/api/v1/`
 
 describe('Login before operations are perform here', ()=>{
 	const validateAdmin = {
-		email: 'Sincere@april.biz',
+		email: 'admin@gmail.com',
 		password: 'nollywood'
 	};
 	let staffToken;
@@ -19,7 +19,6 @@ describe('Login before operations are perform here', ()=>{
 			url: `${url}auth/signin`,
 			form: validateAdmin
 		}, (error, response,body)=> {
-			console.log(body)
 			let bodyResponse = JSON.parse(body)
 			staffToken = bodyResponse.data['token']
 			console.log(staffToken);
@@ -88,7 +87,7 @@ describe('Login before operations are perform here', ()=>{
 		it('should return all active bank account with status active', (done) => {
 			request.get(`${url}all/accounts?status=active&token=${staffToken}`, (error,response,body) => {
 				let bodyResponse = JSON.parse(body);
-				expect(response.statusCode).to.equal(206);
+				expect(response.statusCode).to.equal(200);
 				expect(response.headers['content-type']).to.contain('application/json');
 				expect(bodyResponse).to.be.an('object');
 				done();
@@ -130,7 +129,6 @@ describe('Login before operations are perform here', ()=>{
 			},(error, response,body)=> {
 				let bodyResponse = JSON.parse(body);
 				// expect(response.statusCode).to.be.equal(201);
-				console.log(bodyResponse.error)
 				expect(response.headers['content-type']).to.contain('application/json');
 				expect(bodyResponse).to.be.an('object');
 			});
