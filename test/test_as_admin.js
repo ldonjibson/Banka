@@ -20,11 +20,10 @@ describe('Login before operations are perform here', ()=>{
 			form: validateAdmin
 		}, (error, response,body)=> {
 			let bodyResponse = JSON.parse(body)
-			console.log(bodyResponse)
 			adminToken = bodyResponse.data['token']
 			console.log(adminToken);
 		});
-	done();
+		done();
 	});
 		
 
@@ -68,7 +67,7 @@ describe('Login before operations are perform here', ()=>{
 
 		it('should allow Admin to edit user/staff/admin profile', (done) => {
 			request.patch(`${url}singleuser/profile/1/edit?token=${adminToken}`, (error, response, body) => {
-				expect(response.statusCode).to.equal(206);
+				expect(response.statusCode).to.equal(422);
 				let bodyResponse = JSON.parse(response.body);
 				expect(response.headers['content-type']).to.contain('application/json');
 				expect(bodyResponse).to.be.an('object');
@@ -77,8 +76,8 @@ describe('Login before operations are perform here', ()=>{
 		});
 
 		it('should allow Admin to deactivate an account', (done) => {
-			request.patch(`${url}account/1363072976?token=${adminToken}`, (error, response, body) => {
-				expect(response.statusCode).to.equal(404);
+			request.patch(`${url}account/1873428980?status=dormant&token=${adminToken}`, (error, response, body) => {
+				expect(response.statusCode).to.equal(200);
 				let bodyResponse = JSON.parse(response.body);
 				expect(response.headers['content-type']).to.contain('application/json');
 				expect(bodyResponse).to.be.an('object');
@@ -107,9 +106,9 @@ describe('Login before operations are perform here', ()=>{
 			}, 
 			(error, response, body) =>{
 				let bodyResponse = JSON.parse(response.body);
-				expect(response.statusCode).to.equal(422);
+				expect(response.statusCode).to.equal(403);
 				expect(response.headers['content-type']).to.contain('application/json');
-				expect(bodyResponse.status).to.be.equal(422);
+				expect(bodyResponse.status).to.be.equal(403);
 				expect(bodyResponse).to.be.an('object');
 				done();
 			});
@@ -119,7 +118,7 @@ describe('Login before operations are perform here', ()=>{
 	describe('DELETE / Delete selected user Account ', () => {
 		after('run after all code', () => {
 			it('should deleting the bank account', (done) => {
-				request.delete(`${url}accounts/1363072976/?token=${adminToken}`, (error,response, body) => {
+				request.delete(`${url}accounts/1873428980/?token=${adminToken}`, (error,response, body) => {
 					let bodyResponse = JSON.parse(body);
 					expect(response.statusCode).to.be.equal(200);
 					expect(response.headers['content-type']).to.contain('application/json');

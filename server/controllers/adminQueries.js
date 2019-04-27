@@ -146,59 +146,45 @@ const createStaffAdmin = (req, res) => {
 
 const editUserProfile = (req, res) => {
   const userId = parseInt(req.params.id);
-  db.query('SELECT * FROM users WHERE id = $1', [userId])
-    .then((response) => {
-      let result = response.rows[0];
-      if (result) {
-        let firstName = req.body.firstName || null;
-        let lastName = req.body.lastName || null;
-        let phone = req.body.phone || null;
-        let dob = req.body.dob || null;
-        let image = req.file || null;
-        let imageurl = 'http://localhost:3000/images/\'+ req.file.filename';
-        let type = req.body.type
-        let isAdmin = req.body.isAdmin
+  let firstName = req.body.firstName;
+  let lastName = req.body.lastName;
+  let phone = req.body.phone;
+  let dob = req.body.dob || null;
+  let image = req.file || null;
+  let imageurl = 'http://localhost:3000/images/\'+ req.file.filename';
+  let type = req.body.type
+  let isAdmin = req.body.isAdmin
 
-        if (firstName) {
-          result.firstname = firstName; 
-        }
-        if (lastName) {
-          result.lastname = lastName;
-        }
-        if (phone) {
-          result.phone = phone;
-        }
-        if (dob) {
-          result.phone = dob;
-        }
-        if (image) {
-          result.imageurl = `http://localhost:3000/images/${ req.file.filename}`
-        }
-        if (type) {
-          result.type = type;
-        }
-        if (isAdmin) {
-          result.isadmin = isAdmin;
-        }
-		    db.query('UPDATE users SET firstname = $1, lastname = $2, phone = $3, dob=$4, imageurl = $5, type = $6, isadmin = $7  WHERE id = $8', [result.firstname, result.lastname, result.phone, result.dob, result.imageurl, result.type, result.isadmin, userId])
-		    .then((response) => {
-            res.status(206).json({
-              "status": 206,
-              "message": 'User Profile Updated Succesfully',
+  if (!firstName || !lastName || !phone || !dob) {
+    res.status(422).json({
+      "status": 422,
+      "message": 'Fill the compulsory fields',
+    });
+  } else {
+    db.query('SELECT * FROM users WHERE id = $1', [userId])
+      .then((response) => {
+        let result = response.rows[0];
+        if (result) {
+  		    db.query('UPDATE users SET firstname = $1, lastname = $2, phone = $3, dob=$4, imageurl = $5, type = $6, isadmin = $7  WHERE id = $8', [result.firstname, result.lastname, result.phone, result.dob, result.imageurl, result.type, result.isadmin, userId])
+  		    .then((response) => {
+              res.status(206).json({
+                "status": 206,
+                "message": 'User Profile Updated Succesfully',
+              });
             });
+        } else {
+          res.status(404).json({
+            "status": 404,
+            "error": 'Nothing was found'
           });
-      } else {
-        res.status(404).json({
-          "status": 404,
-          "error": 'Nothing was found'
-        });
-      }
-    }).catch(error =>
-      res.status(400).json({
-        "status": 400,
-        "error": error,
-      }),
-    );
+        }
+      }).catch(error =>
+        res.status(400).json({
+          "status": 400,
+          "error": error,
+        }),
+      );
+  }
 };
 
 const getAllTransactionsPerfomedByOneStaff = (req, res) => {
