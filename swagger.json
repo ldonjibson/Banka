@@ -214,17 +214,6 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "auth object",
-                    "required": true,
-                    "content": {
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "$ref": "#/definitions/x-access-token"
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -250,6 +239,15 @@
                 "parameters": [
                     {
                         "in": "path",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                    {
+                        "in": "path",
                         "name": "accountNumber",
                         "required": true,
                         "description": "accountNumber to view it transactions",
@@ -267,17 +265,6 @@
                         }
                     }                    
                 ],
-                "requestBody": {
-                    "description": "token",
-                    "required": true,
-                    "content": {
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "$ref": "#/definitions/x-access-token"
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -300,17 +287,17 @@
                     "User profile"
                 ],
                 "summary": "Get user profile",
-                "requestBody": {
-                    "description": "user object",
-                    "required": true,
-                    "content": {
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "$ref": "#/definitions/x-access-token"
-                            }
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
                         }
                     }
-                },
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -432,17 +419,17 @@
                     "Staff/Admin get users"
                 ],
                 "summary": "list all users profiles",
-                "requestBody": {
-                    "description": "user objects",
-                    "required": true,
-                    "content": {
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "$ref": "#/definitions/x-access-token"
-                            }
+                "parameters":[
+                    {
+                        "in": "path",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
                         }
                     }
-                },
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -462,17 +449,6 @@
                     "Staff/Admin get users"
                 ],
                 "summary": "Get ID of user to view",
-                "requestBody": {
-                    "description": "user object",
-                    "required": true,
-                    "content": {
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "$ref": "#/definitions/x-access-token"
-                            }
-                        }
-                    }
-                },
                 "parameters": [
                     {
                         "in": "path",
@@ -481,6 +457,15 @@
                         "description": "ID of user to view",
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 ],
@@ -506,17 +491,6 @@
                     "Staff/Admin get bank accounts"
                 ],
                 "summary": "Get accountNumber to view",
-                "requestBody": {
-                    "description": "auth object",
-                    "required": true,
-                    "content": {
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "$ref": "#/definitions/x-access-token"
-                            }
-                        }
-                    }
-                },
                 "parameters": [
                     {
                         "in": "path",
@@ -525,6 +499,15 @@
                         "description": "accountNumber to view it transactions",
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 ],
@@ -550,17 +533,6 @@
                     "Staff/Admin get bank accounts"
                 ],
                 "summary": "Get transactions of the given account number",
-                "requestBody": {
-                    "description": "auth object",
-                    "required": true,
-                    "content": {
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "$ref": "#/definitions/x-access-token"
-                            }
-                        }
-                    }
-                },
                 "parameters": [
                     {
                         "in": "path",
@@ -569,6 +541,15 @@
                         "description": "accountNumber to view it transactions",
                         "schema": {
                             "type": "integer"
+                        }
+                    }
+                    {
+                        "in": "path",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 ],
@@ -595,6 +576,15 @@
                 ],
                 "summary": "Get a detail transaction of a specific bank account number",
                 "parameters": [
+                    {
+                        "in": "path",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
                     {
                         "in": "path",
                         "name": "accountNumber",
@@ -647,17 +637,17 @@
                     "Staff/Admin get bank accounts"
                 ],
                 "summary": "list all bank accounts",
-                "requestBody": {
-                    "description": "auth object",
-                    "required": true,
-                    "content": {
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "$ref": "#/definitions/x-access-token"
-                            }
+                "parameters":[
+                    {
+                        "in": "path",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
                         }
                     }
-                },
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -677,17 +667,17 @@
                     "Staff/Admin get bank accounts"
                 ],
                 "summary": "list all bank dormant accounts",
-                "requestBody": {
-                    "description": "auth object",
-                    "required": true,
-                    "content": {
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "$ref": "#/definitions/x-access-token"
-                            }
+                "parameters":[
+                    {
+                        "in": "path",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
                         }
                     }
-                },
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -706,17 +696,17 @@
                 "tags": [
                     "Staff/Admin get bank accounts"
                 ],
-                "requestBody": {
-                    "description": "auth object",
-                    "required": true,
-                    "content": {
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "$ref": "#/definitions/x-access-token"
-                            }
+                "parameters":[
+                    {
+                        "in": "path",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
                         }
                     }
-                },
+                ],
                 "summary": "list all bank active accounts",
                 "produces": [
                     "application/json"
@@ -818,17 +808,17 @@
                     "Admin get staff"
                 ],
                 "summary": "list all staff profiles",
-                "requestBody": {
-                    "description": "auth object",
-                    "required": true,
-                    "content": {
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "$ref": "#/definitions/x-access-token"
-                            }
+                "parameters":[
+                    {
+                        "in": "path",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
                         }
                     }
-                },
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -848,17 +838,6 @@
                     "Admin get staff"
                 ],
                 "summary": "Get ID of staff to view",
-                "requestBody": {
-                    "description": "auth object",
-                    "required": true,
-                    "content": {
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "$ref": "#/definitions/x-access-token"
-                            }
-                        }
-                    }
-                },
                 "parameters": [
                     {
                         "in": "path",
@@ -867,6 +846,15 @@
                         "description": "ID of staff to view",
                         "schema": {
                             "type": "integer"
+                        }
+                    }
+                    {
+                        "in": "path",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 ],
@@ -892,17 +880,6 @@
                     "Admin get staff"
                 ],
                 "summary": "Get ID of staff to view transactions carried out by him/her",
-                "requestBody": {
-                    "description": "auth object",
-                    "required": true,
-                    "content": {
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "$ref": "#/definitions/x-access-token"
-                            }
-                        }
-                    }
-                },
                 "parameters": [
                     {
                         "in": "path",
@@ -911,6 +888,15 @@
                         "description": " ID of staff to view transactions made by him/her",
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 ],
@@ -1014,19 +1000,17 @@
                         "schema": {
                             "type": "integer"
                         }
-                    }                  
-                ],
-                "requestBody": {
-                    "description": "auth object",
-                    "required": true,
-                    "content": {
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "$ref": "#/definitions/x-access-token"
-                            }
+                    },
+                    {
+                        "in": "path",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
                         }
                     }
-                },
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1058,19 +1042,17 @@
                         "schema": {
                             "type": "integer"
                         }
-                    }                  
-                ],
-                "requestBody": {
-                    "description": "auth object",
-                    "required": true,
-                    "content": {
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "$ref": "#/definitions/x-access-token"
-                            }
+                    },
+                    {
+                        "in": "path",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
                         }
-                    }
-                },
+                    }                 
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
