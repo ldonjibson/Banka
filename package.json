@@ -4,11 +4,21 @@
   "description": "A light weight onlibe applciation\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[\u001b[\u001b[C\u001b[Cc",
   "main": "index.js",
   "dependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
+    "@babel/node": "^7.2.2",
+    "@babel/plugin-transform-regenerator": "^7.4.4",
+    "@babel/plugin-transform-runtime": "^7.4.4",
+    "@babel/polyfill": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/register": "^7.4.4",
+    "@babel/runtime": "^7.4.4",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-stage-2": "^6.24.1",
     "babel-register": "^6.26.0",
+    "babel-watch": "^7.0.0",
     "bcrypt-nodejs": "0.0.3",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
@@ -48,19 +58,19 @@
     "supertest": "^4.0.2"
   },
   "scripts": {
-    "start": "nodemon --require babel-register --require babel-polyfill ./server/index.js",
-    "dev": "nodemon server/index.js --exec babel-node",
-    "create_testdb": "node --require babel-register --require babel-polyfill ./server/models/dbcreate_test.js",
+    "start": "babel-watch --require @babel/register --require @babel/polyfill ./server/index.js",
+    "dev": "babel-watch server/index.js",
+    "create_testdb": "node --require @babel/register --require @babel/polyfill ./server/models/dbcreate_test.js",
     "drop_testdb": "babel-node ./server/models/drop_testdb.js",
     "lint": "eslint ./ --fix",
-    "test": "cross-env NODE_ENV=test nyc --require babel-register --require babel-polyfill mocha test",
-    "covtest": "nyc mocha test/*.js",
-    "test:coverage": "cross-env NODE_ENV=test nyc --require babel-register _mocha  --exit",
+    "test": "cross-env NODE_ENV=test nyc --require babel-register --require @babel/polyfill mocha test",
+    "covtest": "nyc mocha --require @babel/register --require @babel/polyfill test/*.js",
+    "test:coverage": "cross-env NODE_ENV=test nyc --require @babel/register _mocha  --exit",
     "coverage": "nyc --reporter=html --reporter=text --reporter=text-lcov mocha | coveralls"
   },
   "nyc": {
     "require": [
-      "babel-register"
+      "@babel/register"
     ],
     "reporter": [
       "lcov",

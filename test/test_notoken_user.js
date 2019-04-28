@@ -52,15 +52,6 @@ describe('User signup,login, transaction_details, profile_edit', () =>{
 		});
 	});
 
-	it('should  return error since no token was passed', (done) => {
-		request.get(`${url}me/account/transactions/`, (error, response,body) => {
-			let bodyResponse = JSON.parse(response.body);
-			expect(response.headers['content-type']).to.contain('application/json')
-			expect(bodyResponse).to.be.an('object');
-			done();
-		});
-	});
-
 	it('should return error instead of creating an account', (done) => {
 		request.post(`${url}accounts`, (error, response, body) => {
 			let bodyResponse = JSON.parse(response.body);
