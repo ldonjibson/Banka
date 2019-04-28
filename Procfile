@@ -1,1 +1,1 @@
-web: nodemon ./server/index.js
+web: babel-watch ./server/index.js

@@ -1,6 +1,5 @@
 // Load express module with 'require' directive
 // let express = require('express');
-import dotenv from 'dotenv';
 import express from 'express';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
@@ -8,7 +7,6 @@ import * as swaggerUi from 'swagger-ui-express';
 import { getRoutes } from './routes/indexroute';
 import * as swaggerDoc from '../swagger.json';
 
-dotenv.config();
 const server = express();
 
 const PORT = process.env.PORT || 3000;
