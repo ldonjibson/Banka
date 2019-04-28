@@ -22,7 +22,7 @@ script:
   # - nyc --reporter=lcov
   #start server in background and continue with test
   - npm run dev &
-  - npm run test
+  - npm run covtest
   - nyc report --reporter=lcov
 
 after_script:
