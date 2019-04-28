@@ -1,1 +1,1 @@
-web: babel-watch /server/index.js
+web: node --register @babel/register /server/index.js
