@@ -2,8 +2,15 @@
 This are random functions that are used repeately through out the Api
 */
 import { pool } from '../db/index';
+import validator from 'validator';
+import express from 'express'
+import jwt from 'jsonwebtoken'; // used to create, sign, and verify tokens
+import {secret} from '../config/config'
+let server = express();
+server.set('superSecret', secret);
 
-const db = pool.pool;
+
+const db = pool;
 
 const ranDom = () => {
   const accNum = 1000000000 + Math.floor((Math.random() * 999999999));
@@ -11,39 +18,35 @@ const ranDom = () => {
 };
 
 const uniqueAccNumber = () => {
-  const accNum = ranDom() - Math.floor((Math.random() * 50000) + Math.random() * 30000);
+  const accNum = ranDom() - Math.floor((Math.random()
+    * 50000) + Math.random() * 30000);
   return accNum;
 };
 
 
-// tally the code token from decode and check if the email exists
-const togetUser = (req) => {
-  db.query('SELECT * FROM users WHERE email = $1', [req.decoded.email])
-    .then((response) => {
-      if (!response.rows[0]) {
-        res.status(404).json({
-          status: 404,
-          error: 'User does not exist',
-        });
-      } else if (response.rows[0]) {
-        return true;
-      }
-    });
-};
-
-const authHelper = (error, res) => {
-  if (error.array()[0].param = 'email' || 'password') {
-    res.status(422).json({
-      status: 422,
-      error: `${error.array()[0].msg} for email or password not up to 5 characters`,
-    });
+const authHelper = (req) => {
+  let email = req.body.email
+  let password = req.body.password
+  if (!validator.isEmail(email) || 
+    !validator.isLength(password, {min:5, max:undefined})){
+    return true
   }
 };
+
+const sanitizeInputs = (value) => {
+  return validator.trim(value)
+}
+
+//For Test
+const genToken = (email, id) => { 
+  return jwt.sign({'email': email, 'id': id}, server.get('superSecret'),{expiresIn: '24h',}) 
+}
 
 // exports
 export {
   ranDom,
-  togetUser,
   uniqueAccNumber,
   authHelper,
+  sanitizeInputs,
+  genToken
 };

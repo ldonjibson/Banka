@@ -17,39 +17,46 @@ const createBankAcc = (req, res) => {
   db.query('SELECT * FROM users WHERE email = $1', [email])
     .then((response) => {
   	const result = response.rows[0];
-  	if (!result.firstname || !result.lastname || !result.phone || !result.dob) {
+  	if (!result.firstname || !result.lastname 
+      || !result.phone || !result.dob) {
 	    	res.status(301).json({
-		    	status: 301,
-			    	'message': 'Update your profile before you create an account'
+		    	'status': 301,
+		    	'message': 'Update your profile before you create an account'
 			    });
   	} else {
-	  	if (!req.body.accountName || !req.body.phone || !req.body.type || !accountNumber) {
+	  	if (!req.body.accountName || !req.body.phone 
+        || !req.body.type || !accountNumber) {
           res.status(401).json({
             "status": 401,
             "error": 'All fields are required'
           });
         } else {
-          const getbalance = parseFloat(0.12);
+          const getbalance = parseFloat(0.0);
           let creatBank = {
 			        'accountNumber': accountNumber,
 			        'accountName': req.body.accountName,
-			        createdOn: new Date().toISOString(),
-			        phone: req.body.phone,
-			        owner: req.decoded.id,
-			        type: req.body.type,
-			        'status': 'pending',
-			        balance: getbalance,
+			        'createdOn': new Date().toISOString(),
+			        'phone': req.body.phone,
+			        'owner': req.decoded.id,
+			        'type': req.body.type,
+			        'status': 'dormant',
+			        'balance': getbalance,
 			    };
-			    db.query('SELECT * FROM bankaccount WHERE accountName = $1', [creatBank.accountName])
+			    db.query('SELECT * FROM bankaccount WHERE accountName = $1', 
+            [creatBank.accountName])
 			    .then((response) => {
 			    	const getBank = response.rows[0]; 
 			    	if (getBank) {
                 res.status(403).json({
                   "status": 403,
-                  "error": 'An bank account with that name already exist'
+                  "error": 'A bank account with that name already exist'
                 });
 			    	} else {
-					    db.query('INSERT INTO bankaccount("accountname", "accountnumber", "accountphone", "createdon", "accounttype", "owner", "status", "balance") values($1, $2, $3, $4, $5, $6, $7, $8) RETURNING owner', [creatBank.accountName, creatBank.accountNumber, creatBank.phone, creatBank.createdOn, creatBank.type, creatBank.owner, creatBank.status, creatBank.balance])
+					    db.query(`INSERT INTO bankaccount("accountname", "accountnumber", 
+                "accountphone", "createdon", "accounttype", "owner", "status", "balance") 
+                values($1, $2, $3, $4, $5, $6, $7, $8) RETURNING owner`, 
+                [creatBank.accountName, creatBank.accountNumber, creatBank.phone, creatBank.createdOn, 
+                creatBank.type, creatBank.owner, creatBank.status, creatBank.balance])
 					    .then((response) => {
 					    	const result = response.rows[0]; 
 					    	if (result) {
@@ -57,7 +64,16 @@ const createBankAcc = (req, res) => {
                         .then((response)=> {
                           let result = response.rows[0];
                           if (result) {
-								    		sendNotificationMail(result.email, 'Bank Account Successfully Created', `Your bank account has been created successfully, it will be reviewed and activated, Your ACCOUNT NUMBER IS ${result.accountnumber}, we will contact you with this same email address for further process.`, `<b><Your bank account has been created successfully, it will be reviewed and activated<br>Your ACCOUNT NUMBER IS ${result.accountnumber}<br/>we will contact you with this same email address forfurther process.</b>`);
+								    		sendNotificationMail(result.email, 
+                          'Bank Account Successfully Created', 
+                          `Your bank account has been created successfully, 
+                          it will be reviewed and activated, Your ACCOUNT NUMBER 
+                          IS ${result.accountnumber}, we will contact you with 
+                          this same email address for further process.`, 
+                          `<b><Your bank account has been created successfully, 
+                          it will be reviewed and activated<br>Your ACCOUNT NUMBER 
+                          IS ${result.accountnumber}<br/>we will contact you with 
+                          this same email address forfurther process.</b>`);
 										    	res.status(201).json({
 											    	'status': 201,
 												    	data: {
@@ -69,10 +85,8 @@ const createBankAcc = (req, res) => {
 												    		'openingBalance': creatBank.balance
 												    	},
 											    });
-									    } else {
-									    	console.log('what the heack is happenming');
-									    }
-                        });
+  									    } 
+                      });
                     }
 					    });
 			    	}
@@ -83,7 +97,7 @@ const createBankAcc = (req, res) => {
       res.status(400).json({
         "status": 400,
         "error": error || 'database error'
-      }),
+      })
     );
 };
 
@@ -107,7 +121,7 @@ const getUserAccounts = (req, res) => {
       res.status(400).json({
         "status": 400,
         "error": error || 'database error'
-      }),
+      })
     );
 };
 
@@ -135,19 +149,19 @@ const getUserProfile = (req, res) => {
       res.status(400).json({
         "status": 400,
         "error": error || 'database error'
-      }),
+      })
     );
 }; 
 
 // Allow User to Edit Profile
 const userEditProfile = (req, res) => {
-  let {email} = req.decoded
-  let firstName = req.body.firstName;
-  let lastName = req.body.lastName;
-  let phone = req.body.phone || null;
-  let dob = req.body.dob || null;
+  let email = req.decoded.email
+  let firstName = helper.sanitizeInputs(req.body.firstName);
+  let lastName = helper.sanitizeInputs(req.body.lastName);
+  let phone = helper.sanitizeInputs(req.body.phone);
+  let dob = helper.sanitizeInputs(req.body.dob);
   let image = req.file || null;
-  let imageurl = 'http://localhost:3000/images/\'+ req.file.filename'
+  let imageurl = 'http://localhost:3000/images/image_not_found.jpg'
   if (!firstName || !lastName || !phone || !dob) {
     res.status(422).json({
       "status": 422,
@@ -160,7 +174,10 @@ const userEditProfile = (req, res) => {
         if (image) {
           result.imageurl = `http://localhost:3000/images/${ req.file.filename}`
         }
-		    db.query('UPDATE users SET firstname = $1, lastname = $2, phone = $3, dob=$4, imageurl = $5  WHERE email = $6 RETURNING id', [result.firstname, result.lastname, result.phone, result.dob, result.imageurl, req.decoded.email])
+		    db.query(`UPDATE users SET firstname = $1, lastname = $2, 
+          phone = $3, dob=$4, imageurl = $5  WHERE email = $6 RETURNING *`, 
+          [firstName, lastName, phone, dob, 
+          result.imageurl, req.decoded.email])
 		    .then((response) => {
 		    	if (response.rows[0]) {
               res.status(206).json({
@@ -173,19 +190,20 @@ const userEditProfile = (req, res) => {
         res.status(400).json({
           "status": 400,
           "error": error || 'database error'
-        }),
+        })
       );
   }
 };
 
 // All User to change Password
 const userChangePassword = (req, res) => {
-  const password = req.body.password || null;
-  const password1 = req.body.password1 || null;
+  const password = req.body.password;
+  const password1 = req.body.password1;
   if (password && password1) {
     if (password === password1) {
       let hashedPassword = bcrypt.hashSync(password, 8);
-		    db.query('UPDATE users SET password = $1 WHERE email = $2', [hashedPassword, req.decoded.email])
+		    db.query('UPDATE users SET password = $1 WHERE email = $2', 
+          [hashedPassword, req.decoded.email])
 		    .then((response) => {
           res.status(206).json({
             "status": 206,
@@ -195,7 +213,7 @@ const userChangePassword = (req, res) => {
           res.status(400).json({
             "status": 400,
             "error": error,
-          }),
+          })
         );
     } else {
       res.status(401).json({
@@ -213,14 +231,17 @@ const userChangePassword = (req, res) => {
 
 // Get All Transactions of a particular Account number
 const getTransactionByAccNo = (req, res) => {
-  let accountnumber = parseInt(req.params.accountNumber);
-  db.query('SELECT * FROM transaction WHERE accountnumber = $1', [accountnumber])
+  let accountNumber = parseInt(req.params.accountNumber);
+  let id = req.decoded.id
+  db.query(`SELECT * FROM transaction as t LEFT JOIN 
+    bankaccount as b ON t.accountnumber = b.accountnumber WHERE 
+    b.accountnumber = $1 AND b.owner = $2`, [accountNumber, id])
     .then((response) => {
       const result = response.rows;
       if (result.length == 0) {
-        res.status(206).json({
-          "status": 206,
-    			message: 'No transaction yet'
+        res.status(404).json({
+          "status": 404,
+    			message: 'Not Found'
     			});
       } else {
     		res.status(200).json({
@@ -228,20 +249,24 @@ const getTransactionByAccNo = (req, res) => {
     			'data': result,
     		});
       }
-    }).catch(error =>
-      res.status(400).json({
-        "status": 400,
-        "error": error || 'database error'
-      }),
-    );	
+    }).catch(error =>{
+        res.status(400).json({
+          "status": 400,
+          "error": error || 'database error'
+        })
+    });
 };
 
 // Get detail transaction of specific account using transaction id
 const getSpecificTransactionAccById = (req, res) => {
+  let userId = req.decoded.id
   let id = parseInt(req.params.id);
   let accountNumber = parseInt(req.params.accountNumber);
   // return all details including the account details
-  db.query('SELECT * FROM transaction INNER JOIN bankaccount ON bankaccount.accountnumber = transaction.accountnumber WHERE transaction.id = $1', [id])
+  db.query(`SELECT * FROM transaction INNER JOIN bankaccount ON 
+    bankaccount.accountnumber = transaction.accountnumber WHERE 
+    transaction.id = $1 AND transaction.accountnumber = $2 
+    AND bankaccount.owner = $3`, [id, accountNumber, userId])
     .then((response) => {
       const result = response.rows;
       if (result.length == 0) {
@@ -260,7 +285,7 @@ const getSpecificTransactionAccById = (req, res) => {
       res.status(400).json({
         "status": 400,
         "error": error,
-      }),
+      })
     );
 };
 

@@ -109,16 +109,27 @@ const userdata = [
 ];
 
 const bankaccountdata = [
-  ['Felix and Sons', '1111111111111', 'current', '1427875169', 'active', '4', '139093.00'],
-  ['Tochukwu Marvin', '111111111111', 'savings', '1473428980', 'active', '4', '40003.00'],
-  ['Goddey Ajebo', '22222222222', 'savings', '1873428980', 'dormant', '5', '1303.00'],
-];
+  ['Felix and Sons', '1111111111111', 'current', '1427875169', 
+  'active', '4', '139093.00'],
+  ['Tochukwu Marvin', '111111111111', 'savings', '1473428980', 
+  'active', '4', '40003.00'],
+  ['Goddey Ajebo', '22222222222', 'savings', '1873428980', 
+  'dormant', '5', '1303.00'],
+  ['Mica Investments', '22222222222', 'savings', '1943428980', 
+  'active', '5', '200003.00']
+  ];
 
 const transactiondata = [
   ['Felix and Sons', 'credit', '1427875169', '2', '39090.00',
     '139093.00', 'Tmobiles', '', '00834332424', ''],
-  ['Tochukwu Marvin', 'debit', '1427875169', '3', '50003.00',
+  ['Tochukwu Marvin', 'debit', '1473428980', '3', '50003.00',
     '40003.00', '', 'self', '', '080343464732'],
+  ['Felix and Sons', 'credit', '1427875169', '2', '39090.00',
+    '20093.00', 'Tmobiles', '', '00834332424', ''],
+  ['Mica Investments', 'credit', '1943428980', '2', '39090.00',
+    '309093.00', 'Tmobiles', '', '00834332424', ''],
+  ['Goddey Ajebo', 'debit', '1873428980', '3', '50003.00',
+    '13003.00', '', 'self', '', '080343464732']
 ];
 const insertUsers = 	format(`INSERT INTO users 
 		(email, firstname, lastname, phone, password, dob, 

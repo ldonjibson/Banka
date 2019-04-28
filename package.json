@@ -11,6 +11,7 @@
     "babel-register": "^6.26.0",
     "bcrypt-nodejs": "0.0.3",
     "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
     "eslint": "^5.15.3",
     "eslint-config-airbnb": "^17.1.0",
     "express": "^4.16.4",
@@ -26,7 +27,8 @@
     "nyc": "^14.1.0",
     "pg": "^7.10.0",
     "pg-format": "^1.0.4",
-    "swagger-ui-express": "^4.0.2"
+    "swagger-ui-express": "^4.0.2",
+    "validator": "^10.11.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -52,7 +54,7 @@
     "drop_testdb": "babel-node ./server/models/drop_testdb.js",
     "lint": "eslint ./ --fix",
     "test": "cross-env NODE_ENV=test nyc --require babel-register --require babel-polyfill mocha test",
-    "covtest": "nyc check-coverage --lines 95 --per-file",
+    "covtest": "nyc mocha test/*.js",
     "test:coverage": "cross-env NODE_ENV=test nyc --require babel-register _mocha  --exit",
     "coverage": "nyc --reporter=html --reporter=text --reporter=text-lcov mocha | coveralls"
   },
