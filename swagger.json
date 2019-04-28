@@ -245,7 +245,7 @@
                         "schema": {
                             "type": "string"
                         }
-                    }
+                    },
                     {
                         "in": "path",
                         "name": "accountNumber",
@@ -542,7 +542,7 @@
                         "schema": {
                             "type": "integer"
                         }
-                    }
+                    },
                     {
                         "in": "path",
                         "name": "x-access-token",
@@ -847,7 +847,7 @@
                         "schema": {
                             "type": "integer"
                         }
-                    }
+                    },
                     {
                         "in": "path",
                         "name": "x-access-token",
