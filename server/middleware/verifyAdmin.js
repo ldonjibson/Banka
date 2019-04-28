@@ -16,7 +16,7 @@ server.set('superSecret', config.secret);
 const jwtAdminVerify = ((req, res, next) => {
   // check header or url parameters or post parameteers for token
   const token = req.body.token
-  || req.query.token || req.headers['x-access-token'];
+  || req.query.token || req.headers['x-access-token'] ;
   // decode token
   if (token) {
     // verifies secret and check up
