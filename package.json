@@ -48,9 +48,9 @@
     "supertest": "^4.0.2"
   },
   "scripts": {
-    "start": "babel-node ./server/index.js",
+    "start": "nodemon ./server/index.js",
     "dev": "nodemon server/index.js --exec babel-node",
-    "create_testdb": "babel-node ./server/models/dbcreate_test.js",
+    "create_testdb": "node ./server/models/dbcreate_test.js",
     "drop_testdb": "babel-node ./server/models/drop_testdb.js",
     "lint": "eslint ./ --fix",
     "test": "cross-env NODE_ENV=test nyc --require babel-register --require babel-polyfill mocha test",
