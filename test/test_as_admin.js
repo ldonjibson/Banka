@@ -7,6 +7,7 @@ dotenv.config();
 const PORT = process.env.PORT || 3000;
 
 let adminToken = helper.genToken('admin@gmail.com', 1)
+console.log(adminToken)
 
 let url = `http://localhost:${PORT}/api/v1/`
 

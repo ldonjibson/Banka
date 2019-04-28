@@ -11,6 +11,7 @@ let expect = chai.expect
 dotenv.config();
 const PORT = process.env.PORT || 3000;
 let clientToken = helper.genToken('tmarvin@gmail.com', 4)
+console.log(clientToken)
 
 let url = `http://localhost:${PORT}/api/v1/`
 

@@ -10,6 +10,7 @@ let expect = chai.expect
 const PORT = process.env.PORT || 3000;
 
 let staffToken = helper.genToken('johndoe@gmail.com', 2)
+console.log(staffToken)
 let url = `http://localhost:${PORT}/api/v1/`
 
 	describe('GET / For Staff  and Admin Alone', ()=> {
