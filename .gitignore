@@ -2,7 +2,7 @@
 node_modules
 second.js
 index_old.js
-coverage
+coverage/*
 function.js
 db try things.js
 
