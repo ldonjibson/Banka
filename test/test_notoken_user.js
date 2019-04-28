@@ -1,12 +1,9 @@
 /*
 Change Port and base url as needed before runing tests 
 */
-
 import chai from 'chai';
 import request from 'request';
-import dotenv from 'dotenv'
 let expect = chai.expect
-dotenv.config();
 const PORT = process.env.PORT || 3000;
 
 let url = `http://localhost:${PORT}/api/v1/`

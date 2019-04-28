@@ -1,4 +1,3 @@
-import dotenv from 'dotenv'
 import express from 'express'
 import bodyParser from 'body-parser';
 import bcrypt from 'bcryptjs'; // used to encrypt password
@@ -10,7 +9,6 @@ import {sendNotificationMail} from '../helpers/mailer';
 import {pool} from '../db/index'
 
 import {secret} from '../config/config'
-dotenv.config()
 
 let db = pool
 

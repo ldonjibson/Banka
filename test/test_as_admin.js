@@ -1,9 +1,7 @@
 import chai from 'chai';
 import request from 'request';
-import dotenv from 'dotenv'
 import * as helper from '../server/helpers/helper'
 let expect = chai.expect
-dotenv.config();
 const PORT = process.env.PORT || 3000;
 
 let adminToken = helper.genToken('admin@gmail.com', 1)
