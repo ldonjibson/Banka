@@ -1,8 +1,6 @@
-import dotenv from 'dotenv';
 import express from 'express';
 import * as authQueries from '../controllers/authentication';
 // const db = require('../db')
-dotenv.config();
 const router = express.Router();
 const { check } = require('express-validator/check');
 

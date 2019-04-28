@@ -203,6 +203,15 @@
                         "schema": {
                             "type": "integer"
                         }
+                    },
+                    {
+                        "in": "path",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "requestBody": {
