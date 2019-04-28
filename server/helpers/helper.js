@@ -37,6 +37,11 @@ const sanitizeInputs = (value) => {
   return validator.trim(value)
 }
 
+const sanitizePhonenumbers = (value) => {
+  return validator.isMobilePhone(value)
+}
+
+
 //For Test
 const genToken = (email, id) => { 
   return jwt.sign({'email': email, 'id': id}, server.get('superSecret'),{expiresIn: '24h',}) 

@@ -156,18 +156,19 @@ const getUserProfile = (req, res) => {
 // Allow User to Edit Profile
 const userEditProfile = (req, res) => {
   let email = req.decoded.email
-  let firstName = helper.sanitizeInputs(req.body.firstName);
-  let lastName = helper.sanitizeInputs(req.body.lastName);
-  let phone = helper.sanitizeInputs(req.body.phone);
-  let dob = helper.sanitizeInputs(req.body.dob);
-  let image = req.file || null;
-  let imageurl = 'http://localhost:3000/images/image_not_found.jpg'
-  if (!firstName || !lastName || !phone || !dob) {
+  if (!req.bodyfirstName || !req.body.lastName 
+    || !req.body.phone || !req.body.dob) {
     res.status(422).json({
       "status": 422,
       "message": 'All fields are required',
     });
   } else {
+      let firstName = helper.sanitizeInputs(req.body.firstName);
+      let lastName = helper.sanitizeInputs(req.body.lastName);
+      let phone = helper.sanitizeInputs(req.body.phone);
+      let dob = helper.sanitizeInputs(req.body.dob);
+      let image = req.file || null;
+      let imageurl = 'http://localhost:3000/images/image_not_found.jpg'
 	    db.query('SELECT * FROM users WHERE email = $1', [email])
 	    .then((response, error) => {
         const result = response.rows[0];
