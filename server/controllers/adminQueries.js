@@ -5,6 +5,7 @@ import bcrypt from 'bcryptjs';
 import * as  helper from '../helpers/helper'
 import { pool } from '../db/index';
 import { sendNotificationMail } from '../helpers/mailer';
+import validator from 'validator';
 
 const db = pool;
 
@@ -65,88 +66,97 @@ const getSingleStaffUser = (req, res) => {
 // create staff and admin users
 const createStaffAdmin = (req, res) => {
   let data = Object.keys(req.body);
-  // checkif a all the fields are present by checking the length agains the expected length
-  let chkobj = ['email', 'password', 'password1', 'firstName', 'lastName', 'phone', 'isAdmin'];
-  let obj = [];
-  for (let i = 0; i < data.length; i++) {
-    let key = data[i];
-    obj.push(key);
-  }
-  if (obj < chkobj) {
+  if(validator.isMobilePhone(req.body.phone) !== true){
     res.status(422).json({
       "status": 422,
-      "error": 'Please Check, A field is missing'
-    });
-	} else if (req.body.password !== req.body.password1) {
-    res.status(403).json({
-      "status": 403,
-      "error": 'Password does not match'
-    });
-  } else {
-    db.query('SELECT * FROM users WHERE email = $1', [req.body.email])
-      .then((response) => {
-        const results = response.rows[0];
-        if (results !== undefined) {
-          res.status(401).json({
-            "status": 401,
-            "error": "User already exist with email address",
-          });
- 			} else {
-          // Create Hash Password
-          let isAdmin;
-          if (req.body['isAdmin'] === 'false'){
-          	isAdmin = false
-          }else{
-          	isAdmin = true
-          }
-          let hashedPassword = bcrypt.hashSync(req.body.password, 8);
-          let newUser = {
-            "firstName": helper.sanitizeInputs(req.body.firstName),
-            "lastName": helper.sanitizeInputs(req.body.lastName),
-            "email": helper.sanitizeInputs(req.body.email),
-            "password": hashedPassword,
-            "phone": helper.sanitizeInputs(req.body.phone),
-            "type": 'staff',
-            "isAdmin": isAdmin
-          };
-          const staffpass = req.body.password
-			    const pass = newUser.password;
-			    db.query(`INSERT INTO users("email", "firstname", "lastname", "phone", 
-            "password", "type", "isadmin") values($1, $2, $3, $4, $5, $6, $7) RETURNING *`, 
-            [newUser.email, newUser.firstName, newUser.lastName, 
-            newUser.phone, pass, newUser.type, newUser.isAdmin])
-			    .then((response)=> {
-			    	const results = response.rows;
-			    	if (results.length !== 0) {
-			    		sendNotificationMail(results[0].email, 
-			    			"Staff Account Successfully  Created", 
-			    			`Welcome to Ebanka, Login with ${staffpass} to Complete your profile`, 
-			    			`<b><h3>Welcome to Ebanka!<h3><br> Login with <strong>${staffpass}<strong>
-			    			 to Complete your profile<br/></b>`)
-                res.status(201).json({
-                  "status": 201,
-                  "data": {
-							        'email': results[0].email,
-							        'firstName': results[0].firstname,
-							        'lastName': results[0].lastname,
-							        'phone': results[0].phone,
-							        'registerDate': results[0].registerdate,
-							        'type': results[0].type,
-							        'isAdmin': results[0].isadmin,
-							        'imageUrl': results[0].imageurl,
-                  },
-                });
-			    	}
-			    }).catch((error)=> {
-			    	res.status(500).json({
-			    		"status": 500,
-			    		"error": "Internal Server Error"
-			    	})
+      "error": "invalid phone number specified e.g +234...... or 234..... is required"
+    })
+  } else{
+      // checkif a all the fields are present by checking the length agains the expected length
+      let chkobj = ['email', 'password', 'password1', 'firstName', 
+      'lastName', 'phone', 'isAdmin'];
+      let obj = [];
+      for (let i = 0; i < data.length; i++) {
+        let key = data[i];
+        obj.push(key);
+      }
+      if (obj < chkobj) {
+        res.status(422).json({
+          "status": 422,
+          "error": 'Please Check, A field is missing'
+        });
+    	} else if (req.body.password !== req.body.password1) {
+        res.status(403).json({
+          "status": 403,
+          "error": 'Password does not match'
+        });
+      } else {
+        db.query('SELECT * FROM users WHERE email = $1', [req.body.email])
+          .then((response) => {
+            const results = response.rows[0];
+            if (results !== undefined) {
+              res.status(401).json({
+                "status": 401,
+                "error": "User already exist with email address",
+              });
+     			} else {
+              // Create Hash Password
+              let isAdmin;
+              if (req.body['isAdmin'] === 'false'){
+              	isAdmin = false
+              }else{
+              	isAdmin = true
+              }
+              let hashedPassword = bcrypt.hashSync(req.body.password, 8);
+              let newUser = {
+                "firstName": helper.sanitizeInputs(req.body.firstName),
+                "lastName": helper.sanitizeInputs(req.body.lastName),
+                "email": helper.sanitizeInputs(req.body.email),
+                "password": hashedPassword,
+                "phone": helper.sanitizeInputs(req.body.phone),
+                "type": 'staff',
+                "isAdmin": isAdmin
+              };
 
-			    });
+              const staffpass = req.body.password
+    			    const pass = newUser.password;
+    			    db.query(`INSERT INTO users("email", "firstname", "lastname", "phone", 
+                "password", "type", "isadmin") values($1, $2, $3, $4, $5, $6, $7) RETURNING *`, 
+                [newUser.email, newUser.firstName, newUser.lastName, 
+                newUser.phone, pass, newUser.type, newUser.isAdmin])
+    			    .then((response)=> {
+    			    	const results = response.rows;
+    			    	if (results.length !== 0) {
+    			    		sendNotificationMail(results[0].email, 
+    			    			"Staff Account Successfully  Created", 
+    			    			`Welcome to Ebanka, Login with ${staffpass} to Complete your profile`, 
+    			    			`<b><h3>Welcome to Ebanka!<h3><br> Login with <strong>${staffpass}<strong>
+    			    			 to Complete your profile<br/></b>`)
+                    res.status(201).json({
+                      "status": 201,
+                      "data": {
+    							        'email': results[0].email,
+    							        'firstName': results[0].firstname,
+    							        'lastName': results[0].lastname,
+    							        'phone': results[0].phone,
+    							        'registerDate': results[0].registerdate,
+    							        'type': results[0].type,
+    							        'isAdmin': results[0].isadmin,
+    							        'imageUrl': results[0].imageurl,
+                      },
+                    });
+    			    	}
+    			    }).catch((error)=> {
+    			    	res.status(500).json({
+    			    		"status": 500,
+    			    		"error": "Internal Server Error"
+    			    	})
 
-        }
-		});
+    			    });
+
+            }
+    		});
+      }
   }
 };
 
@@ -165,32 +175,39 @@ const editUserProfile = (req, res) => {
     let dob = req.body.dob;
     let image = req.file || 'http://localhost:3000/images/image_not_found.jpg';
     let isAdmin = req.body.isAdmin
-    db.query('SELECT * FROM users WHERE id = $1', [userId])
-      .then((response) => {
-        let result = response.rows[0];
-        if (result) {
-  		    db.query(`UPDATE users SET firstname = $1, lastname = $2, phone = $3, 
-            dob=$4, imageurl = $5, isadmin = $6  WHERE id = $7`, 
-            [firstName, lastName, phone,dob, 
-            image, isAdmin, userId])
-  		    .then((response) => {
-              res.status(206).json({
-                "status": 206,
-                "message": 'User Profile Updated Succesfully',
+    if(validator.isISO8601(dob) === true){
+      db.query('SELECT * FROM users WHERE id = $1', [userId])
+        .then((response) => {
+          let result = response.rows[0];
+          if (result) {
+    		    db.query(`UPDATE users SET firstname = $1, lastname = $2, phone = $3, 
+              dob=$4, imageurl = $5, isadmin = $6  WHERE id = $7`, 
+              [firstName, lastName, phone,dob, 
+              image, isAdmin, userId])
+    		    .then((response) => {
+                res.status(206).json({
+                  "status": 206,
+                  "message": 'User Profile Updated Succesfully',
+                });
               });
+          } else {
+            res.status(404).json({
+              "status": 404,
+              "error": 'Nothing was found'
             });
-        } else {
-          res.status(404).json({
-            "status": 404,
-            "error": 'Nothing was found'
-          });
-        }
-      }).catch(error =>
-        res.status(400).json({
-          "status": 400,
-          "error": error,
-        }),
-      );
+          }
+        }).catch(error =>
+          res.status(400).json({
+            "status": 400,
+            "error": error,
+          }),
+        );
+    } else {
+        res.status(422).json({
+          "status": 422,
+          "error": `Invalid Date(1990-04-23) format`
+        })
+    }
   }
 };
 
