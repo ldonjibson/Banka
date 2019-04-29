@@ -2,6 +2,15 @@ import express from 'express';
 
 const noRoute = express.Router();
 
+
+noRoute.get('*', (req, res) => {
+  res.status(404).json({
+    status: 404,
+    error: 'Not Found',
+  });
+});
+
+
 noRoute.post('*', (req, res) => {
   res.status(404).json({
     status: 404,
