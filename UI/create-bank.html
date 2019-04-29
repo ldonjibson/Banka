@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8">
+	<meta name="description" content="E-Banka A Light Weight Banking Application">
+	<meta name="keywords" content="banking,african bank">
+	<meta name="author" content="banka">
+	<link rel="stylesheet" href="./css/style.css">
+	<link rel="stylesheet" href="./css/responsive.css">
+	<link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<title>Dashboard | eBanka - An online banking application</title>
+</head>
+<body>
+	<!-- header -->
+	<header>
+		<a href="./index.html" alt="logo" class="logo float-left">eBanka</a>
+		<nav>
+			<ul class="">
+				<li><a href="./index.html" title="Home" active><i class="fa fa-home"></i> Home</a></li>
+				<li><a href="./service.html" title="Services"><i class="fa fa-briefcase"></i> Services</a></li>
+				<li><a href="./admin-login.html" title="Logout" class="a-logout"><i class="fa fa-sign-in"></i> Logout</a></li>
+				<li><a href="tel:2348180000000" title="Call Us"><i class="fa fa-phone-square"></i> Call +2348180000000</a></li>
+			</ul>
+			<a href="#" class="float-right burger" id="burger" onclick="menuToggle();">&#9776; Menu</a>
+		</nav>
+	</header>
+	<div id="mobile-m">
+		<ul class="mobile" id="mobilemenu">
+				<li><a href="./index.html" title="Home" active><i class="fa fa-home"></i> Home</a></li>
+				<li><a href="./service.html" title="Services"><i class="fa fa-briefcase"></i> Services</a></li>
+				<li><a href="./admin-login.html" title="Logout" class="a-logout"><i class="fa fa-sign-in"></i> Logout</a></li>
+				<li><a href="tel:2348180000000" title="Call Us"><i class="fa fa-phone-square"></i> Call +2348180000000</a></li>
+		</ul>
+	</div>
+	<!-- end header -->
+	<!-- content-area -->
+	<div class="contains main-c">
+		<div class="sub-container row">
+			<div class="text-left">
+				<div class="cl-3 flex-container">
+						<select id="bank-op" onchange="bankView();" name="bank-op" class="mobile-navigation">
+							<option>-- Dashboard Navigations --</option>
+							<option value="profile">Manage Profile</option>
+							<option value="transaction">Transaction Details</option>
+							<option value="logout">Logout</option>
+						</select>
+						<div class="navigation">
+							<h4 class="text-center tshadow">Dashboard Navigation</h4>
+							<div class="text-center">
+								<div class="dlink-margin"> 
+									<a class="dlink-btn dlink" href="./profile.html"><i class="fa fa-user-md"></i> Manage Profile</a> 
+								</div>
+								<div class="dlink-margin">
+									<a class="dlink-btn dlink" href="./transaction.html"><i class="fa fa-exchange"></i>  Transactions</a>
+								</div>
+								<div class="dlink-margin">
+									<a class="dlink-btn dlink" href="./login.html"><i class="fa fa-sign-in"></i> Logout</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="cl-9">
+					<h4 class="text-center tshadow">eBanka Create Admin/Staff Account</h4>
+					<div id="" class="cl-12">
+						<div class="cl-12">
+							<div class="profile-dema text-center">
+								<div class="createuresponse"></div>
+								<div>								
+									<form action=""  enctype="multipart/form-data" id="create-user-profile" onsubmit="createUserStaff();">
+										<div>
+											<input type="text" name="accountName" placeholder="Account Name" class="" value="" required="">
+										</div>
+										<div>
+											<input type="text" name="tel" placeholder="+234818010000" class="" value="" required="">
+										</div>
+										<div>
+											<select name="role" id="role">
+												<option>Select Account Type</option>
+												<option>savings</option>
+												<option>current</option>
+											</select>
+										</div>
+										<div class="space">
+											<button class="btn btn-basic btn-register" type="submit" id="register">Create  <i class="fa fa-university"></i></button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+			</div>
+		</div>
+	</div>
+	<!-- content-area -->
+	<!--footer-->
+	<div class="footer">
+
+		
+		<div class="center cl-12 footer-logo"> &copy; copyright 2019. eBanka</div>
+	</div>
+	<!-- footer -->
+	<script type="text/javascript" src="../js/main.js"></script>
+</body>
+</html>
