@@ -73,14 +73,8 @@ const createStaffAdmin = (req, res) => {
     })
   } else{
       // checkif a all the fields are present by checking the length agains the expected length
-      let chkobj = ['email', 'password', 'password1', 'firstName', 
-      'lastName', 'phone', 'isAdmin'];
-      let obj = [];
-      for (let i = 0; i < data.length; i++) {
-        let key = data[i];
-        obj.push(key);
-      }
-      if (obj < chkobj) {
+      if (!req.body.email || !req.body.password || !req.body.password1 
+        || !req.body.firstName || !req.body.lastName || !req.body.phone || !req.body.isAdmin) {
         res.status(422).json({
           "status": 422,
           "error": 'Please Check, A field is missing'
