@@ -22,16 +22,6 @@
             "description": "From herokuapp"
         }
     ],
-    "components":{
-        "securitySchemes": {
-            "bearerAuth": {
-                "type": "http",
-                "scheme": "bearer",
-                "bearerFormat": "JWT"
-            }
-        }
-
-    },
     "tags": [
         {
             "name": "End Points",
@@ -131,17 +121,25 @@
                 "tags": [
                     "User bank account"
                 ],
-                "security":{
-                    "bearerAuth": []
-                },
                 "summary": "User create a bank account",
+                "parameters":[
+                    {
+                        "in": "header",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "description": "bank object",
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "application/x-www-form-urlencoded": {
                             "schema": {
-                                "$ref": "#/definitions/createaccount"
+                                "$ref": "#/definitions/createbankaccount"
                             }
                         }
                     }
@@ -153,7 +151,7 @@
                     "201": {
                         "description": "created",
                         "schema": {
-                            "$ref": "#/definitions/allaccounts"
+                            "$ref": "#/definitions/createbankaccount"
                         }
                     },
                     "400": {
@@ -167,13 +165,21 @@
         },
         "/me/account": {
             "get": {
-                "security":{
-                    "bearerAuth": []
-                },
                 "tags": [
                     "User bank account"
                 ],
                 "summary": "User can see bank accounts he/she owns",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -192,9 +198,6 @@
         },  
         "/me/account/{accountNumber}/transactions": {
             "get": {
-                "security":{
-                    "bearerAuth": []
-                },
                 "tags": [
                     "User bank account transactions"
                 ],
@@ -207,6 +210,15 @@
                         "description": "accountNumber to view it transactions",
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 ],
@@ -228,14 +240,20 @@
         }, 
         "/me/account/{accountNumber}/transaction/{id}/detail": {
             "get": {
-                "security":{
-                    "bearerAuth": []
-                },
                 "tags": [
                     "User bank account transactions"
                 ],
                 "summary": "Get a detail transaction of a specific bank account number",
                 "parameters": [
+                    {
+                        "in": "header",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
                     {
                         "in": "path",
                         "name": "accountNumber",
@@ -273,16 +291,21 @@
         }, 
         "/me/profile": {
             "get": {
-                "security":{
-                    "bearerAuth": []
-                },
                 "tags": [
                     "User profile"
                 ],
                 "summary": "Get user profile",
-                "requestBody": {
-                    "description": "user object"
-                },
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -298,18 +321,26 @@
         }, 
         "/me/profile/edit": {
             "patch": {
-                "security":{
-                    "bearerAuth": []
-                },
                 "tags": [
                     "User profile"
                 ],
                 "summary": "Route for user to edit profile",
+                "parameters":[
+                    {
+                        "in": "header",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "description": "user object",
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "application/x-www-form-urlencoded": {
                             "schema": {
                                 "$ref": "#/definitions/editprofile"
                             }
@@ -342,7 +373,7 @@
                     "description": "user object",
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "application/x-www-form-urlencoded": {
                             "schema": {
                                 "$ref": "#/definitions/profilepassword"
                             }
@@ -375,7 +406,7 @@
                     "description": "user object",
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "application/x-www-form-urlencoded": {
                             "schema": {
                                 "$ref": "#/definitions/email"
                             }
@@ -407,6 +438,17 @@
                     "Staff/Admin get users"
                 ],
                 "summary": "list all users profiles",
+                "parameters":[
+                    {
+                        "in": "header",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -434,6 +476,15 @@
                         "description": "ID of user to view",
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 ],
@@ -468,6 +519,15 @@
                         "schema": {
                             "type": "integer"
                         }
+                    },
+                    {
+                        "in": "header",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -501,6 +561,15 @@
                         "schema": {
                             "type": "integer"
                         }
+                    },
+                    {
+                        "in": "header",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -527,6 +596,15 @@
                 "summary": "Get a detail transaction of a specific bank account number",
                 "parameters": [
                     {
+                        "in": "header",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "in": "path",
                         "name": "accountNumber",
                         "required": true,
@@ -545,6 +623,17 @@
                         }
                     }                    
                 ],
+                "requestBody": {
+                    "description": "auth object",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/definitions/x-access-token"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -567,6 +656,17 @@
                     "Staff/Admin get bank accounts"
                 ],
                 "summary": "list all bank accounts",
+                "parameters":[
+                    {
+                        "in": "header",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -586,6 +686,17 @@
                     "Staff/Admin get bank accounts"
                 ],
                 "summary": "list all bank dormant accounts",
+                "parameters":[
+                    {
+                        "in": "header",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -603,6 +714,17 @@
             "get": {
                 "tags": [
                     "Staff/Admin get bank accounts"
+                ],
+                "parameters":[
+                    {
+                        "in": "header",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
                 ],
                 "summary": "list all bank active accounts",
                 "produces": [
@@ -628,7 +750,7 @@
                     "description": "bank object",
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "application/x-www-form-urlencoded": {
                             "schema": {
                                 "$ref": "#/definitions/creditAmount"
                             }
@@ -667,7 +789,7 @@
                     "description": "transaction object",
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "application/x-www-form-urlencoded": {
                             "schema": {
                                 "$ref": "#/definitions/debitAmount"
                             }
@@ -705,6 +827,17 @@
                     "Admin get staff"
                 ],
                 "summary": "list all staff profiles",
+                "parameters":[
+                    {
+                        "in": "header",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -732,6 +865,15 @@
                         "description": "ID of staff to view",
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 ],
@@ -766,6 +908,15 @@
                         "schema": {
                             "type": "integer"
                         }
+                    },
+                    {
+                        "in": "header",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -797,13 +948,33 @@
                     "description": "user object",
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "application/x-www-form-urlencoded": {
                             "schema": {
                                 "$ref": "#/definitions/adminedituserprofile"
                             }
                         }
                     }
                 },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": " ID of user to edit",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -830,7 +1001,7 @@
                     "description": "user object",
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "application/x-www-form-urlencoded": {
                             "schema": {
                                 "$ref": "#/definitions/adminedituserprofile"
                             }
@@ -868,7 +1039,16 @@
                         "schema": {
                             "type": "integer"
                         }
-                    }                  
+                    },
+                    {
+                        "in": "header",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
                 ],
                 "responses": {
                     "200": {
@@ -901,7 +1081,16 @@
                         "schema": {
                             "type": "integer"
                         }
-                    }                  
+                    },
+                    {
+                        "in": "header",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }                 
                 ],
                 "responses": {
                     "200": {
@@ -931,7 +1120,7 @@
         },
         "x-access-token": {
             "properties": {
-                "x-access-token": {
+                "token": {
                     "type": "string"
 
                 }
@@ -1032,6 +1221,9 @@
         "profilepassword":{
             "type": "object",
             "properties": {
+                "token":{
+                    "type": "string"
+                },
                 "password": {
                     "type": "string"
                 },
@@ -1255,6 +1447,9 @@
         "creditAmount": {
             "type": "object",
             "properties": {
+                "accountNumber":{
+                    "type": "integer"
+                },
                 "creditAmount": {
                     "type": "string"
                 }
@@ -1263,6 +1458,9 @@
         "debitAmount": {
             "type": "object",
             "properties": {
+                "accountNumber":{
+                    "type": "integer"
+                },
                 "debitAmount": {
                     "type": "string"
                 }
