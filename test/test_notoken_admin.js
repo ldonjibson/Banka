@@ -1,7 +1,8 @@
-import chai, { expect } from 'chai';
+import chai from 'chai';
 import request from 'request';
-import dotenv from 'dotenv'
-dotenv.config();
+//import dotenv from 'dotenv'
+let expect = chai.expect
+//dotenv.config();
 const PORT = process.env.PORT || 3000;
 
 let url = `http://localhost:${PORT}/api/v1/`

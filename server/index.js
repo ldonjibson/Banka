@@ -1,15 +1,14 @@
 // Load express module with 'require' directive
 // let express = require('express');
-import dotenv from 'dotenv';
+//import dotenv from 'dotenv';
 import express from 'express';
-import path from 'path';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import * as swaggerUi from 'swagger-ui-express';
 import { getRoutes } from './routes/indexroute';
 import * as swaggerDoc from '../swagger.json';
 
-dotenv.config();
+//dotenv.config();
 const server = express();
 
 const PORT = process.env.PORT || 3000;
@@ -30,7 +29,8 @@ server.use(express.static('public'));
 server.use(morgan('combined'));
 
 // Swagger Documentation
-server.use('/api/v1/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+server.use('/api/v1/swagger',
+  swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 server.get('/api/v1/', (req, res) => {
   const content = {
@@ -40,56 +40,6 @@ server.get('/api/v1/', (req, res) => {
   res.json(content);
 });
 
-server.get('/', (req, res) => {
-  if (req.url === '/') {
-    res.redirect('https://github.com/ldonjibson/Banka/tree/api-one#documentation');
-  } else {
-    res.status(404).json({
-      status: 404,
-      error: 'Something is Wrong with this Url',
-    });
-  }
-});
-
-server.get('*', (req, res) => {
-  console.log(res);
-  res.status(404).json({
-    status: 404,
-    error: 'Not Found',
-  });
-});
-
-server.post('*', (req, res) => {
-  console.log(res);
-  res.status(404).json({
-    status: 404,
-    error: 'Not Found',
-  });
-});
-
-server.patch('*', (req, res) => {
-  console.log(res);
-  res.status(404).json({
-    status: 404,
-    error: 'Not Found',
-  });
-});
-
-server.delete('*', (req, res) => {
-  console.log(res);
-  res.status(404).json({
-    status: 404,
-    error: 'Not Found',
-  });
-});
-
-server.put('*', (req, res) => {
-  console.log(res);
-  res.status(404).json({
-    status: 404,
-    error: 'Not Found',
-  });
-});
 // end users
 
 // Launching listening server on port 3000

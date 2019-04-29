@@ -5,6 +5,7 @@ import { AuthController } from './authenticationRoute';
 import { staffRouter } from './staffRoute';
 import { adminRouter } from './adminRoute';
 import { generalRoute } from './generalRoute';
+import { noRoute } from './noRoutes';
 
 
 const getRoutes = express();
@@ -26,5 +27,7 @@ getRoutes.use('/api/v1/', adminRouter);
 
 // General Auth
 getRoutes.use('/api/v1/', generalRoute);
+
+getRoutes.use('*', noRoute);
 
 export { getRoutes };

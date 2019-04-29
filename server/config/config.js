@@ -1,6 +1,6 @@
-import dotenv from 'dotenv';
+//import dotenv from 'dotenv';
 
-dotenv.config();
+//dotenv.config();
 const secret = process.env.SECRET_KEY;
 export {
   // 'secret':'thisisandelabanka'

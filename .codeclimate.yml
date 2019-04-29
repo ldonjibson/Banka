@@ -17,3 +17,6 @@ ratings:
 exclude_paths:
 - test
 - node_modules
+- UI
+- .nyc_output
+- coverage

@@ -11,7 +11,8 @@ const db = pool;
 
 // Staff get all client type user alone
 const getStaffUsers = (req, res) => {
-  db.query('SELECT users.id, email, firstname, lastname, phone, dob, imageurl FROM users WHERE users.type = $1', ['staff'])
+  db.query(`SELECT users.id, email, firstname, lastname, phone, 
+    dob, imageurl FROM users WHERE users.type = $1`, ['staff'])
     .then((response) => {
       const result = response.rows;
       if (response.rows.length == 0) {
@@ -35,13 +36,15 @@ const getStaffUsers = (req, res) => {
 
 const getSingleStaffUser = (req, res) => {
   const staffId = parseInt(req.params.id);
-  db.query('SELECT users.id, email, firstname, lastname, phone, dob, imageurl, type, isAdmin,registerdate FROM users WHERE users.id = $1 AND users.type=$2', [staffId, 'staff'])
+  db.query(`SELECT users.id, email, firstname, lastname, phone, dob, 
+    imageurl, type, isAdmin,registerdate FROM users WHERE users.id = $1 
+    AND users.type=$2`, [staffId, 'staff'])
     .then((response) => {
       const result = response.rows;
       if (result.length == 0) {
         res.status(404).json({
           "status": 404,
-          "error": 'User with that ID does not exist'
+          "error": 'User is not a staff'
         });
       } else {
         res.status(200).json({
@@ -98,17 +101,20 @@ const createStaffAdmin = (req, res) => {
           }
           let hashedPassword = bcrypt.hashSync(req.body.password, 8);
           let newUser = {
-            "firstName": req.body.firstName,
-            "lastName": req.body.lastName,
-            "email": req.body.email,
+            "firstName": helper.sanitizeInputs(req.body.firstName),
+            "lastName": helper.sanitizeInputs(req.body.lastName),
+            "email": helper.sanitizeInputs(req.body.email),
             "password": hashedPassword,
-            "phone": req.body.phone,
+            "phone": helper.sanitizeInputs(req.body.phone),
             "type": 'staff',
             "isAdmin": isAdmin
           };
           const staffpass = req.body.password
 			    const pass = newUser.password;
-			    db.query('INSERT INTO users("email", "firstname", "lastname", "phone", "password", "type", "isadmin") values($1, $2, $3, $4, $5, $6, $7) RETURNING *', [newUser.email, newUser.firstName, newUser.lastName, newUser.phone, pass, newUser.type, newUser.isAdmin])
+			    db.query(`INSERT INTO users("email", "firstname", "lastname", "phone", 
+            "password", "type", "isadmin") values($1, $2, $3, $4, $5, $6, $7) RETURNING *`, 
+            [newUser.email, newUser.firstName, newUser.lastName, 
+            newUser.phone, pass, newUser.type, newUser.isAdmin])
 			    .then((response)=> {
 			    	const results = response.rows;
 			    	if (results.length !== 0) {
@@ -146,74 +152,62 @@ const createStaffAdmin = (req, res) => {
 
 const editUserProfile = (req, res) => {
   const userId = parseInt(req.params.id);
-  db.query('SELECT * FROM users WHERE id = $1', [userId])
-    .then((response) => {
-      let result = response.rows[0];
-      if (result) {
-        let firstName = req.body.firstName || null;
-        let lastName = req.body.lastName || null;
-        let phone = req.body.phone || null;
-        let dob = req.body.dob || null;
-        let image = req.file || null;
-        let imageurl = 'http://localhost:3000/images/\'+ req.file.filename';
-        let type = req.body.type
-        let isAdmin = req.body.isAdmin
-
-        if (firstName) {
-          result.firstname = firstName; 
-        }
-        if (lastName) {
-          result.lastname = lastName;
-        }
-        if (phone) {
-          result.phone = phone;
-        }
-        if (dob) {
-          result.phone = dob;
-        }
-        if (image) {
-          result.imageurl = `http://localhost:3000/images/${ req.file.filename}`
-        }
-        if (type) {
-          result.type = type;
-        }
-        if (isAdmin) {
-          result.isadmin = isAdmin;
-        }
-		    db.query('UPDATE users SET firstname = $1, lastname = $2, phone = $3, dob=$4, imageurl = $5, type = $6, isadmin = $7  WHERE id = $8', [result.firstname, result.lastname, result.phone, result.dob, result.imageurl, result.type, result.isadmin, userId])
-		    .then((response) => {
-            res.status(206).json({
-              "status": 206,
-              "message": 'User Profile Updated Succesfully',
+  if (!req.body.firstName || !req.body.lastName 
+    || !req.body.phone || !req.body.dob || !req.body.isAdmin) {
+    res.status(422).json({
+      "status": 422,
+      "message": 'Fill the compulsory fields',
+    });
+  } else {
+    let firstName = helper.sanitizeInputs(req.body.firstName);
+    let lastName = helper.sanitizeInputs(req.body.lastName);
+    let phone = helper.sanitizeInputs(req.body.phone);
+    let dob = req.body.dob;
+    let image = req.file || 'http://localhost:3000/images/image_not_found.jpg';
+    let isAdmin = req.body.isAdmin
+    db.query('SELECT * FROM users WHERE id = $1', [userId])
+      .then((response) => {
+        let result = response.rows[0];
+        if (result) {
+  		    db.query(`UPDATE users SET firstname = $1, lastname = $2, phone = $3, 
+            dob=$4, imageurl = $5, isadmin = $6  WHERE id = $7`, 
+            [firstName, lastName, phone,dob, 
+            image, isAdmin, userId])
+  		    .then((response) => {
+              res.status(206).json({
+                "status": 206,
+                "message": 'User Profile Updated Succesfully',
+              });
             });
+        } else {
+          res.status(404).json({
+            "status": 404,
+            "error": 'Nothing was found'
           });
-      } else {
-        res.status(404).json({
-          "status": 404,
-          "error": 'Nothing was found'
-        });
-      }
-    }).catch(error =>
-      res.status(400).json({
-        "status": 400,
-        "error": error,
-      }),
-    );
+        }
+      }).catch(error =>
+        res.status(400).json({
+          "status": 400,
+          "error": error,
+        }),
+      );
+  }
 };
 
 const getAllTransactionsPerfomedByOneStaff = (req, res) => {
-  db.query('SELECT * FROM transaction WHERE cashier = $1', [parseInt(req.params.id)])
+  db.query('SELECT * FROM transaction WHERE cashier = $1', 
+    [parseInt(req.params.id)])
     .then((response) => {
       const result = response.rows;
       if (result.length == 0) {
-		    res.status(200).json({
-		    	status: 200,
-		    	message: 'Staff has yet to perform a transaction'
+		    res.status(206).json({
+		    	"status": 206,
+		    	"message": 'User Not a Staff or has yet to perform a transaction'
 		    });
       } else {
 		    res.status(200).json({
-		    	'status': 200,
-		    	data: result,
+		    	"status": 200,
+		    	"data": result,
 		    });
       }
     }).catch(error =>
@@ -227,8 +221,19 @@ const getAllTransactionsPerfomedByOneStaff = (req, res) => {
 // Delete and Deactivate Accounts
 const deactivateAccount = (req, res) => {
   const accountNumber = parseInt(req.params.accountNumber);
-  const status = req.query.status || null;
-  db.query('UPDATE bankaccount SET status = $1 WHERE accountnumber = $2 RETURNING id', [status, accountNumber])
+  let status;
+  if (req.query.status === 'dormant'){
+    status = 'dormant'
+  }else if(req.query.status === 'active'){
+    status = 'active'
+  } else{
+        res.status(400).json({
+          "status": 400,
+          "error": 'No action Specified'
+        });
+  }
+  db.query('UPDATE bankaccount SET status = $1 WHERE accountnumber = $2 RETURNING id', 
+    [status, accountNumber])
     .then((response) => {
       if (!response.rows[0]) {
         res.status(404).json({

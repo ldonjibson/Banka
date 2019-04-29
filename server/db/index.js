@@ -1,7 +1,7 @@
-import dotenv from 'dotenv';
+//import dotenv from 'dotenv';
 import { Pool, Client } from 'pg';
 
-dotenv.config();
+//dotenv.config();
 
 const connectionString = `postgres://postgres@127.0.0.1:5432/${process.env.DB_NAME}`
 
