@@ -121,9 +121,6 @@
                 "tags": [
                     "User bank account"
                 ],
-                "security":{
-                    "bearerAuth": []
-                },
                 "summary": "User create a bank account",
                 "requestBody": {
                     "description": "bank object",
@@ -163,7 +160,7 @@
                 "summary": "User can see bank accounts he/she owns",
                 "parameters": [
                     {
-                        "in": "path",
+                        "in": "header",
                         "name": "x-access-token",
                         "required": true,
                         "description": "Access token",
@@ -205,7 +202,7 @@
                         }
                     },
                     {
-                        "in": "path",
+                        "in": "header",
                         "name": "x-access-token",
                         "required": true,
                         "description": "Access token",
@@ -238,7 +235,7 @@
                 "summary": "Get a detail transaction of a specific bank account number",
                 "parameters": [
                     {
-                        "in": "path",
+                        "in": "header",
                         "name": "x-access-token",
                         "required": true,
                         "description": "Access token",
@@ -289,7 +286,7 @@
                 "summary": "Get user profile",
                 "parameters": [
                     {
-                        "in": "path",
+                        "in": "header",
                         "name": "x-access-token",
                         "required": true,
                         "description": "Access token",
@@ -421,7 +418,7 @@
                 "summary": "list all users profiles",
                 "parameters":[
                     {
-                        "in": "path",
+                        "in": "header",
                         "name": "x-access-token",
                         "required": true,
                         "description": "Access token",
@@ -460,7 +457,7 @@
                         }
                     },
                     {
-                        "in": "path",
+                        "in": "header",
                         "name": "x-access-token",
                         "required": true,
                         "description": "Access token",
@@ -502,7 +499,7 @@
                         }
                     },
                     {
-                        "in": "path",
+                        "in": "header",
                         "name": "x-access-token",
                         "required": true,
                         "description": "Access token",
@@ -544,7 +541,7 @@
                         }
                     },
                     {
-                        "in": "path",
+                        "in": "header",
                         "name": "x-access-token",
                         "required": true,
                         "description": "Access token",
@@ -577,7 +574,7 @@
                 "summary": "Get a detail transaction of a specific bank account number",
                 "parameters": [
                     {
-                        "in": "path",
+                        "in": "header",
                         "name": "x-access-token",
                         "required": true,
                         "description": "Access token",
@@ -639,7 +636,7 @@
                 "summary": "list all bank accounts",
                 "parameters":[
                     {
-                        "in": "path",
+                        "in": "header",
                         "name": "x-access-token",
                         "required": true,
                         "description": "Access token",
@@ -669,7 +666,7 @@
                 "summary": "list all bank dormant accounts",
                 "parameters":[
                     {
-                        "in": "path",
+                        "in": "header",
                         "name": "x-access-token",
                         "required": true,
                         "description": "Access token",
@@ -698,7 +695,7 @@
                 ],
                 "parameters":[
                     {
-                        "in": "path",
+                        "in": "header",
                         "name": "x-access-token",
                         "required": true,
                         "description": "Access token",
@@ -810,7 +807,7 @@
                 "summary": "list all staff profiles",
                 "parameters":[
                     {
-                        "in": "path",
+                        "in": "header",
                         "name": "x-access-token",
                         "required": true,
                         "description": "Access token",
@@ -849,7 +846,7 @@
                         }
                     },
                     {
-                        "in": "path",
+                        "in": "header",
                         "name": "x-access-token",
                         "required": true,
                         "description": "Access token",
@@ -891,7 +888,7 @@
                         }
                     },
                     {
-                        "in": "path",
+                        "in": "header",
                         "name": "x-access-token",
                         "required": true,
                         "description": "Access token",
@@ -1002,7 +999,7 @@
                         }
                     },
                     {
-                        "in": "path",
+                        "in": "header",
                         "name": "x-access-token",
                         "required": true,
                         "description": "Access token",
@@ -1044,7 +1041,7 @@
                         }
                     },
                     {
-                        "in": "path",
+                        "in": "header",
                         "name": "x-access-token",
                         "required": true,
                         "description": "Access token",
