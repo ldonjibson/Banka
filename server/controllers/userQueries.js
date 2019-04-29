@@ -176,37 +176,30 @@ const userEditProfile = (req, res) => {
       let dob = helper.sanitizeInputs(req.body.dob);
       let image = req.file || null;
       let imageurl = 'http://localhost:3000/images/image_not_found.jpg'
-      if (!helper.sanitizePhonenumbers(phone) || helper.sanitizeDates(phone)){
-          res.status(422).json({
-            "status": 422,
-            "error": "invalid phone or Date specified| e.g (+234 or 234) (yyyy-mm-dd) "
-          })
-      } else {
-    	    db.query('SELECT * FROM users WHERE email = $1', [email])
-    	    .then((response, error) => {
-            const result = response.rows[0];
-            if (image) {
-              result.imageurl = `http://localhost:3000/images/${ req.file.filename}`
-            }
-    		    db.query(`UPDATE users SET firstname = $1, lastname = $2, 
-              phone = $3, dob=$4, imageurl = $5  WHERE email = $6 RETURNING *`, 
-              [firstName, lastName, phone, dob, 
-              result.imageurl, req.decoded.email])
-    		    .then((response) => {
-    		    	if (response.rows[0]) {
-                  res.status(206).json({
-                    "status": 206,
-                    "message": 'Profile Updated Succesfully',
-                  });
-                }
+	    db.query('SELECT * FROM users WHERE email = $1', [email])
+	    .then((response, error) => {
+        const result = response.rows[0];
+        if (image) {
+          result.imageurl = `http://localhost:3000/images/${ req.file.filename}`
+        }
+		    db.query(`UPDATE users SET firstname = $1, lastname = $2, 
+          phone = $3, dob=$4, imageurl = $5  WHERE email = $6 RETURNING *`, 
+          [firstName, lastName, phone, dob, 
+          result.imageurl, req.decoded.email])
+		    .then((response) => {
+		    	if (response.rows[0]) {
+              res.status(206).json({
+                "status": 206,
+                "message": 'Profile Updated Succesfully',
               });
-          }).catch(error =>
-            res.status(400).json({
-              "status": 400,
-              "error": error || 'database error'
-            })
-          );
-      }
+            }
+          });
+      }).catch(error =>
+        res.status(400).json({
+          "status": 400,
+          "error": error || 'database error'
+        })
+      );
   }
 };
 

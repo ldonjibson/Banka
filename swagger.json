@@ -122,6 +122,17 @@
                     "User bank account"
                 ],
                 "summary": "User create a bank account",
+                "parameters":[
+                    {
+                        "in": "header",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "description": "bank object",
                     "required": true,
@@ -140,7 +151,7 @@
                     "201": {
                         "description": "created",
                         "schema": {
-                            "$ref": "#/definitions/allaccounts"
+                            "$ref": "#/definitions/createbankaccount"
                         }
                     },
                     "400": {
@@ -314,6 +325,17 @@
                     "User profile"
                 ],
                 "summary": "Route for user to edit profile",
+                "parameters":[
+                    {
+                        "in": "header",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "description": "user object",
                     "required": true,
@@ -933,6 +955,26 @@
                         }
                     }
                 },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": " ID of user to edit",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -1145,9 +1187,6 @@
         "createbankaccount": {
             "type": "object",
             "properties": {
-                "token":{
-                    "type": "string"
-                },
                 "accountName": {
                     "type": "string"
                 },
@@ -1162,9 +1201,6 @@
         "editprofile": {
             "type": "object",
             "properties": {
-                "token":{
-                    "type": "string"
-                },
                 "firstName": {
                     "type": "string"
                 },
@@ -1411,8 +1447,8 @@
         "creditAmount": {
             "type": "object",
             "properties": {
-                "token":{
-                    "type": "string"
+                "accountNumber":{
+                    "type": "integer"
                 },
                 "creditAmount": {
                     "type": "string"
@@ -1422,8 +1458,8 @@
         "debitAmount": {
             "type": "object",
             "properties": {
-                "token":{
-                    "type": "string"
+                "accountNumber":{
+                    "type": "integer"
                 },
                 "debitAmount": {
                     "type": "string"
@@ -1444,9 +1480,6 @@
         "adminedituserprofile": {
             "type": "object",
             "properties": {
-                "token":{
-                    "type": "string"
-                },
                 "firstName": {
                     "type": "string"
                 },
