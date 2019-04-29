@@ -163,7 +163,7 @@ const getUserProfile = (req, res) => {
 // Allow User to Edit Profile
 const userEditProfile = (req, res) => {
   let email = req.decoded.email
-  if (!req.bodyfirstName || !req.body.lastName 
+  if (!req.body.firstName || !req.body.lastName 
     || !req.body.phone || !req.body.dob) {
     res.status(422).json({
       "status": 422,
