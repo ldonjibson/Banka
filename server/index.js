@@ -38,6 +38,14 @@ server.get('/api/v1/', (req, res) => {
   res.json(content);
 });
 
+server.get('*', (req, res) => {
+  res.status(404).json({
+    status: 404,
+    error: 'Not Found',
+  });
+});
+
+
 // end users
 
 // Launching listening server on port 3000
