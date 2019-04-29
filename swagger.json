@@ -728,7 +728,7 @@
                     "description": "bank object",
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "application/x-www-form-urlencoded": {
                             "schema": {
                                 "$ref": "#/definitions/creditAmount"
                             }
@@ -767,7 +767,7 @@
                     "description": "transaction object",
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "application/x-www-form-urlencoded": {
                             "schema": {
                                 "$ref": "#/definitions/debitAmount"
                             }
@@ -926,7 +926,7 @@
                     "description": "user object",
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "application/x-www-form-urlencoded": {
                             "schema": {
                                 "$ref": "#/definitions/adminedituserprofile"
                             }
@@ -959,7 +959,7 @@
                     "description": "user object",
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "application/x-www-form-urlencoded": {
                             "schema": {
                                 "$ref": "#/definitions/adminedituserprofile"
                             }
