@@ -61,15 +61,6 @@ describe('User signup,login, transaction_details, profile_edit', () =>{
 		});
 	});
 
-	it('should return error instead of creating an account', (done) => {
-		request.post(`${url}accounts`, (error, response, body) => {
-			let bodyResponse = JSON.parse(response.body);
-			expect(response.headers['content-type']).to.contain('application/json')
-			expect(bodyResponse).to.be.an('object');
-			done();
-		});
-	});
-
 	it('should not allow user to change there profile', (done) => {
 		request.patch(`${url}me/profile/edit`, (error, response, body) => {
 			let bodyResponse = JSON.parse(response.body);
