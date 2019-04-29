@@ -34,7 +34,7 @@ const createBankAcc = (req, res) => {
           const getbalance = parseFloat(0.0);
           let creatBank = {
 			        'accountNumber': accountNumber,
-			        'accountName': req.body.accountName,
+			        'accountName': helper.sanitizeInputs(req.body.accountName),
 			        'createdOn': new Date().toISOString(),
 			        'phone': req.body.phone,
 			        'owner': req.decoded.id,
@@ -42,55 +42,62 @@ const createBankAcc = (req, res) => {
 			        'status': 'dormant',
 			        'balance': getbalance,
 			    };
-			    db.query('SELECT * FROM bankaccount WHERE accountName = $1', 
-            [creatBank.accountName])
-			    .then((response) => {
-			    	const getBank = response.rows[0]; 
-			    	if (getBank) {
-                res.status(403).json({
-                  "status": 403,
-                  "error": 'A bank account with that name already exist'
-                });
-			    	} else {
-					    db.query(`INSERT INTO bankaccount("accountname", "accountnumber", 
-                "accountphone", "createdon", "accounttype", "owner", "status", "balance") 
-                values($1, $2, $3, $4, $5, $6, $7, $8) RETURNING owner`, 
-                [creatBank.accountName, creatBank.accountNumber, creatBank.phone, creatBank.createdOn, 
-                creatBank.type, creatBank.owner, creatBank.status, creatBank.balance])
-					    .then((response) => {
-					    	const result = response.rows[0]; 
-					    	if (result) {
-                      db.query('SELECT * FROM users WHERE id = $1', [result.owner])
-                        .then((response)=> {
-                          let result = response.rows[0];
-                          if (result) {
-								    		sendNotificationMail(result.email, 
-                          'Bank Account Successfully Created', 
-                          `Your bank account has been created successfully, 
-                          it will be reviewed and activated, Your ACCOUNT NUMBER 
-                          IS ${result.accountnumber}, we will contact you with 
-                          this same email address for further process.`, 
-                          `<b><Your bank account has been created successfully, 
-                          it will be reviewed and activated<br>Your ACCOUNT NUMBER 
-                          IS ${result.accountnumber}<br/>we will contact you with 
-                          this same email address forfurther process.</b>`);
-										    	res.status(201).json({
-											    	'status': 201,
-												    	data: {
-												    		accountNumber: creatBank.accountNumber,
-												    		accountName: creatBank.accountName,
-												    		'phone': creatBank.phone,
-												    		type: creatBank.type,
-												    		status: creatBank.status,
-												    		'openingBalance': creatBank.balance
-												    	},
-											    });
-  									    } 
-                      });
-                    }
-					    });
-			    	}
-			    });
+          if(!helper.sanitizePhonenumbers(creatBank.phone)){
+            res.status(422).json({
+              "status": 422,
+              "error": "invalid phone number specified e.g +234...... or 234..... is required"
+            })
+          } else {
+    			    db.query('SELECT * FROM bankaccount WHERE accountName = $1', 
+                [creatBank.accountName])
+    			    .then((response) => {
+    			    	const getBank = response.rows[0]; 
+    			    	if (getBank) {
+                    res.status(403).json({
+                      "status": 403,
+                      "error": 'A bank account with that name already exist'
+                    });
+    			    	} else {
+    					    db.query(`INSERT INTO bankaccount("accountname", "accountnumber", 
+                    "accountphone", "createdon", "accounttype", "owner", "status", "balance") 
+                    values($1, $2, $3, $4, $5, $6, $7, $8) RETURNING owner`, 
+                    [creatBank.accountName, creatBank.accountNumber, creatBank.phone, creatBank.createdOn, 
+                    creatBank.type, creatBank.owner, creatBank.status, creatBank.balance])
+    					    .then((response) => {
+    					    	const result = response.rows[0]; 
+    					    	if (result) {
+                          db.query('SELECT * FROM users WHERE id = $1', [result.owner])
+                            .then((response)=> {
+                              let result = response.rows[0];
+                              if (result) {
+    								    		sendNotificationMail(result.email, 
+                              'Bank Account Successfully Created', 
+                              `Your bank account has been created successfully, 
+                              it will be reviewed and activated, Your ACCOUNT NUMBER 
+                              IS ${result.accountnumber}, we will contact you with 
+                              this same email address for further process.`, 
+                              `<b><Your bank account has been created successfully, 
+                              it will be reviewed and activated<br>Your ACCOUNT NUMBER 
+                              IS ${result.accountnumber}<br/>we will contact you with 
+                              this same email address forfurther process.</b>`);
+    										    	res.status(201).json({
+    											    	'status': 201,
+    												    	data: {
+    												    		accountNumber: creatBank.accountNumber,
+    												    		accountName: creatBank.accountName,
+    												    		'phone': creatBank.phone,
+    												    		type: creatBank.type,
+    												    		status: creatBank.status,
+    												    		'openingBalance': creatBank.balance
+    												    	},
+    											    });
+      									    } 
+                          });
+                        }
+    					    });
+    			    	}
+    			    });
+          }
         }
   	}
     }).catch(error =>
@@ -169,30 +176,37 @@ const userEditProfile = (req, res) => {
       let dob = helper.sanitizeInputs(req.body.dob);
       let image = req.file || null;
       let imageurl = 'http://localhost:3000/images/image_not_found.jpg'
-	    db.query('SELECT * FROM users WHERE email = $1', [email])
-	    .then((response, error) => {
-        const result = response.rows[0];
-        if (image) {
-          result.imageurl = `http://localhost:3000/images/${ req.file.filename}`
-        }
-		    db.query(`UPDATE users SET firstname = $1, lastname = $2, 
-          phone = $3, dob=$4, imageurl = $5  WHERE email = $6 RETURNING *`, 
-          [firstName, lastName, phone, dob, 
-          result.imageurl, req.decoded.email])
-		    .then((response) => {
-		    	if (response.rows[0]) {
-              res.status(206).json({
-                "status": 206,
-                "message": 'Profile Updated Succesfully',
-              });
+      if (!helper.sanitizePhonenumbers(phone) || helper.sanitizeDates(phone)){
+          res.status(422).json({
+            "status": 422,
+            "error": "invalid phone or Date specified| e.g (+234 or 234) (yyyy-mm-dd) "
+          })
+      } else {
+    	    db.query('SELECT * FROM users WHERE email = $1', [email])
+    	    .then((response, error) => {
+            const result = response.rows[0];
+            if (image) {
+              result.imageurl = `http://localhost:3000/images/${ req.file.filename}`
             }
-          });
-      }).catch(error =>
-        res.status(400).json({
-          "status": 400,
-          "error": error || 'database error'
-        })
-      );
+    		    db.query(`UPDATE users SET firstname = $1, lastname = $2, 
+              phone = $3, dob=$4, imageurl = $5  WHERE email = $6 RETURNING *`, 
+              [firstName, lastName, phone, dob, 
+              result.imageurl, req.decoded.email])
+    		    .then((response) => {
+    		    	if (response.rows[0]) {
+                  res.status(206).json({
+                    "status": 206,
+                    "message": 'Profile Updated Succesfully',
+                  });
+                }
+              });
+          }).catch(error =>
+            res.status(400).json({
+              "status": 400,
+              "error": error || 'database error'
+            })
+          );
+      }
   }
 };
 

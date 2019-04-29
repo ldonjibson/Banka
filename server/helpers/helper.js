@@ -37,10 +37,23 @@ const sanitizeInputs = (value) => {
   return validator.trim(value)
 }
 
-const sanitizePhonenumbers = (value) => {
-  return validator.isMobilePhone(value)
+const sanitizePhonenumbers = (req, res) => {
+phone = validator.isMobilePhone(req.body.phone)
+if (phone === false){
+  return false
+} else{
+  return true
+  }
 }
 
+const sanitizeDates = (req, res) => {
+dob = validator.isISO8601(req.body.dob)
+if (dob === false){
+ return false
+} else{
+  return true
+  }
+}
 
 //For Test
 const genToken = (email, id) => { 
@@ -53,5 +66,7 @@ export {
   uniqueAccNumber,
   authHelper,
   sanitizeInputs,
-  genToken
+  genToken,
+  sanitizePhonenumbers,
+  sanitizeDates
 };

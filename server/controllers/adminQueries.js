@@ -109,42 +109,48 @@ const createStaffAdmin = (req, res) => {
             "type": 'staff',
             "isAdmin": isAdmin
           };
+          if (!helper.sanitizePhonenumbers(phone)){
+            res.status(422).json({
+              "status": 422,
+              "error": "invalid phone specified format e.g (+234 or 234) (yyyy-mm-dd) "
+            })
+          } else {
           const staffpass = req.body.password
 			    const pass = newUser.password;
-			    db.query(`INSERT INTO users("email", "firstname", "lastname", "phone", 
-            "password", "type", "isadmin") values($1, $2, $3, $4, $5, $6, $7) RETURNING *`, 
-            [newUser.email, newUser.firstName, newUser.lastName, 
-            newUser.phone, pass, newUser.type, newUser.isAdmin])
-			    .then((response)=> {
-			    	const results = response.rows;
-			    	if (results.length !== 0) {
-			    		sendNotificationMail(results[0].email, 
-			    			"Staff Account Successfully  Created", 
-			    			`Welcome to Ebanka, Login with ${staffpass} to Complete your profile`, 
-			    			`<b><h3>Welcome to Ebanka!<h3><br> Login with <strong>${staffpass}<strong>
-			    			 to Complete your profile<br/></b>`)
-                res.status(201).json({
-                  "status": 201,
-                  "data": {
-							        'email': results[0].email,
-							        'firstName': results[0].firstname,
-							        'lastName': results[0].lastname,
-							        'phone': results[0].phone,
-							        'registerDate': results[0].registerdate,
-							        'type': results[0].type,
-							        'isAdmin': results[0].isadmin,
-							        'imageUrl': results[0].imageurl,
-                  },
-                });
-			    	}
-			    }).catch((error)=> {
-			    	res.status(500).json({
-			    		"status": 500,
-			    		"error": "Internal Server Error"
-			    	})
+  			    db.query(`INSERT INTO users("email", "firstname", "lastname", "phone", 
+              "password", "type", "isadmin") values($1, $2, $3, $4, $5, $6, $7) RETURNING *`, 
+              [newUser.email, newUser.firstName, newUser.lastName, 
+              newUser.phone, pass, newUser.type, newUser.isAdmin])
+  			    .then((response)=> {
+  			    	const results = response.rows;
+  			    	if (results.length !== 0) {
+  			    		sendNotificationMail(results[0].email, 
+  			    			"Staff Account Successfully  Created", 
+  			    			`Welcome to Ebanka, Login with ${staffpass} to Complete your profile`, 
+  			    			`<b><h3>Welcome to Ebanka!<h3><br> Login with <strong>${staffpass}<strong>
+  			    			 to Complete your profile<br/></b>`)
+                  res.status(201).json({
+                    "status": 201,
+                    "data": {
+  							        'email': results[0].email,
+  							        'firstName': results[0].firstname,
+  							        'lastName': results[0].lastname,
+  							        'phone': results[0].phone,
+  							        'registerDate': results[0].registerdate,
+  							        'type': results[0].type,
+  							        'isAdmin': results[0].isadmin,
+  							        'imageUrl': results[0].imageurl,
+                    },
+                  });
+  			    	}
+  			    }).catch((error)=> {
+  			    	res.status(500).json({
+  			    		"status": 500,
+  			    		"error": "Internal Server Error"
+  			    	})
 
-			    });
-
+  			    });
+        }
         }
 		});
   }
