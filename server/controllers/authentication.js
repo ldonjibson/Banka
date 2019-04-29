@@ -10,7 +10,7 @@ import {sendNotificationMail} from '../helpers/mailer';
 import {pool} from '../db/index'
 
 import {secret} from '../config/config'
-dotenv.config()
+// dotenv.config()
 
 let db = pool
 
