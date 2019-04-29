@@ -116,8 +116,8 @@ nav ul li a:hover{
 
 }
 
-@media only screen and (min-width: 1300px){
+@media only screen and (min-width: 900px){
 	.main-c {
-	height: 70vh!important;
+	height: 80vh!important;
 }
 }
