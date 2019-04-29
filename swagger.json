@@ -997,6 +997,17 @@
                     "Admin create and Edit users"
                 ],
                 "summary": "Route for user to edit profile",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "x-access-token",
+                        "required": true,
+                        "description": "Access token",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "description": "user object",
                     "required": true,

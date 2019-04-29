@@ -177,7 +177,7 @@ const userEditProfile = (req, res) => {
       let dob = helper.sanitizeInputs(req.body.dob);
       let image = req.file || null;
       let imageurl = 'http://localhost:3000/images/image_not_found.jpg'
-      if(validator.isMobilePhone(phone) === true || validator.isISO8601(dob) === true){
+      if(validator.isMobilePhone(phone) === true && validator.isISO8601(dob) === true){
         db.query('SELECT * FROM users WHERE email = $1', [email])
         .then((response, error) => {
           const result = response.rows[0];
