@@ -6,13 +6,12 @@ let expect = chai.expect
 //dotenv.config();
 const PORT = process.env.PORT || 3000;
 
-let adminToken = helper.genToken('admin@gmail.com', 1)
-console.log(adminToken)
 
 let url = `http://localhost:${PORT}/api/v1/`
 
 describe('Admin/ Login before operations are perform here', ()=>{		
-
+let adminToken = helper.genToken('admin@gmail.com', 1)
+console.log(adminToken)
 	describe('GET Admin / With Token For Admin Alone', ()=> {
 
 		it ('Should contain status code 200 and list staff if they exist', (done) => {
