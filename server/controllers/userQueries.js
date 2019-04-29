@@ -42,62 +42,55 @@ const createBankAcc = (req, res) => {
 			        'status': 'dormant',
 			        'balance': getbalance,
 			    };
-          if(!helper.sanitizePhonenumbers(creatBank.phone)){
-            res.status(422).json({
-              "status": 422,
-              "error": "invalid phone number specified e.g +234...... or 234..... is required"
-            })
-          } else {
-    			    db.query('SELECT * FROM bankaccount WHERE accountName = $1', 
-                [creatBank.accountName])
-    			    .then((response) => {
-    			    	const getBank = response.rows[0]; 
-    			    	if (getBank) {
-                    res.status(403).json({
-                      "status": 403,
-                      "error": 'A bank account with that name already exist'
-                    });
-    			    	} else {
-    					    db.query(`INSERT INTO bankaccount("accountname", "accountnumber", 
-                    "accountphone", "createdon", "accounttype", "owner", "status", "balance") 
-                    values($1, $2, $3, $4, $5, $6, $7, $8) RETURNING owner`, 
-                    [creatBank.accountName, creatBank.accountNumber, creatBank.phone, creatBank.createdOn, 
-                    creatBank.type, creatBank.owner, creatBank.status, creatBank.balance])
-    					    .then((response) => {
-    					    	const result = response.rows[0]; 
-    					    	if (result) {
-                          db.query('SELECT * FROM users WHERE id = $1', [result.owner])
-                            .then((response)=> {
-                              let result = response.rows[0];
-                              if (result) {
-    								    		sendNotificationMail(result.email, 
-                              'Bank Account Successfully Created', 
-                              `Your bank account has been created successfully, 
-                              it will be reviewed and activated, Your ACCOUNT NUMBER 
-                              IS ${result.accountnumber}, we will contact you with 
-                              this same email address for further process.`, 
-                              `<b><Your bank account has been created successfully, 
-                              it will be reviewed and activated<br>Your ACCOUNT NUMBER 
-                              IS ${result.accountnumber}<br/>we will contact you with 
-                              this same email address forfurther process.</b>`);
-    										    	res.status(201).json({
-    											    	'status': 201,
-    												    	data: {
-    												    		accountNumber: creatBank.accountNumber,
-    												    		accountName: creatBank.accountName,
-    												    		'phone': creatBank.phone,
-    												    		type: creatBank.type,
-    												    		status: creatBank.status,
-    												    		'openingBalance': creatBank.balance
-    												    	},
-    											    });
-      									    } 
-                          });
-                        }
-    					    });
-    			    	}
-    			    });
-          }
+  			    db.query('SELECT * FROM bankaccount WHERE accountName = $1', 
+              [creatBank.accountName])
+  			    .then((response) => {
+  			    	const getBank = response.rows[0]; 
+  			    	if (getBank) {
+                  res.status(403).json({
+                    "status": 403,
+                    "error": 'A bank account with that name already exist'
+                  });
+  			    	} else {
+  					    db.query(`INSERT INTO bankaccount("accountname", "accountnumber", 
+                  "accountphone", "createdon", "accounttype", "owner", "status", "balance") 
+                  values($1, $2, $3, $4, $5, $6, $7, $8) RETURNING owner`, 
+                  [creatBank.accountName, creatBank.accountNumber, creatBank.phone, creatBank.createdOn, 
+                  creatBank.type, creatBank.owner, creatBank.status, creatBank.balance])
+  					    .then((response) => {
+  					    	const result = response.rows[0]; 
+  					    	if (result) {
+                        db.query('SELECT * FROM users WHERE id = $1', [result.owner])
+                          .then((response)=> {
+                            let result = response.rows[0];
+                            if (result) {
+  								    		sendNotificationMail(result.email, 
+                            'Bank Account Successfully Created', 
+                            `Your bank account has been created successfully, 
+                            it will be reviewed and activated, Your ACCOUNT NUMBER 
+                            IS ${result.accountnumber}, we will contact you with 
+                            this same email address for further process.`, 
+                            `<b><Your bank account has been created successfully, 
+                            it will be reviewed and activated<br>Your ACCOUNT NUMBER 
+                            IS ${result.accountnumber}<br/>we will contact you with 
+                            this same email address forfurther process.</b>`);
+  										    	res.status(201).json({
+  											    	'status': 201,
+  												    	data: {
+  												    		accountNumber: creatBank.accountNumber,
+  												    		accountName: creatBank.accountName,
+  												    		'phone': creatBank.phone,
+  												    		type: creatBank.type,
+  												    		status: creatBank.status,
+  												    		'openingBalance': creatBank.balance
+  												    	},
+  											    });
+    									    } 
+                        });
+                      }
+  					    });
+  			    	}
+  			    });
         }
   	}
     }).catch(error =>
