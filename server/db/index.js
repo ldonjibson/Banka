@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+//import dotenv from 'dotenv';
 import { Pool, Client } from 'pg';
 
 //dotenv.config();

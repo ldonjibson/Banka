@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+//import dotenv from 'dotenv';
 import express from 'express';
 import * as authQueries from '../controllers/authentication';
 // const db = require('../db')
