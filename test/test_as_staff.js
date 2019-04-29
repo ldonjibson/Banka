@@ -1,10 +1,10 @@
 import chai from 'chai';
 import request from 'request';
-import dotenv from 'dotenv'
+//import dotenv from 'dotenv'
 import express from 'express'
 import * as helper from '../server/helpers/helper'
 
-dotenv.config();
+//dotenv.config();
 
 let expect = chai.expect
 const PORT = process.env.PORT || 3000;

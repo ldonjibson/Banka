@@ -8,7 +8,7 @@ import * as swaggerUi from 'swagger-ui-express';
 import { getRoutes } from './routes/indexroute';
 import * as swaggerDoc from '../swagger.json';
 
-dotenv.config();
+//dotenv.config();
 const server = express();
 
 const PORT = process.env.PORT || 3000;
