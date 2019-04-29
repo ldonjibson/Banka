@@ -1014,7 +1014,7 @@
                     "content": {
                         "application/x-www-form-urlencoded": {
                             "schema": {
-                                "$ref": "#/definitions/adminedituserprofile"
+                                "$ref": "#/definitions/admincreatestaff"
                             }
                         }
                     }
@@ -1501,6 +1501,29 @@
                     "type": "string"
                 },
                 "dob": {
+                    "type": "string"
+                },
+                "image": {
+                    "type": "string"
+                },
+                "type": {
+                    "type":"string"
+                },
+                "isAdmin": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "admincreatestaff": {
+            "type": "object",
+            "properties": {
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "phone": {
                     "type": "string"
                 },
                 "image": {
